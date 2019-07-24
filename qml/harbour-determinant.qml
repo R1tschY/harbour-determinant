@@ -18,7 +18,7 @@ ApplicationWindow
         connection.sync(30 * 1000)
 
         if ((_syncCount % 16) == 2) {
-            console.log("Saving state: " + _syncCount)
+            console.log("Saving state: " + _syncCount + " to " + connection.stateSaveFile)
             connection.saveState(connection.stateSaveFile)
         }
     }
@@ -55,7 +55,7 @@ ApplicationWindow
         }
 
         onSyncError: {
-            console.log("onSyncError")
+            console.log("onSyncError: " + error)
         }
     }
 }

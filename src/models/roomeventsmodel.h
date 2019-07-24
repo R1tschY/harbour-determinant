@@ -6,6 +6,11 @@
 #include <events/roomevent.h>
 #include <room.h>
 
+namespace QMatrixClient {
+class RoomMessageEvent;
+class RoomMemberEvent;
+} // namespace QMatrixClient
+
 namespace Determinant {
 
 class RoomEventsModel : public QAbstractListModel {
@@ -21,6 +26,7 @@ class RoomEventsModel : public QAbstractListModel {
         AnnotationRole,
         TimeRole,
         HiddenRole,
+        ContentTypeRole
     };
 
 public:
@@ -56,7 +62,11 @@ private:
     void updateEvent(const QString& eventId);
     int findEvent(const QString& eventId);
 
-    QVariant renderMessageText(const QMatrixClient::RoomEvent* evt) const;
+    QVariant renderEventText(const QMatrixClient::RoomEvent* evt) const;
+    QString renderMessageText(
+            const QMatrixClient::RoomMessageEvent& event) const;
+    QString renderMemberEvent(
+            const QMatrixClient::RoomMemberEvent& event) const;
 };
 
 } // namespace Determinant

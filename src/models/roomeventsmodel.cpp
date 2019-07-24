@@ -1,8 +1,13 @@
 #include "roomeventsmodel.h"
 
 #include <QLoggingCategory>
+#include <QRegularExpression>
+#include <QString>
+#include <QUrl>
 
 #include <events/redactionevent.h>
+#include <events/roommessageevent.h>
+#include <events/roommemberevent.h>
 #include <user.h>
 
 namespace Determinant {
@@ -65,7 +70,7 @@ QVariant RoomEventsModel::data(const QModelIndex& index, int role) const
 
     switch (role) {
     case DisplayRole:
-        return renderMessageText(evt);
+        return renderEventText(evt);
 
     case AuthorRole:
         return QVariant::fromValue(
@@ -88,6 +93,15 @@ QVariant RoomEventsModel::data(const QModelIndex& index, int role) const
         if (isPending)
             return pendingEvt->deliveryStatus() & EventStatus::Hidden;
         return false;
+
+    case ContentTypeRole:
+        return visit(
+            *evt,
+            [](const RoomMessageEvent& evt) {
+                return evt.rawMsgtype();
+            },
+            QString());
+        break;
     }
 
     return QVariant();
@@ -102,10 +116,11 @@ QHash<int, QByteArray> RoomEventsModel::roleNames() const
     roles.insert(TimeRole, "time");
     roles.insert(HiddenRole, "hidden");
     roles.insert(AuthorRole, "author");
+    roles.insert(ContentTypeRole, "contentType");
     return roles;
 }
 
-QVariant RoomEventsModel::renderMessageText(const RoomEvent* event) const
+QVariant RoomEventsModel::renderEventText(const RoomEvent* event) const
 {
     if (event->isRedacted()) {
         QString reason = event->redactedBecause()->reason();
@@ -118,9 +133,127 @@ QVariant RoomEventsModel::renderMessageText(const RoomEvent* event) const
     return visit(
         *event,
         [this](const RoomMessageEvent& evt) {
-            return evt.plainBody();
+            return renderMessageText(evt);
         },
+        [this](const RoomMemberEvent& evt) {
+            return renderMemberEvent(evt);
+        },
+    [this](const RoomMemberEvent& evt) {
+        return renderMemberEvent(evt);
+    },
         tr("Unknown event"));
+}
+
+static QString renderMarkdown(const QString& content) {
+    static QRegularExpression boldRe(R"#(\*\*(.+?)\*\*)#");
+    static QRegularExpression italicRe(R"#(\*(.+?)\*)#");
+    // TODO: use markdown engine or more regexes
+    QString result = content;
+    result.replace(boldRe, "<b>\\1</b>");
+    result.replace(italicRe, "<i>\\1</i>");
+    return result;
+}
+
+QString RoomEventsModel::renderMessageText(const RoomMessageEvent& event) const
+{
+    using namespace QMatrixClient::EventContent;
+
+    auto* content = event.content();
+    if (!content) {
+        qWarning() << "empty message";
+        return QString();
+    }
+
+    auto type = event.msgtype();
+    switch (type) {
+    case RoomMessageEvent::MsgType::Text: {
+        auto textContent = static_cast<TextContent*>(content);
+        QString mimeType = textContent->mimeType.name();
+        qCDebug(logger) << "Text mimeType" << mimeType;
+        // TODO: cleanup HTML
+        if (mimeType == QStringLiteral("text/plain")) {
+            // TODO: escape HTML things: <>&
+            return textContent->body;
+        }
+        if (mimeType == QStringLiteral("text/markdown")) {
+            return renderMarkdown(textContent->body);
+        }
+        return textContent->body;
+    }
+
+    case RoomMessageEvent::MsgType::Emote:
+    case RoomMessageEvent::MsgType::Notice:
+    case RoomMessageEvent::MsgType::Image:
+    case RoomMessageEvent::MsgType::File:
+    case RoomMessageEvent::MsgType::Location:
+    case RoomMessageEvent::MsgType::Video:
+    case RoomMessageEvent::MsgType::Audio:
+    case RoomMessageEvent::MsgType::Unknown:
+    default:
+        break;
+    }
+
+    return QString();
+}
+
+QString RoomEventsModel::renderMemberEvent(const RoomMemberEvent& event) const
+{
+    QStringList messages;
+    auto membership = event.membership();
+    auto* prevContent = event.prevContent();
+    if (!prevContent || membership != prevContent->membership) {
+        // membership changed
+        switch (membership) {
+        case RoomMemberEvent::MembershipType::Join:
+            messages.append(tr("%1 has joined").arg(event.displayName()));
+            break;
+        case RoomMemberEvent::MembershipType::Invite:
+            messages.append(tr("%1 was invited").arg(event.displayName()));
+            break;
+        case RoomMemberEvent::MembershipType::Ban:
+            messages.append(tr("%1 is banned").arg(event.displayName()));
+            break;
+        case RoomMemberEvent::MembershipType::Leave:
+            if (!prevContent || prevContent->membership != RoomMemberEvent::MembershipType::Ban) {
+                messages.append(tr("%1 has left").arg(event.displayName()));
+            }
+            break;
+        case RoomMemberEvent::MembershipType::Undefined:
+        default:
+            // TODO:
+            messages.append(tr("%1 has undefined state")
+                            .arg(event.displayName()));
+            break;
+        }
+    }
+
+    QString prevName = prevContent ? prevContent->displayName : QString();
+    if (prevName != event.displayName()) {
+        if (prevName.isEmpty()) {
+            // TODO?
+            qCWarning(logger) << "User" << event.displayName()
+                              << "had not a name before";
+        } else {
+            // display name changed
+            messages.append(tr("%1 has changed name to %2")
+                            .arg(prevName, event.displayName()));
+        }
+    }
+
+    QUrl prevAvatar = prevContent ? prevContent->avatarUrl : QUrl();
+    if (prevAvatar != event.avatarUrl()) {
+        // avatar changed
+        messages.append(tr("%1 has changed avatar")
+                        .arg(event.displayName()));
+    }
+
+    if (messages.isEmpty()) {
+        // TODO:
+        qCWarning(logger) << "No change detected";
+        return QStringLiteral("No change detected");
+    }
+
+    return messages.join(QChar('\n'));
 }
 
 int RoomEventsModel::pendingEventsCount() const

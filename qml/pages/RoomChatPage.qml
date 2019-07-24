@@ -10,9 +10,14 @@ Page {
     allowedOrientations: Orientation.All
 
     SilicaListView {
+        id: eventListView
         anchors.fill: parent
 
         verticalLayoutDirection: ListView.BottomToTop
+
+        header: PageHeader {
+           description: currentRoom.id + " / " + currentRoom.name + " / " + eventListView.count
+        }
 
         model: RoomEventsModel {
             room: currentRoom
@@ -22,10 +27,15 @@ Page {
             Column {
                 Label {
                     text: display
+                    textFormat: Text.StyledText
+                    color: Theme.primaryColor
                 }
-                Label {
+                /*Label {
                     text: author ? author.displayName : ""
-                }
+                    textFormat: Text.PlainText
+                    font.pixelSize: Theme.fontSizeSmall
+                    color: Theme.secondaryColor
+                }*/
             }
         }
     }
