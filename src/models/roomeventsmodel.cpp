@@ -6,11 +6,11 @@
 #include <QUrl>
 
 #include <events/redactionevent.h>
-#include <events/roommessageevent.h>
-#include <events/roommemberevent.h>
-#include <events/simplestateevents.h>
 #include <events/roomcreateevent.h>
+#include <events/roommemberevent.h>
+#include <events/roommessageevent.h>
 #include <events/roomtombstoneevent.h>
+#include <events/simplestateevents.h>
 #include <user.h>
 
 namespace Determinant {
@@ -143,26 +143,26 @@ QVariant RoomEventsModel::renderEventText(const RoomEvent* event) const
         },
         [](const RoomAliasesEvent& evt) {
             return tr("Room aliases set on server %1 to %2")
-                    .arg(e.stateKey(),
-                         QLocale().createSeparatedList(e.aliases()));
+                .arg(evt.stateKey(),
+                    QLocale().createSeparatedList(evt.aliases()));
         },
         [](const RoomCanonicalAliasEvent& evt) {
-            auto alias = e.alias();
+            auto alias = evt.alias();
             return alias.isEmpty()
-                    ? tr("Cleared room main alias")
-                    : tr("Set room main alias to %1").arg(alias);
+                ? tr("Cleared room main alias")
+                : tr("Set room main alias to %1").arg(alias);
         },
         [](const RoomNameEvent& evt) {
-            auto name = e.name();
+            auto name = evt.name();
             return name.isEmpty()
-                    ? tr("Cleared room name")
-                    : tr("Set room name to %1").arg(name.toHtmlEscaped());
+                ? tr("Cleared room name")
+                : tr("Set room name to %1").arg(name.toHtmlEscaped());
         },
         [](const RoomTopicEvent& evt) {
-            auto topic = e.topic();
+            auto topic = evt.topic();
             return topic.isEmpty()
-                    ? tr("Removed topic")
-                    : tr("Set topic to %1").arg(topic.toHtmlEscaped());
+                ? tr("Removed topic")
+                : tr("Set topic to %1").arg(topic.toHtmlEscaped());
         },
         [](const RoomTopicEvent& evt) {
             return tr("changed room avatar");
@@ -175,12 +175,13 @@ QVariant RoomEventsModel::renderEventText(const RoomEvent* event) const
         },
         [this](const RoomTombstoneEvent& evt) {
             return tr("upgraded room to version %1")
-                    .arg(e.serverMessage().toHtmlEscaped());
+                .arg(evt.serverMessage().toHtmlEscaped());
         },
         tr("Unknown event"));
 }
 
-static QString renderMarkdown(const QString& content) {
+static QString renderMarkdown(const QString& content)
+{
     static QRegularExpression boldRe(R"#(\*\*(.+?)\*\*)#");
     static QRegularExpression italicRe(R"#(\*(.+?)\*)#");
     // TODO: use markdown engine or more regexes
@@ -259,7 +260,7 @@ QString RoomEventsModel::renderMemberEvent(const RoomMemberEvent& event) const
         default:
             // TODO:
             messages.append(tr("%1 has undefined state")
-                            .arg(event.displayName()));
+                                .arg(event.displayName()));
             break;
         }
     }
@@ -273,7 +274,7 @@ QString RoomEventsModel::renderMemberEvent(const RoomMemberEvent& event) const
         } else {
             // display name changed
             messages.append(tr("%1 has changed name to %2")
-                            .arg(prevName, event.displayName()));
+                                .arg(prevName, event.displayName()));
         }
     }
 
@@ -281,7 +282,7 @@ QString RoomEventsModel::renderMemberEvent(const RoomMemberEvent& event) const
     if (prevAvatar != event.avatarUrl()) {
         // avatar changed
         messages.append(tr("%1 has changed avatar")
-                        .arg(event.displayName()));
+                            .arg(event.displayName()));
     }
 
     if (messages.isEmpty()) {
@@ -293,9 +294,9 @@ QString RoomEventsModel::renderMemberEvent(const RoomMemberEvent& event) const
     return messages.join(QChar('\n'));
 }
 
-QString RoomEventsModel::renderRoomCreated(const RoomCreateEvent &evt) const
+QString RoomEventsModel::renderRoomCreated(const RoomCreateEvent& evt) const
 {
-    QString version = e.version();
+    QString version = evt.version();
     QString versionString = version.isEmpty() ? "1" : version;
 
     if (evt.isUpgrade())

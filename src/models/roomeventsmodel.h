@@ -9,6 +9,7 @@
 namespace QMatrixClient {
 class RoomMessageEvent;
 class RoomMemberEvent;
+class RoomCreateEvent;
 } // namespace QMatrixClient
 
 namespace Determinant {
@@ -64,10 +65,10 @@ private:
 
     QVariant renderEventText(const QMatrixClient::RoomEvent* evt) const;
     QString renderMessageText(
-            const QMatrixClient::RoomMessageEvent& event) const;
+        const QMatrixClient::RoomMessageEvent& event) const;
     QString renderMemberEvent(
-            const QMatrixClient::RoomMemberEvent& event) const;
-    QString renderRoomCreated(const RoomCreateEvent& evt) const;
+        const QMatrixClient::RoomMemberEvent& event) const;
+    QString renderRoomCreated(const QMatrixClient::RoomCreateEvent& evt) const;
 };
 
 } // namespace Determinant
