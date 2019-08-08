@@ -17,6 +17,7 @@ CONFIG += sailfishapp
 include(libquotient/libqmatrixclient.pri)
 
 SOURCES += src/harbour-determinant.cpp \
+    src/connectionsmanager.cpp \
     src/quotientintegration.cpp \
     src/store.cpp \
     src/chatsmodel.cpp \
@@ -47,6 +48,7 @@ CONFIG += sailfishapp_i18n
 TRANSLATIONS += translations/harbour-determinant-de.ts
 
 HEADERS += \
+    src/connectionsmanager.h \
     src/quotientintegration.h \
     src/store.h \
     src/chatsmodel.h \
