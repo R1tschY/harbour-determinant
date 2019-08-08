@@ -26,16 +26,18 @@ Page {
         delegate: ListItem {
             Column {
                 Label {
+                    x: Theme.horizontalPageMargin
                     text: display
                     textFormat: Text.StyledText
                     color: Theme.primaryColor
                 }
-                /*Label {
+                Label {
+                    x: Theme.horizontalPageMargin
                     text: author ? author.displayName : ""
                     textFormat: Text.PlainText
-                    font.pixelSize: Theme.fontSizeSmall
+                    font.pixelSize: Theme.fontSizeExtraSmall
                     color: Theme.secondaryColor
-                }*/
+                }
             }
         }
     }

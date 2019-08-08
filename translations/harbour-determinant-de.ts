@@ -9,6 +9,13 @@
     </message>
 </context>
 <context>
+    <name>Determinant::ConnectionsManager</name>
+    <message>
+        <source>Login error: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>Determinant::RoomEventsModel</name>
     <message>
         <source>Redacted</source>
@@ -48,6 +55,58 @@
     </message>
     <message>
         <source>%1 has changed avatar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Room aliases set on server %1 to %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cleared room main alias</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set room main alias to %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cleared room name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set room name to %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Removed topic</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set topic to %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>changed room avatar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>activated end-to-end encryption</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>upgraded room to version %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unsupported message</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>knocked</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>created room with version %1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

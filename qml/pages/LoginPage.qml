@@ -38,8 +38,8 @@ Page {
     }
 
     Component.onCompleted: {
-        if (connection.localUser !== null) {
-            console.log("gdhsgdh#" + connection.localUser +"#")
+        console.log(connection.localUserId)
+        if (connection.localUserId) {
             delay(100,
                   function() {
                       pageStack.replace(Qt.resolvedUrl("RoomListPage.qml"))
@@ -47,22 +47,10 @@ Page {
         }
     }
 
-    function login(user, pass, server, hasToken) {
+    function login(user, pass, server) {
         if (!server) server = "https://matrix.org"
         connection.setHomeserver(server)
-
-        if (!hasToken)
-            connection.connectToServer(user, pass, connection.deviceId)
-        else
-            connection.connectWithToken(user, pass, connection.deviceId)
-
-        // TODO save deviceId to settings
-        // console.log("dev: " + connection.deviceId)
-        //if (loggedOut)
-        //{
-        //    mainAdaptiveLayout.addPageToCurrentColumn(mainAdaptiveLayout.primaryPage, roomList)
-        //}
-        //leaveRoom.connect(connection.leaveRoom)
+        connection.connectToServer(user, pass, connection.deviceId)
     }
 
     SilicaFlickable {
@@ -106,8 +94,7 @@ Page {
                     login(
                         usernameField.text,
                         passwordField.text,
-                        serverField.text,
-                        false)
+                        serverField.text)
             }
         }
     }

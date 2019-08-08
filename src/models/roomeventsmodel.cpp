@@ -197,20 +197,20 @@ QString RoomEventsModel::renderMessageText(const RoomMessageEvent& event) const
 
     auto* content = event.content();
     if (!content) {
-        qWarning() << "empty message";
-        return QString();
+        return event.plainBody().toHtmlEscaped();
     }
 
     auto type = event.msgtype();
     switch (type) {
-    case RoomMessageEvent::MsgType::Text: {
+    case RoomMessageEvent::MsgType::Text:
+    case RoomMessageEvent::MsgType::Emote:
+    case RoomMessageEvent::MsgType::Notice: {
         auto textContent = static_cast<TextContent*>(content);
         QString mimeType = textContent->mimeType.name();
         qCDebug(logger) << "Text mimeType" << mimeType;
         // TODO: cleanup HTML
         if (mimeType == QStringLiteral("text/plain")) {
-            // TODO: escape HTML things: <>&
-            return textContent->body;
+            return textContent->body.toHtmlEscaped();
         }
         if (mimeType == QStringLiteral("text/markdown")) {
             return renderMarkdown(textContent->body);
@@ -218,8 +218,6 @@ QString RoomEventsModel::renderMessageText(const RoomMessageEvent& event) const
         return textContent->body;
     }
 
-    case RoomMessageEvent::MsgType::Emote:
-    case RoomMessageEvent::MsgType::Notice:
     case RoomMessageEvent::MsgType::Image:
     case RoomMessageEvent::MsgType::File:
     case RoomMessageEvent::MsgType::Location:
@@ -227,8 +225,10 @@ QString RoomEventsModel::renderMessageText(const RoomMessageEvent& event) const
     case RoomMessageEvent::MsgType::Audio:
     case RoomMessageEvent::MsgType::Unknown:
     default:
-        return tr("Unsupported message");
+        break;
     }
+
+    return tr("Unsupported message");
 }
 
 QString RoomEventsModel::renderMemberEvent(const RoomMemberEvent& event) const
