@@ -24,19 +24,31 @@ Page {
         }
 
         delegate: ListItem {
+            // LayoutMirroring.enabled: author && author.id === connection.localUserId
+            // LayoutMirroring.childrenInherit: true
+
+            property int textAlign: (author && author.id === connection.localUserId)
+                                     ? Text.AlignRight
+                                     : Text.AlignLeft
+
             Column {
+                width: parent.width
                 Label {
+                    width: parent.width - 2* Theme.horizontalPageMargin
                     x: Theme.horizontalPageMargin
                     text: display
                     textFormat: Text.StyledText
                     color: Theme.primaryColor
+                    horizontalAlignment: textAlign;
                 }
                 Label {
+                    width: parent.width - 2* Theme.horizontalPageMargin
                     x: Theme.horizontalPageMargin
                     text: author ? author.displayName : ""
                     textFormat: Text.PlainText
                     font.pixelSize: Theme.fontSizeExtraSmall
                     color: Theme.secondaryColor
+                    horizontalAlignment: textAlign;
                 }
             }
         }
