@@ -67,6 +67,7 @@ private:
             const QMatrixClient::RoomMessageEvent& event) const;
     QString renderMemberEvent(
             const QMatrixClient::RoomMemberEvent& event) const;
+    QString renderRoomCreated(const RoomCreateEvent& evt) const;
 };
 
 } // namespace Determinant

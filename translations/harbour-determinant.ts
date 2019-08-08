@@ -22,6 +22,34 @@
         <source>Unknown event</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>%1 has joined</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 was invited</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 is banned</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 has left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 has undefined state</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 has changed name to %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 has changed avatar</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>FirstPage</name>

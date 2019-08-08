@@ -8,6 +8,9 @@
 #include <events/redactionevent.h>
 #include <events/roommessageevent.h>
 #include <events/roommemberevent.h>
+#include <events/simplestateevents.h>
+#include <events/roomcreateevent.h>
+#include <events/roomtombstoneevent.h>
 #include <user.h>
 
 namespace Determinant {
@@ -138,9 +141,42 @@ QVariant RoomEventsModel::renderEventText(const RoomEvent* event) const
         [this](const RoomMemberEvent& evt) {
             return renderMemberEvent(evt);
         },
-    [this](const RoomMemberEvent& evt) {
-        return renderMemberEvent(evt);
-    },
+        [](const RoomAliasesEvent& evt) {
+            return tr("Room aliases set on server %1 to %2")
+                    .arg(e.stateKey(),
+                         QLocale().createSeparatedList(e.aliases()));
+        },
+        [](const RoomCanonicalAliasEvent& evt) {
+            auto alias = e.alias();
+            return alias.isEmpty()
+                    ? tr("Cleared room main alias")
+                    : tr("Set room main alias to %1").arg(alias);
+        },
+        [](const RoomNameEvent& evt) {
+            auto name = e.name();
+            return name.isEmpty()
+                    ? tr("Cleared room name")
+                    : tr("Set room name to %1").arg(name.toHtmlEscaped());
+        },
+        [](const RoomTopicEvent& evt) {
+            auto topic = e.topic();
+            return topic.isEmpty()
+                    ? tr("Removed topic")
+                    : tr("Set topic to %1").arg(topic.toHtmlEscaped());
+        },
+        [](const RoomTopicEvent& evt) {
+            return tr("changed room avatar");
+        },
+        [](const EncryptionEvent& evt) {
+            return tr("activated end-to-end encryption");
+        },
+        [this](const RoomCreateEvent& evt) {
+            return renderRoomCreated(evt);
+        },
+        [this](const RoomTombstoneEvent& evt) {
+            return tr("upgraded room to version %1")
+                    .arg(e.serverMessage().toHtmlEscaped());
+        },
         tr("Unknown event"));
 }
 
@@ -190,10 +226,8 @@ QString RoomEventsModel::renderMessageText(const RoomMessageEvent& event) const
     case RoomMessageEvent::MsgType::Audio:
     case RoomMessageEvent::MsgType::Unknown:
     default:
-        break;
+        return tr("Unsupported message");
     }
-
-    return QString();
 }
 
 QString RoomEventsModel::renderMemberEvent(const RoomMemberEvent& event) const
@@ -217,6 +251,9 @@ QString RoomEventsModel::renderMemberEvent(const RoomMemberEvent& event) const
             if (!prevContent || prevContent->membership != RoomMemberEvent::MembershipType::Ban) {
                 messages.append(tr("%1 has left").arg(event.displayName()));
             }
+            break;
+        case RoomMemberEvent::MembershipType::Knock:
+            messages.append(tr("knocked"));
             break;
         case RoomMemberEvent::MembershipType::Undefined:
         default:
@@ -254,6 +291,17 @@ QString RoomEventsModel::renderMemberEvent(const RoomMemberEvent& event) const
     }
 
     return messages.join(QChar('\n'));
+}
+
+QString RoomEventsModel::renderRoomCreated(const RoomCreateEvent &evt) const
+{
+    QString version = e.version();
+    QString versionString = version.isEmpty() ? "1" : version;
+
+    if (evt.isUpgrade())
+        return tr("upgraded room to version %1").arg(versionString);
+    else
+        return tr("created room with version %1").arg(versionString);
 }
 
 int RoomEventsModel::pendingEventsCount() const
