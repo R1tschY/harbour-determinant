@@ -133,6 +133,13 @@
     </message>
 </context>
 <context>
+    <name>RoomChatPage</name>
+    <message>
+        <source>Message</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>RoomListPage</name>
     <message>
         <source>Chats</source>

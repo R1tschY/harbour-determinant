@@ -9,26 +9,40 @@ Page {
 
     allowedOrientations: Orientation.All
 
+    PageHeader {
+       id: header
+       anchors {
+           left: parent.left
+           right: parent.right
+           top: parent.top
+       }
+
+       title: currentRoom.displayName
+       // TODO: last seen: description: currentRoom...
+    }
+
     SilicaListView {
-        readonly property bool noNeedMoreContent:
+        readonly property bool noMoreContent:
             !currentRoom
             || currentRoom.eventsHistoryJob
             || currentRoom.allHistoryLoaded
 
         id: eventListView
-        anchors.fill: parent
+        anchors {
+            left: parent.left
+            right: parent.right
+            top: header.bottom
+            bottom: input.top
+        }
 
         verticalLayoutDirection: ListView.BottomToTop
         flickableDirection: Flickable.VerticalFlick
 
-        header: PageHeader {
-           description: currentRoom.id + " / " + currentRoom.name
-                        + " / " + eventListView.count
-        }
-
         model: RoomEventsModel {
             room: currentRoom
         }
+
+        // TODO: footer: LoadIndicator { visible: currentRoom && currentRoom.eventsHistoryJob }
 
         delegate: ListItem {
             // LayoutMirroring.childrenInherit: true
@@ -60,10 +74,56 @@ Page {
             }
         }
 
-        onContentYChanged: {
-            if(!noNeedMoreContent && contentY  - 5000 < originY)
+        function ensureHistoryContent() {
+            if (!noMoreContent && contentY - 5000 < originY)
                 currentRoom.getPreviousContent(21);
         }
 
+        onContentYChanged: ensureHistoryContent()
+        onContentHeightChanged: ensureHistoryContent()
     }
+
+    Row {
+        id: input
+
+        readonly property bool nonEmptyInput: inputEdit.text.trim().length !== 0
+
+        anchors {
+            bottom: parent.bottom
+            left: parent.left
+            right: parent.right
+        }
+
+        TextArea {
+            id: inputEdit
+            width: parent.width - Theme.itemSizeSmall
+            placeholderText: qsTr("Message");
+        }
+
+
+        IconButton {
+            id: inputButton
+            icon.source: "image://theme/icon-m-send"
+            enabled: input.nonEmptyInput
+//            icon.source: nonEmptyInput
+//                           ? "image://theme/icon-m-send"
+//                           : "image://theme/icon-m-attach"
+
+//            Rectangle {
+//                anchors.fill: inputButton
+//                color: Theme.primaryColor
+//                opacity: 0.3
+//            }
+
+            onClicked: {
+                if (!currentRoom) return
+                if (!input.nonEmptyInput) return
+
+                currentRoom.postPlainText(inputEdit.text.trim())
+                inputEdit.text = ""
+            }
+        }
+    }
+
+    VerticalScrollDecorator { flickable: eventListView }
 }
