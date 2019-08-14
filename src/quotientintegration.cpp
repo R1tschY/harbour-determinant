@@ -4,6 +4,7 @@
 
 #include <connection.h>
 #include <csapi/joining.h>
+#include <csapi/message_pagination.h>
 #include <jobs/syncjob.h>
 #include <room.h>
 #include <user.h>
@@ -27,6 +28,9 @@ void QuotientIntegration::registerTypes()
 
     qmlRegisterType<JoinRoomJob>();
     qRegisterMetaType<JoinRoomJob*>("JoinRoomJob*");
+
+    qmlRegisterType<GetRoomEventsJob>();
+    qRegisterMetaType<GetRoomEventsJob*>("GetRoomEventsJob*");
 
     //qmlRegisterType<LeaveRoomJob>();
     //qRegisterMetaType<LeaveRoomJob*>("LeaveRoomJob*");

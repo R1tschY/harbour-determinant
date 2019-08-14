@@ -5,18 +5,25 @@ import Determinant 0.1
 Page {
     id: page
 
-    property QtObject currentRoom
+    property QtObject currentRoom: null
 
     allowedOrientations: Orientation.All
 
     SilicaListView {
+        readonly property bool noNeedMoreContent:
+            !currentRoom
+            || currentRoom.eventsHistoryJob
+            || currentRoom.allHistoryLoaded
+
         id: eventListView
         anchors.fill: parent
 
         verticalLayoutDirection: ListView.BottomToTop
+        flickableDirection: Flickable.VerticalFlick
 
         header: PageHeader {
-           description: currentRoom.id + " / " + currentRoom.name + " / " + eventListView.count
+           description: currentRoom.id + " / " + currentRoom.name
+                        + " / " + eventListView.count
         }
 
         model: RoomEventsModel {
@@ -24,8 +31,8 @@ Page {
         }
 
         delegate: ListItem {
-            // LayoutMirroring.enabled: author && author.id === connection.localUserId
             // LayoutMirroring.childrenInherit: true
+            // LayoutMirroring.enabled: author && author.id === connection.localUserId
 
             property int textAlign: (author && author.id === connection.localUserId)
                                      ? Text.AlignRight
@@ -34,7 +41,7 @@ Page {
             Column {
                 width: parent.width
                 Label {
-                    width: parent.width - 2* Theme.horizontalPageMargin
+                    width: parent.width - 2 * Theme.horizontalPageMargin
                     x: Theme.horizontalPageMargin
                     text: display
                     textFormat: Text.StyledText
@@ -42,7 +49,7 @@ Page {
                     horizontalAlignment: textAlign;
                 }
                 Label {
-                    width: parent.width - 2* Theme.horizontalPageMargin
+                    width: parent.width - 2 * Theme.horizontalPageMargin
                     x: Theme.horizontalPageMargin
                     text: author ? author.displayName : ""
                     textFormat: Text.PlainText
@@ -52,5 +59,11 @@ Page {
                 }
             }
         }
+
+        onContentYChanged: {
+            if(!noNeedMoreContent && contentY  - 5000 < originY)
+                currentRoom.getPreviousContent(21);
+        }
+
     }
 }
