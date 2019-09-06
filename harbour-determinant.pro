@@ -24,6 +24,7 @@ SOURCES += src/harbour-determinant.cpp \
     src/models/roomeventsmodel.cpp
 
 DISTFILES += qml/harbour-determinant.qml \
+    TODO.txt \
     qml/cover/CoverPage.qml \
     qml/delegates/MessageDelegate.qml \
     qml/pages/LoginPage.qml \

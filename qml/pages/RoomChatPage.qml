@@ -20,18 +20,6 @@ Page {
         return "../delegates/MessageDelegate.qml"
     }
 
-    PageHeader {
-       id: header
-       anchors {
-           left: parent.left
-           right: parent.right
-           top: parent.top
-       }
-
-       title: currentRoom.displayName
-       // TODO: last seen: description: currentRoom...
-    }
-
     SilicaListView {
         readonly property bool noMoreContent:
             !currentRoom
@@ -42,7 +30,7 @@ Page {
         anchors {
             left: parent.left
             right: parent.right
-            top: header.bottom
+            top: page.top
             bottom: input.top
         }
 
@@ -82,17 +70,7 @@ Page {
                     textFormat: Text.PlainText
                     font.pixelSize: Theme.fontSizeExtraSmall
                     color: Theme.secondaryColor
-                    horizontalAlignment: textAlign;
-                }
-
-                Label {
-                    width: parent.width - 2 * Theme.horizontalPageMargin
-                    x: Theme.horizontalPageMargin
-                    text: contentType
-                    textFormat: Text.PlainText
-                    font.pixelSize: Theme.fontSizeExtraSmall
-                    color: Theme.secondaryColor
-                    horizontalAlignment: textAlign;
+                    horizontalAlignment: textAlign
                 }
             }
         }
@@ -120,7 +98,10 @@ Page {
         TextArea {
             id: inputEdit
             width: parent.width - Theme.itemSizeSmall
-            placeholderText: qsTr("Message");
+            placeholderText: qsTr("Message")
+            label: currentRoom.displayName
+            labelVisible: true
+            hideLabelOnEmptyField: false
         }
 
 
@@ -131,12 +112,6 @@ Page {
 //            icon.source: nonEmptyInput
 //                           ? "image://theme/icon-m-send"
 //                           : "image://theme/icon-m-attach"
-
-//            Rectangle {
-//                anchors.fill: inputButton
-//                color: Theme.primaryColor
-//                opacity: 0.3
-//            }
 
             onClicked: {
                 if (!currentRoom) return
