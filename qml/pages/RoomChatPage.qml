@@ -2,12 +2,23 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 import Determinant 0.1
 
+
 Page {
     id: page
 
     property QtObject currentRoom: null
 
     allowedOrientations: Orientation.All
+
+    function contentItemSource(contentType) {
+        if (contentType === "m.text"
+                || contentType === "m.notice"
+                || contentType === "m.emote") {
+            return "../delegates/MessageDelegate.qml"
+        }
+
+        return "../delegates/MessageDelegate.qml"
+    }
 
     PageHeader {
        id: header
@@ -37,6 +48,7 @@ Page {
 
         verticalLayoutDirection: ListView.BottomToTop
         flickableDirection: Flickable.VerticalFlick
+        clip: true
 
         model: RoomEventsModel {
             room: currentRoom
@@ -52,20 +64,31 @@ Page {
                                      ? Text.AlignRight
                                      : Text.AlignLeft
 
+            contentHeight: contentColumn.height
+
             Column {
+                id: contentColumn
                 width: parent.width
-                Label {
-                    width: parent.width - 2 * Theme.horizontalPageMargin
-                    x: Theme.horizontalPageMargin
-                    text: display
-                    textFormat: Text.StyledText
-                    color: Theme.primaryColor
-                    horizontalAlignment: textAlign;
+
+                Loader {
+                    id: contentLoader
+                    source: contentItemSource(contentType)
                 }
+
                 Label {
                     width: parent.width - 2 * Theme.horizontalPageMargin
                     x: Theme.horizontalPageMargin
                     text: author ? author.displayName : ""
+                    textFormat: Text.PlainText
+                    font.pixelSize: Theme.fontSizeExtraSmall
+                    color: Theme.secondaryColor
+                    horizontalAlignment: textAlign;
+                }
+
+                Label {
+                    width: parent.width - 2 * Theme.horizontalPageMargin
+                    x: Theme.horizontalPageMargin
+                    text: contentType
                     textFormat: Text.PlainText
                     font.pixelSize: Theme.fontSizeExtraSmall
                     color: Theme.secondaryColor

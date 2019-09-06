@@ -25,6 +25,7 @@ SOURCES += src/harbour-determinant.cpp \
 
 DISTFILES += qml/harbour-determinant.qml \
     qml/cover/CoverPage.qml \
+    qml/delegates/MessageDelegate.qml \
     qml/pages/LoginPage.qml \
     rpm/harbour-determinant.changes.in \
     rpm/harbour-determinant.changes.run.in \
