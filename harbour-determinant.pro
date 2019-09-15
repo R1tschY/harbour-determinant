@@ -18,6 +18,7 @@ include(libquotient/libqmatrixclient.pri)
 
 SOURCES += src/harbour-determinant.cpp \
     src/connectionsmanager.cpp \
+    src/models/roommembersmodel.cpp \
     src/quotientintegration.cpp \
     src/store.cpp \
     src/chatsmodel.cpp \
@@ -51,6 +52,7 @@ TRANSLATIONS += translations/harbour-determinant-de.ts
 
 HEADERS += \
     src/connectionsmanager.h \
+    src/models/roommembersmodel.h \
     src/quotientintegration.h \
     src/store.h \
     src/chatsmodel.h \
