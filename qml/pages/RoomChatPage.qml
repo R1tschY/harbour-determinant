@@ -20,11 +20,19 @@ Page {
         return "../delegates/MessageDelegate.qml"
     }
 
+    onStatusChanged: {
+        if (status === PageStatus.Active && !pageStack.nextPage(page)) {
+            pageStack.pushAttached(
+                Qt.resolvedUrl("RoomDetailsPage.qml"),
+                { "currentRoom": currentRoom })
+        }
+    }
+
     SilicaListView {
         readonly property bool noMoreContent:
             !currentRoom
-            || currentRoom.eventsHistoryJob
-            || currentRoom.allHistoryLoaded
+            || !!currentRoom.eventsHistoryJob
+            || !!currentRoom.allHistoryLoaded
 
         id: eventListView
         anchors {

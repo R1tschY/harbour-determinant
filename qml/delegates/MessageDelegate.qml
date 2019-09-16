@@ -6,6 +6,7 @@ Label {
     x: Theme.horizontalPageMargin
     text: display
     textFormat: Text.StyledText
+    font.pixelSize: Theme.fontSizeSmall
     color: Theme.primaryColor
     wrapMode: Text.Wrap
     horizontalAlignment: textAlign

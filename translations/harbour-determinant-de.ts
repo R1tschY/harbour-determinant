@@ -111,21 +111,6 @@
     </message>
 </context>
 <context>
-    <name>FirstPage</name>
-    <message>
-        <source>Show Page 2</source>
-        <translation>Zur Seite 2</translation>
-    </message>
-    <message>
-        <source>UI Template</source>
-        <translation>UI-Vorlage</translation>
-    </message>
-    <message>
-        <source>Hello Sailors</source>
-        <translation>Hallo Matrosen</translation>
-    </message>
-</context>
-<context>
     <name>LoginPage</name>
     <message>
         <source>Matrix Login</source>
@@ -140,21 +125,73 @@
     </message>
 </context>
 <context>
-    <name>RoomListPage</name>
+    <name>RoomDetailsPage</name>
     <message>
-        <source>Chats</source>
+        <source>Matrix Id</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Aliases</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Display name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Topic</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Uses Encryption</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tags</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Favourite</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>LowPriority</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Members</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Joined members</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Invited members</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Total members</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Matrix room version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Is unstable</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>SecondPage</name>
+    <name>RoomListPage</name>
     <message>
-        <source>Nested Page</source>
-        <translation>Unterseite</translation>
-    </message>
-    <message>
-        <source>Item</source>
-        <translation>Element</translation>
+        <source>Chats</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

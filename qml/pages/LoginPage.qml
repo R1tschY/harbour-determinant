@@ -97,5 +97,7 @@ Page {
                         serverField.text)
             }
         }
+
+        VerticalScrollDecorator { }
     }
 }
