@@ -54,6 +54,10 @@ QVariant RoomEventsModel::data(const QModelIndex& index, int role) const
     if (row > m_room->timelineSize() + m_pendingEvents)
         return QVariant();
 
+    if (m_pendingEvents != m_room->pendingEvents().size()) {
+        qCDebug(logger) << "wrong pendingEvents count";
+    }
+
     bool isPending = row < m_pendingEvents;
 
     const RoomEvent* evt;
@@ -327,12 +331,19 @@ void RoomEventsModel::onBeginInsertOldMessages(RoomEventsRange events)
 
 void RoomEventsModel::onBeginSyncMessage(int i)
 {
-    if (i == 0)
+    if (m_pendingEvents - 1 == i) {
+        // trival case
+        --m_pendingEvents;
+        updateRow(m_pendingEvents);
         return;
+    }
+
+    Q_ASSERT(i >= 0 && i < m_pendingEvents);
+    //Q_ASSERT(m_pendingEvents == m_room->pendingEvents().size());
 
     m_movingEvents = true;
     int index = m_pendingEvents - (i + 1);
-    beginMoveRows({}, index, index, {}, m_movingEvents);
+    beginMoveRows({}, index, index, {}, m_pendingEvents - 1);
     --m_pendingEvents;
 }
 
@@ -343,6 +354,7 @@ void RoomEventsModel::onEndSyncMessage()
         endMoveRows();
     }
 
+    //Q_ASSERT(m_pendingEvents == m_room->pendingEvents().size());
     updateRow(m_pendingEvents);
 }
 
@@ -424,7 +436,7 @@ void RoomEventsModel::setRoom(QMatrixClient::Room* room)
         connect(m_room, &Room::pendingEventDiscarded,
             this, [this] { endRemoveRows(); });
         connect(m_room, &Room::pendingEventAboutToMerge,
-            this, [this](RoomEvent*, int i) { onBeginSyncMessage(i); });
+            this, [this](const RoomEvent*, int i) { onBeginSyncMessage(i); });
         connect(m_room, &Room::pendingEventMerged,
             this, [this]() { onEndSyncMessage(); });
         connect(m_room, &Room::pendingEventChanged,
