@@ -24,6 +24,8 @@ class RoomEventsModel : public QAbstractListModel {
         DisplayRole = Qt::UserRole,
         AuthorRole,
         EventIdRole,
+        MatrixTypeRole,
+        EventTypeRole,
         AnnotationRole,
         TimeRole,
         HiddenRole,
@@ -63,12 +65,19 @@ private:
     void updateEvent(const QString& eventId);
     int findEvent(const QString& eventId);
 
-    QVariant renderEventText(const QMatrixClient::RoomEvent* evt) const;
+    QVariant renderEventText(
+        bool isPending, const QMatrixClient::RoomEvent* evt) const;
     QString renderMessageText(
-        const QMatrixClient::RoomMessageEvent& event) const;
-    QString renderMemberEvent(
-        const QMatrixClient::RoomMemberEvent& event) const;
+        bool isPending, const QMatrixClient::RoomMessageEvent& event) const;
+    QString renderMemberEvent(const QMatrixClient::RoomMemberEvent& event) const;
     QString renderRoomCreated(const QMatrixClient::RoomCreateEvent& evt) const;
+
+    QMatrixClient::User *getAuthor(
+            bool isPending, const QMatrixClient::RoomEvent* evt) const;
+    QString getAuthorDisplayName(
+            bool isPending, const QMatrixClient::RoomEvent* evt) const;
+    QString getAuthorHtmlDisplayName(
+            bool isPending, const QMatrixClient::RoomEvent* evt) const;
 };
 
 } // namespace Determinant

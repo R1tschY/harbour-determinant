@@ -10,11 +10,9 @@ Page {
 
     allowedOrientations: Orientation.All
 
-    function contentItemSource(contentType) {
-        if (contentType === "m.text"
-                || contentType === "m.notice"
-                || contentType === "m.emote") {
-            return "../delegates/MessageDelegate.qml"
+    function contentItemSource(eventType) {
+        if (eventType === "state") {
+            return "../delegates/StateMessageDelegate.qml"
         }
 
         return "../delegates/MessageDelegate.qml"
@@ -56,30 +54,14 @@ Page {
             // LayoutMirroring.childrenInherit: true
             // LayoutMirroring.enabled: author && author.id === connection.localUserId
 
-            property int textAlign: (author && author.id === connection.localUserId)
-                                     ? Text.AlignRight
-                                     : Text.AlignLeft
+            property int ownMessage:
+                author && author.id === connection.localUserId
 
-            contentHeight: contentColumn.height
+            contentHeight: contentLoader.height
 
-            Column {
-                id: contentColumn
-                width: parent.width
-
-                Loader {
-                    id: contentLoader
-                    source: contentItemSource(contentType)
-                }
-
-                Label {
-                    width: parent.width - 2 * Theme.horizontalPageMargin
-                    x: Theme.horizontalPageMargin
-                    text: author ? author.displayName : ""
-                    textFormat: Text.PlainText
-                    font.pixelSize: Theme.fontSizeExtraSmall
-                    color: Theme.secondaryColor
-                    horizontalAlignment: textAlign
-                }
+            Loader {
+                id: contentLoader
+                source: contentItemSource(eventType)
             }
         }
 

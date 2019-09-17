@@ -77,14 +77,32 @@ QVariant RoomEventsModel::data(const QModelIndex& index, int role) const
 
     switch (role) {
     case DisplayRole:
-        return renderEventText(evt);
+        return renderEventText(isPending, evt);
 
     case AuthorRole:
-        return QVariant::fromValue(
-            isPending ? m_room->localUser() : m_room->user(evt->senderId()));
+        return QVariant::fromValue(getAuthor(isPending, evt));
 
     case EventIdRole:
         break;
+
+    case MatrixTypeRole:
+        return evt->matrixType();
+
+    case EventTypeRole:
+        if (auto* msgEvt = eventCast<const RoomMessageEvent>(evt)) {
+            QString rawMsgtype = msgEvt->rawMsgtype();
+            if (!rawMsgtype.isEmpty()) {
+                rawMsgtype.remove(0, 2);
+                return rawMsgtype;
+            }
+            if (msgEvt->hasFileContent()) {
+                return QStringLiteral("file");
+            }
+        }
+        if (evt->isStateEvent()) {
+            return QStringLiteral("state");
+        }
+        return QStringLiteral("other");
 
     case AnnotationRole:
         if (isPending)
@@ -119,6 +137,8 @@ QHash<int, QByteArray> RoomEventsModel::roleNames() const
     QHash<int, QByteArray> roles;
     roles.insert(DisplayRole, "display");
     roles.insert(EventIdRole, "eventId");
+    roles.insert(MatrixTypeRole, "matrixType");
+    roles.insert(EventTypeRole, "eventType");
     roles.insert(AnnotationRole, "annotation");
     roles.insert(TimeRole, "time");
     roles.insert(HiddenRole, "hidden");
@@ -127,61 +147,81 @@ QHash<int, QByteArray> RoomEventsModel::roleNames() const
     return roles;
 }
 
-QVariant RoomEventsModel::renderEventText(const RoomEvent* event) const
+QVariant RoomEventsModel::renderEventText(
+        bool isPending, const RoomEvent* event) const
 {
     if (event->isRedacted()) {
         QString reason = event->redactedBecause()->reason();
+        QString author = getAuthorHtmlDisplayName(isPending, event);
         if (reason.isEmpty())
-            return tr("Redacted");
+            return tr("%1 redacted message").arg(author);
         else
-            return tr("Redacted: %1").arg(reason);
+            return tr("%1 redacted: %2").arg(author, reason);
     }
 
-    return visit(
+    QString result = visit(
         *event,
-        [this](const RoomMessageEvent& evt) {
-            return renderMessageText(evt);
+        [this, isPending](const RoomMessageEvent& evt) {
+            return renderMessageText(isPending, evt);
         },
-        [this](const RoomMemberEvent& evt) {
+        [this, isPending](const RoomMemberEvent& evt) {
             return renderMemberEvent(evt);
         },
-        [](const RoomAliasesEvent& evt) {
-            return tr("Room aliases set on server %1 to %2")
-                .arg(evt.stateKey(),
-                    QLocale().createSeparatedList(evt.aliases()));
+        QString());
+    if (!result.isNull()) {
+        return result;
+    }
+
+    result = visit(
+        *event,
+        [this, isPending](const RoomAliasesEvent& evt) {
+            QString author = getAuthorHtmlDisplayName(isPending, &evt);
+            return tr("%1 set room aliases on server %1 to %2")
+                .arg(author, evt.stateKey().toHtmlEscaped(),
+                     QLocale().createSeparatedList(
+                         evt.aliases()).toHtmlEscaped());
         },
-        [](const RoomCanonicalAliasEvent& evt) {
+        [this, isPending](const RoomCanonicalAliasEvent& evt) {
+            QString author = getAuthorHtmlDisplayName(isPending, &evt);
             auto alias = evt.alias();
             return alias.isEmpty()
-                ? tr("Cleared room main alias")
-                : tr("Set room main alias to %1").arg(alias);
+                ? tr("%1 cleared room main alias").arg(author)
+                : tr("%1 set room main alias to %2")
+                  .arg(author, alias.toHtmlEscaped());
         },
-        [](const RoomNameEvent& evt) {
+        [this, isPending](const RoomNameEvent& evt) {
+            QString author = getAuthorHtmlDisplayName(isPending, &evt);
             auto name = evt.name();
             return name.isEmpty()
-                ? tr("Cleared room name")
-                : tr("Set room name to %1").arg(name.toHtmlEscaped());
+                ? tr("%1 cleared room name").arg(author)
+                : tr("%1 set room name to %2")
+                  .arg(author, name.toHtmlEscaped());
         },
-        [](const RoomTopicEvent& evt) {
+        [this, isPending](const RoomTopicEvent& evt) {
+            QString author = getAuthorHtmlDisplayName(isPending, &evt);
             auto topic = evt.topic();
             return topic.isEmpty()
-                ? tr("Removed topic")
-                : tr("Set topic to %1").arg(topic.toHtmlEscaped());
+                ? tr("%1 removed topic").arg(author)
+                : tr("%1 set topic to %2").arg(author, topic.toHtmlEscaped());
         },
-        [](const RoomTopicEvent& evt) {
-            return tr("changed room avatar");
-        },
-        [](const EncryptionEvent& evt) {
-            return tr("activated end-to-end encryption");
+        [this, isPending](const EncryptionEvent& evt) {
+            QString author = getAuthorHtmlDisplayName(isPending, &evt);
+            return tr("%1 activated end-to-end encryption").arg(author);
         },
         [this](const RoomCreateEvent& evt) {
             return renderRoomCreated(evt);
         },
-        [this](const RoomTombstoneEvent& evt) {
+        [this, isPending](const RoomTombstoneEvent& evt) {
+            QString author = getAuthorHtmlDisplayName(isPending, &evt);
             return tr("upgraded room to version %1")
                 .arg(evt.serverMessage().toHtmlEscaped());
         },
-        tr("Unknown event"));
+        QString());
+    if (!result.isNull()) {
+        return result;
+    }
+
+    return tr("Unsupported event: %1").arg(event->matrixType());
 }
 
 static QString renderMarkdown(const QString& content)
@@ -189,13 +229,15 @@ static QString renderMarkdown(const QString& content)
     static QRegularExpression boldRe(R"#(\*\*(.+?)\*\*)#");
     static QRegularExpression italicRe(R"#(\*(.+?)\*)#");
     // TODO: use markdown engine or more regexes
+    // TODO: newlines
     QString result = content;
     result.replace(boldRe, "<b>\\1</b>");
     result.replace(italicRe, "<i>\\1</i>");
     return result;
 }
 
-QString RoomEventsModel::renderMessageText(const RoomMessageEvent& event) const
+QString RoomEventsModel::renderMessageText(
+        bool isPending, const RoomMessageEvent& event) const
 {
     using namespace QMatrixClient::EventContent;
 
@@ -211,15 +253,18 @@ QString RoomEventsModel::renderMessageText(const RoomMessageEvent& event) const
     case RoomMessageEvent::MsgType::Notice: {
         auto textContent = static_cast<TextContent*>(content);
         QString mimeType = textContent->mimeType.name();
-        qCDebug(logger) << "Text mimeType" << mimeType;
-        // TODO: cleanup HTML
-        if (mimeType == QStringLiteral("text/plain")) {
-            return textContent->body.toHtmlEscaped();
-        }
         if (mimeType == QStringLiteral("text/markdown")) {
+            // TODO: cleanup HTML
             return renderMarkdown(textContent->body);
         }
-        return textContent->body;
+        if (mimeType == QStringLiteral("text/html")) {
+            // TODO: cleanup HTML
+            return textContent->body;
+        }
+
+        QString text = textContent->body.toHtmlEscaped();
+        text.replace(QChar('\n'), QStringLiteral("<br/>"));
+        return text;
     }
 
     case RoomMessageEvent::MsgType::Image:
@@ -238,55 +283,57 @@ QString RoomEventsModel::renderMessageText(const RoomMessageEvent& event) const
 QString RoomEventsModel::renderMemberEvent(const RoomMemberEvent& event) const
 {
     QStringList messages;
+
+    QString member = event.displayName().toHtmlEscaped();
     auto membership = event.membership();
     auto* prevContent = event.prevContent();
     if (!prevContent || membership != prevContent->membership) {
         // membership changed
         switch (membership) {
         case RoomMemberEvent::MembershipType::Join:
-            messages.append(tr("%1 has joined").arg(event.displayName()));
+            messages.append(tr("%1 has joined").arg(member));
             break;
         case RoomMemberEvent::MembershipType::Invite:
-            messages.append(tr("%1 was invited").arg(event.displayName()));
+            messages.append(tr("%1 was invited").arg(member));
             break;
         case RoomMemberEvent::MembershipType::Ban:
-            messages.append(tr("%1 is banned").arg(event.displayName()));
+            messages.append(tr("%1 is banned").arg(member));
             break;
         case RoomMemberEvent::MembershipType::Leave:
-            if (!prevContent || prevContent->membership != RoomMemberEvent::MembershipType::Ban) {
-                messages.append(tr("%1 has left").arg(event.displayName()));
+            if (!prevContent
+                    || prevContent->membership != RoomMemberEvent::MembershipType::Ban) {
+                messages.append(tr("%1 has left").arg(member));
             }
             break;
         case RoomMemberEvent::MembershipType::Knock:
-            messages.append(tr("knocked"));
+            messages.append(tr("%1 knocked").arg(member));
             break;
         case RoomMemberEvent::MembershipType::Undefined:
         default:
             // TODO:
-            messages.append(tr("%1 has undefined state")
-                                .arg(event.displayName()));
+            messages.append(tr("%1 has undefined state").arg(member));
             break;
         }
     }
 
     QString prevName = prevContent ? prevContent->displayName : QString();
-    if (prevName != event.displayName()) {
+    if (prevName != member) {
         if (prevName.isEmpty()) {
             // TODO?
-            qCWarning(logger) << "User" << event.displayName()
+            qCWarning(logger) << "User" << member
                               << "had not a name before";
         } else {
             // display name changed
-            messages.append(tr("%1 has changed name to %2")
-                                .arg(prevName, event.displayName()));
+            messages.append(
+                tr("%1 has changed name to %2").arg(prevName, member));
         }
     }
 
     QUrl prevAvatar = prevContent ? prevContent->avatarUrl : QUrl();
     if (prevAvatar != event.avatarUrl()) {
         // avatar changed
-        messages.append(tr("%1 has changed avatar")
-                            .arg(event.displayName()));
+        messages.append(
+            tr("%1 has changed avatar").arg(member));
     }
 
     if (messages.isEmpty()) {
@@ -295,18 +342,39 @@ QString RoomEventsModel::renderMemberEvent(const RoomMemberEvent& event) const
         return QStringLiteral("No change detected");
     }
 
-    return messages.join(QChar('\n'));
+    return messages.join(QStringLiteral("<br/>"));
 }
 
 QString RoomEventsModel::renderRoomCreated(const RoomCreateEvent& evt) const
 {
-    QString version = evt.version();
-    QString versionString = version.isEmpty() ? "1" : version;
+    QString author = getAuthorHtmlDisplayName(false, &evt);
+    if (evt.isUpgrade()) {
+        QString version = evt.version();
+        QString versionString = version.isEmpty() ? "1" : version;
+        return tr("%1 upgraded room to version %2").arg(
+            author, versionString.toHtmlEscaped());
+    } else {
+        return tr("%1 created room").arg(author);
+    }
+}
 
-    if (evt.isUpgrade())
-        return tr("upgraded room to version %1").arg(versionString);
-    else
-        return tr("created room with version %1").arg(versionString);
+User* RoomEventsModel::getAuthor(bool isPending, const RoomEvent* evt) const
+{
+    return isPending
+            ? m_room->localUser()
+            : m_room->user(evt->senderId());
+}
+
+QString RoomEventsModel::getAuthorDisplayName(
+        bool isPending, const RoomEvent* evt) const
+{
+    return m_room->roomMembername(getAuthor(isPending, evt));
+}
+
+QString RoomEventsModel::getAuthorHtmlDisplayName(
+        bool isPending, const RoomEvent* evt) const
+{
+    return getAuthorDisplayName(isPending, evt).toHtmlEscaped();
 }
 
 int RoomEventsModel::pendingEventsCount() const

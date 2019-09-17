@@ -28,6 +28,7 @@ DISTFILES += qml/harbour-determinant.qml \
     TODO.txt \
     qml/cover/CoverPage.qml \
     qml/delegates/MessageDelegate.qml \
+    qml/delegates/StateMessageDelegate.qml \
     qml/pages/LoginPage.qml \
     qml/pages/RoomDetailsPage.qml \
     rpm/harbour-determinant.changes.in \

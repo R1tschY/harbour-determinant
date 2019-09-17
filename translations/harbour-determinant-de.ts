@@ -18,18 +18,6 @@
 <context>
     <name>Determinant::RoomEventsModel</name>
     <message>
-        <source>Redacted</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Redacted: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Unknown event</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>%1 has joined</source>
         <translation type="unfinished"></translation>
     </message>
@@ -58,42 +46,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Room aliases set on server %1 to %2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Cleared room main alias</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Set room main alias to %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Cleared room name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Set room name to %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Removed topic</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Set topic to %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>changed room avatar</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>activated end-to-end encryption</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>upgraded room to version %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -102,11 +54,59 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>knocked</source>
+        <source>%1 redacted message</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>created room with version %1</source>
+        <source>%1 redacted: %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 set room aliases on server %1 to %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 cleared room main alias</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 set room main alias to %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 cleared room name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 set room name to %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 removed topic</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 set topic to %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 activated end-to-end encryption</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unsupported event: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 knocked</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 upgraded room to version %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 created room</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -136,14 +136,6 @@
     </message>
     <message>
         <source>Aliases</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Display name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Topic</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -184,6 +176,10 @@
     </message>
     <message>
         <source>Is unstable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Extended</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
