@@ -23,6 +23,7 @@ class RoomEventsModel : public QAbstractListModel {
     enum {
         DisplayRole = Qt::UserRole,
         AuthorRole,
+        AuthorDisplayNameRole,
         EventIdRole,
         MatrixTypeRole,
         EventTypeRole,

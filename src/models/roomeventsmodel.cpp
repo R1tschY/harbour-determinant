@@ -82,6 +82,9 @@ QVariant RoomEventsModel::data(const QModelIndex& index, int role) const
     case AuthorRole:
         return QVariant::fromValue(getAuthor(isPending, evt));
 
+    case AuthorDisplayNameRole:
+        return QVariant::fromValue(getAuthorDisplayName(isPending, evt));
+
     case EventIdRole:
         break;
 
@@ -143,6 +146,7 @@ QHash<int, QByteArray> RoomEventsModel::roleNames() const
     roles.insert(TimeRole, "time");
     roles.insert(HiddenRole, "hidden");
     roles.insert(AuthorRole, "author");
+    roles.insert(AuthorDisplayNameRole, "authorDisplayName");
     roles.insert(ContentTypeRole, "contentType");
     return roles;
 }

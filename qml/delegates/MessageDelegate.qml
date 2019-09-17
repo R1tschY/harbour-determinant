@@ -22,11 +22,12 @@ Column {
     Label {
         width: page.width - 2 * Theme.horizontalPageMargin
         x: Theme.horizontalPageMargin
-        text: author ? author.displayName : ""
+        text: authorDisplayName
         textFormat: Text.PlainText
         font.pixelSize: Theme.fontSizeExtraSmall
         color: Theme.secondaryColor
-        horizontalAlignment: textAlign
+        horizontalAlignment: Text.AlignLeft
+        visible: ownMessage
     }
 
     Label {
