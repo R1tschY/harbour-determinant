@@ -4,10 +4,12 @@
 #include <algorithm>
 
 #include <util.h>
+#include "roomhelper.h"
 
 namespace Determinant {
 
 using namespace QMatrixClient;
+using namespace Det;
 
 ChatsModel::ChatsModel(QObject* parent)
     : QAbstractListModel(parent)
@@ -31,6 +33,7 @@ QVariant ChatsModel::data(const QModelIndex& index, int role) const
         return QVariant();
 
     Room* room = m_rooms[index.row()];
+    RoomHelper helper(m_connection, room);
     switch (role) {
     case DisplayNameRole:
         return room->displayName();
@@ -42,6 +45,10 @@ QVariant ChatsModel::data(const QModelIndex& index, int role) const
         return room->notificationCount();
     case HighlightsCountRole:
         return room->highlightCount();
+    case LastEventRole:
+        return helper.getLastEvent();
+    case LastActivityRole:
+        return helper.getLastActivity();
     case RoomRole:
         return QVariant::fromValue(room);
     }
@@ -128,7 +135,7 @@ size_t ChatsModel::indexOfRoom(Room* room) const
     Q_ASSERT(room != nullptr);
 
     return std::distance(
-        m_rooms.begin(), std::find(m_rooms.begin(), m_rooms.end(), room));
+                m_rooms.begin(), std::find(m_rooms.begin(), m_rooms.end(), room));
 }
 
 void ChatsModel::addRoom(Room* room)
@@ -153,10 +160,15 @@ void ChatsModel::connectToRoom(Room* room)
     //        this, [=]{ onRoomChanged(room, {}); });
     connect(room, &Room::avatarChanged,
         this, [=] { onRoomChanged(room, { ImageRole }); });
+    connect(room, &Room::unreadMessagesChanged,
+        this, [=] { onRoomChanged(room, { UnreadCountRole }); });
     connect(room, &Room::notificationCountChanged,
         this, [=] { onRoomChanged(room, { NotificationsCountRole }); });
     connect(room, &Room::highlightCountChanged,
         this, [=] { onRoomChanged(room, { HighlightsCountRole }); });
+    connect(room, &Room::addedMessages,
+        this, [=] {
+            onRoomChanged(room, { LastEventRole, LastActivityRole }); });
 }
 
 QHash<int, QByteArray> ChatsModel::roleNames() const
@@ -164,8 +176,11 @@ QHash<int, QByteArray> ChatsModel::roleNames() const
     QHash<int, QByteArray> roles;
     roles.insert(DisplayNameRole, "displayname");
     roles.insert(ImageRole, "avatar");
+    roles.insert(UnreadCountRole, "unreadCount");
     roles.insert(NotificationsCountRole, "notificationCount");
     roles.insert(HighlightsCountRole, "highlightCount");
+    roles.insert(LastEventRole, "lastEvent");
+    roles.insert(LastActivityRole, "lastActivity");
     roles.insert(RoomRole, "room");
     return roles;
 }

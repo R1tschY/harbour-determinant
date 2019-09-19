@@ -24,6 +24,8 @@ class ChatsModel : public QAbstractListModel {
         UnreadCountRole = Qt::UserRole,
         NotificationsCountRole,
         HighlightsCountRole,
+        LastEventRole,
+        LastActivityRole,
         RoomRole,
     };
 

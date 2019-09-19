@@ -27,16 +27,16 @@ Column {
         font.pixelSize: Theme.fontSizeExtraSmall
         color: Theme.secondaryColor
         horizontalAlignment: Text.AlignLeft
-        visible: ownMessage
+        visible: !ownMessage
     }
 
-    Label {
-        width: page.width - 2 * Theme.horizontalPageMargin
-        x: Theme.horizontalPageMargin
-        text: eventType + " " + matrixType
-        textFormat: Text.PlainText
-        font.pixelSize: Theme.fontSizeExtraSmall
-        color: Theme.secondaryColor
-        horizontalAlignment: textAlign
-    }
+//    Label {
+//        width: page.width - 2 * Theme.horizontalPageMargin
+//        x: Theme.horizontalPageMargin
+//        text: eventType + " " + matrixType
+//        textFormat: Text.PlainText
+//        font.pixelSize: Theme.fontSizeExtraSmall
+//        color: Theme.secondaryColor
+//        horizontalAlignment: textAlign
+//    }
 }

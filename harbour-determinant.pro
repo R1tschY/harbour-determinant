@@ -20,6 +20,7 @@ SOURCES += src/harbour-determinant.cpp \
     src/connectionsmanager.cpp \
     src/models/roommembersmodel.cpp \
     src/quotientintegration.cpp \
+    src/roomhelper.cpp \
     src/store.cpp \
     src/chatsmodel.cpp \
     src/models/roomeventsmodel.cpp
@@ -40,6 +41,12 @@ DISTFILES += qml/harbour-determinant.qml \
     qml/pages/RoomListPage.qml \
     qml/pages/RoomChatPage.qml
 
+DEFINES += \
+    QT_DEPRECATED_WARNINGS \
+    QT_DISABLE_DEPRECATED_BEFORE=0x050600 \
+    QT_USE_QSTRINGBUILDER
+CONFIG(release, debug|release):DEFINES += QT_NO_DEBUG_OUTPUT QT_NO_DEBUG
+
 SAILFISHAPP_ICONS = 86x86 108x108 128x128 172x172
 
 # to disable building translations every time, comment out the
@@ -56,6 +63,7 @@ HEADERS += \
     src/connectionsmanager.h \
     src/models/roommembersmodel.h \
     src/quotientintegration.h \
+    src/roomhelper.h \
     src/store.h \
     src/chatsmodel.h \
     src/models/roomeventsmodel.h

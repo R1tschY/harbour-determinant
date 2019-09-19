@@ -40,6 +40,7 @@ Page {
             bottom: input.top
         }
 
+        spacing: Theme.paddingMedium
         verticalLayoutDirection: ListView.BottomToTop
         flickableDirection: Flickable.VerticalFlick
         clip: true

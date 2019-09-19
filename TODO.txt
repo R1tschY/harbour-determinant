@@ -1,0 +1,6 @@
+* keine new lines in message sichtbar
+* keine Zeitangaben
+* datumsoverlay
+* raum details
+* user avatar
+* status meldungen anders anzeigen

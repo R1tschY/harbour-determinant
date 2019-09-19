@@ -12,24 +12,74 @@ Page {
 
     SilicaListView {
         id: listView
+
+        anchors.fill: parent
+
+        spacing: Theme.paddingMedium
+
         model: ChatsModel {
             connection: _connection
         }
 
-        anchors.fill: parent
         header: PageHeader {
             title: qsTr("Chats")
         }
 
-        delegate: BackgroundItem {
+        delegate: ListItem {
             id: delegate
 
+            height: Theme.itemSizeSmall
+            width: parent.width
+
             Label {
-                x: Theme.horizontalPageMargin
-                text: displayname
-                anchors.verticalCenter: parent.verticalCenter
-                color: delegate.highlighted ? Theme.highlightColor : Theme.primaryColor
+                id: nameLabel
+                anchors {
+                    top: parent.top
+                    left: parent.left
+                    leftMargin: Theme.horizontalPageMargin
+                    right: dateLabel.left
+                    rightMargin: Theme.paddingMedium
+                }
+
+                truncationMode: TruncationMode.Fade
+                text: unreadCount > 0
+                      ? "<b>%1</b> %2".arg(unreadCount).arg(displayname)
+                      : displayname
+                color: delegate.highlighted
+                       ? Theme.highlightColor : Theme.primaryColor
             }
+
+            Label {
+                id: dateLabel
+                anchors {
+                    top: parent.top
+                    right: parent.right
+                    rightMargin: Theme.paddingMedium
+                }
+
+                truncationMode: TruncationMode.Fade
+                text: lastActivity
+                font.pixelSize: Theme.fontSizeSmall
+                color: delegate.highlighted
+                       ? Theme.highlightColor : Theme.primaryColor
+            }
+
+            Label {
+                id: messageLabel
+                anchors {
+                    top: nameLabel.bottom
+                    left: parent.left
+                    leftMargin: Theme.horizontalPageMargin
+                    right: parent.right
+                }
+
+                truncationMode: TruncationMode.Fade
+                text: lastEvent
+                font.pixelSize: Theme.fontSizeSmall
+                color: delegate.highlighted
+                       ? Theme.secondaryHighlightColor: Theme.secondaryColor
+            }
+
             onClicked: pageStack.push(
                            Qt.resolvedUrl("RoomChatPage.qml"),
                            { currentRoom: room })
