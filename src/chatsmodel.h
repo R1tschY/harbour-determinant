@@ -53,6 +53,8 @@ private:
     void onDeleteRoom(QMatrixClient::Room* room);
     void onRoomChanged(QMatrixClient::Room* room, const QVector<int>& roles);
 
+    void onRoomMessage(QMatrixClient::Room* room);
+
     size_t indexOfRoom(QMatrixClient::Room* room) const;
 
     std::vector<QMatrixClient::Room*> m_rooms;

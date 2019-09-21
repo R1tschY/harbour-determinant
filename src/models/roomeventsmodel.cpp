@@ -107,6 +107,11 @@ QVariant RoomEventsModel::data(const QModelIndex& index, int role) const
         }
         return QStringLiteral("other");
 
+    case EventStatusRole:
+        if (isPending)
+            return pendingEvt->deliveryStatus();
+        return EventStatus::ReachedServer;
+
     case AnnotationRole:
         if (isPending)
             return pendingEvt->annotation();
@@ -143,6 +148,7 @@ QHash<int, QByteArray> RoomEventsModel::roleNames() const
     roles.insert(MatrixTypeRole, "matrixType");
     roles.insert(EventTypeRole, "eventType");
     roles.insert(AnnotationRole, "annotation");
+    roles.insert(EventStatusRole, "eventStatus");
     roles.insert(TimeRole, "time");
     roles.insert(HiddenRole, "hidden");
     roles.insert(AuthorRole, "author");

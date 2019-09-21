@@ -130,6 +130,11 @@ void ChatsModel::onRoomChanged(Room* room, const QVector<int>& roles)
     }
 }
 
+void ChatsModel::onRoomMessage(Room *room)
+{
+    onRoomChanged(room, { LastEventRole, LastActivityRole });
+}
+
 size_t ChatsModel::indexOfRoom(Room* room) const
 {
     Q_ASSERT(room != nullptr);
@@ -167,8 +172,13 @@ void ChatsModel::connectToRoom(Room* room)
     connect(room, &Room::highlightCountChanged,
         this, [=] { onRoomChanged(room, { HighlightsCountRole }); });
     connect(room, &Room::addedMessages,
-        this, [=] {
-            onRoomChanged(room, { LastEventRole, LastActivityRole }); });
+        this, [=] { onRoomMessage(room); });
+    connect(room, &Room::pendingEventMerged,
+        this, [=] { onRoomMessage(room); });
+    connect(room, &Room::pendingEventChanged,
+        this, [=] { onRoomMessage(room); });
+    connect(room, &Room::pendingEventAdded,
+        this, [=] { onRoomMessage(room); });
 }
 
 QHash<int, QByteArray> ChatsModel::roleNames() const

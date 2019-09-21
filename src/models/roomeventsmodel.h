@@ -27,6 +27,7 @@ class RoomEventsModel : public QAbstractListModel {
         EventIdRole,
         MatrixTypeRole,
         EventTypeRole,
+        EventStatusRole,
         AnnotationRole,
         TimeRole,
         HiddenRole,

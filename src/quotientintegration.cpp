@@ -13,6 +13,7 @@
 //#include <models/roomlistmodel.h>
 #include <settings.h>
 //#include <matrixhelper.h>
+#include <eventitem.h>
 
 using namespace QMatrixClient;
 
@@ -41,9 +42,10 @@ void QuotientIntegration::registerTypes()
     qmlRegisterType<User>();
     qRegisterMetaType<User*>("User*");
 
-    qmlRegisterType<Connection>("Matrix", 0, 5, "Connection");
-    //qmlRegisterType<MessageEventModel>("Matrix", 1, 0, "MessageEventModel");
-    //qmlRegisterType<RoomListModel>("Matrix", 1, 0, "RoomListModel");
+    qmlRegisterType<Connection>("Quotient", 0, 5, "Connection");
+    qmlRegisterUncreatableType<EventStatus>(
+        "Quotient", 0, 5, "EventStatus",
+        "EventStatus cannot be created from QML");
 }
 
 } // namespace Determinant
