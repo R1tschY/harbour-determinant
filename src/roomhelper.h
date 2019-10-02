@@ -11,16 +11,14 @@ namespace Det {
 class RoomHelper
 {
 public:
-    RoomHelper(
-            QMatrixClient::Connection* connection, QMatrixClient::Room* room)
-        : m_connection(connection), m_room(room)
+    RoomHelper(QMatrixClient::Room* room)
+        : m_room(room)
     { }
 
     QString getLastEvent() const;
     QDateTime getLastActivity() const;
 
 private:
-    QMatrixClient::Connection* m_connection;
     QMatrixClient::Room* m_room;
 };
 

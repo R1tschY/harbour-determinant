@@ -3,7 +3,7 @@
 
 #include <QObject>
 
-namespace Determinant {
+namespace Det {
 
 class Store : public QObject
 {
@@ -48,6 +48,6 @@ private:
     QString m_homeServer;
 };
 
-} // namespace Determinant
+} // namespace Det
 
 #endif // STORE_H

@@ -1,7 +1,7 @@
 #ifndef QUOTIENTINTEGRATION_H
 #define QUOTIENTINTEGRATION_H
 
-namespace Determinant {
+namespace Det {
 
 class QuotientIntegration
 {
@@ -9,6 +9,6 @@ public:
     static void registerTypes();
 };
 
-} // namespace Determinant
+} // namespace Det
 
 #endif // QUOTIENTINTEGRATION_H

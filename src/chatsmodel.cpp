@@ -6,7 +6,7 @@
 #include <util.h>
 #include "roomhelper.h"
 
-namespace Determinant {
+namespace Det {
 
 using namespace QMatrixClient;
 using namespace Det;
@@ -33,7 +33,7 @@ QVariant ChatsModel::data(const QModelIndex& index, int role) const
         return QVariant();
 
     Room* room = m_rooms[index.row()];
-    RoomHelper helper(m_connection, room);
+    RoomHelper helper(room);
     switch (role) {
     case DisplayNameRole:
         return room->displayName();
@@ -195,4 +195,4 @@ QHash<int, QByteArray> ChatsModel::roleNames() const
     return roles;
 }
 
-} // namespace Determinant
+} // namespace Det

@@ -12,7 +12,7 @@ class RoomMemberEvent;
 class RoomCreateEvent;
 } // namespace QMatrixClient
 
-namespace Determinant {
+namespace Det {
 
 class RoomEventsModel : public QAbstractListModel {
     Q_OBJECT
@@ -82,6 +82,6 @@ private:
             bool isPending, const QMatrixClient::RoomEvent* evt) const;
 };
 
-} // namespace Determinant
+} // namespace Det
 
 #endif // ROOMMODEL_H

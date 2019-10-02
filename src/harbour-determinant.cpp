@@ -15,7 +15,7 @@
 
 int main(int argc, char* argv[])
 {
-    using namespace Determinant;
+    using namespace Det;
 
     std::unique_ptr<QGuiApplication> app(SailfishApp::application(argc, argv));
 

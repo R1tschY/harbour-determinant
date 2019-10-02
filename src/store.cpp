@@ -1,6 +1,6 @@
 #include "store.h"
 
-namespace Determinant {
+namespace Det {
 
 Store::Store(QObject *parent) : QObject(parent)
 {
@@ -37,4 +37,4 @@ void Store::setHomeServer(const QString &homeServer)
     m_homeServer = homeServer;
 }
 
-} // namespace Determinant
+} // namespace Det

@@ -8,7 +8,7 @@
 #include <connection.h>
 #include <room.h>
 
-namespace Determinant {
+namespace Det {
 
 class ChatsModel : public QAbstractListModel {
     Q_OBJECT
@@ -60,6 +60,6 @@ private:
     std::vector<QMatrixClient::Room*> m_rooms;
 };
 
-} // namespace Determinant
+} // namespace Det
 
 #endif // DETERMINANT_CHATSMODEL_H

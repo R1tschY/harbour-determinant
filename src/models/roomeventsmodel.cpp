@@ -13,7 +13,7 @@
 #include <events/simplestateevents.h>
 #include <user.h>
 
-namespace Determinant {
+namespace Det {
 
 using namespace QMatrixClient;
 
@@ -530,4 +530,4 @@ void RoomEventsModel::setRoom(QMatrixClient::Room* room)
     emit roomChanged();
 }
 
-} // namespace Determinant
+} // namespace Det

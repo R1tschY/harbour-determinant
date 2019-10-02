@@ -3,7 +3,7 @@
 #include <QLoggingCategory>
 #include <QSettings>
 
-namespace Determinant {
+namespace Det {
 using namespace QMatrixClient;
 
 static Q_LOGGING_CATEGORY(logger, "determinant.conectionsmanager");
@@ -129,4 +129,4 @@ void ConnectionsManager::sync()
     }
 }
 
-} // namespace Determinant
+} // namespace Det

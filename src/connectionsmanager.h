@@ -5,7 +5,7 @@
 #include <QVector>
 #include <connection.h>
 
-namespace Determinant {
+namespace Det {
 
 class ConnectionsManager : public QObject {
     Q_OBJECT
@@ -43,6 +43,6 @@ private:
     void sync();
 };
 
-} // namespace Determinant
+} // namespace Det
 
 #endif // CONNECTIONSMANAGER_H

@@ -22,7 +22,7 @@ QString RoomHelper::getLastEvent() const
             continue;
 
         const User* user = m_room->user(evt->senderId());
-        if (m_connection->isIgnored(user))
+        if (m_room->connection()->isIgnored(user))
             continue;
 
         if (m_room->isDirectChat() || evt->isStateEvent()) {

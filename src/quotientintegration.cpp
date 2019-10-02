@@ -20,7 +20,7 @@ using namespace QMatrixClient;
 Q_DECLARE_METATYPE(SyncJob*)
 Q_DECLARE_METATYPE(Room*)
 
-namespace Determinant {
+namespace Det {
 
 void QuotientIntegration::registerTypes()
 {
@@ -48,4 +48,4 @@ void QuotientIntegration::registerTypes()
         "EventStatus cannot be created from QML");
 }
 
-} // namespace Determinant
+} // namespace Det
