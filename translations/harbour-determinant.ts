@@ -9,50 +9,25 @@
     </message>
 </context>
 <context>
-    <name>Determinant::ConnectionsManager</name>
+    <name>Det::ConnectionsManager</name>
     <message>
         <source>Login error: %1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>Determinant::RoomEventsModel</name>
+    <name>Det::Humanize</name>
     <message>
-        <source>%1 has joined</source>
+        <source>today</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>%1 was invited</source>
+        <source>yesterday</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>%1 is banned</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 has left</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 has undefined state</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 has changed name to %2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 has changed avatar</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>upgraded room to version %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Unsupported message</source>
-        <translation type="unfinished"></translation>
-    </message>
+</context>
+<context>
+    <name>Det::RoomEventsModel</name>
     <message>
         <source>%1 redacted message</source>
         <translation type="unfinished"></translation>
@@ -94,11 +69,47 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>upgraded room to version %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Unsupported event: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Unsupported message</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 has joined</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 was invited</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 is banned</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 has left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>%1 knocked</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 has undefined state</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 has changed name to %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 has changed avatar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

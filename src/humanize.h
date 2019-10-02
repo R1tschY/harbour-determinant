@@ -1,11 +1,23 @@
 #ifndef HUMANIZE_H
 #define HUMANIZE_H
 
+#include <QObject>
 
-class Humanize
+class QString;
+class QDateTime;
+
+
+namespace Det {
+
+class Humanize : public QObject
 {
+    Q_OBJECT
 public:
-    Humanize();
+    Q_INVOKABLE static QString formatTime(const QTime& time);
+    Q_INVOKABLE static QString formatDate(const QDate& date);
+    Q_INVOKABLE static QString formatDateTime(const QDateTime& time);
 };
+
+} // namespace Det
 
 #endif // HUMANIZE_H

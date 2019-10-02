@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 import Quotient 0.5
+import Determinant 0.1
 
 Item {
     property int textAlign: ownMessage ? Text.AlignRight : Text.AlignLeft
@@ -71,8 +72,9 @@ Item {
             x: Theme.paddingSmall
 
             text: ownMessage
-                  ? (time + " • " + formatEventStatus(eventStatus))
-                  : time
+                  ? (Humanize.formatTime(time) + " • "
+                     + formatEventStatus(eventStatus))
+                  : Humanize.formatTime(time)
             color: Theme.secondaryColor
             font.pixelSize: Theme.fontSizeSmall
             horizontalAlignment: Text.AlignRight

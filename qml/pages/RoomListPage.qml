@@ -58,7 +58,7 @@ Page {
                 }
 
                 truncationMode: TruncationMode.Fade
-                text: lastActivity
+                text: Humanize.formatDateTime(lastActivity)
                 font.pixelSize: Theme.fontSizeSmall
                 color: delegate.highlighted
                        ? Theme.highlightColor : Theme.primaryColor

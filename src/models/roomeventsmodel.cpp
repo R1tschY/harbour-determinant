@@ -117,10 +117,20 @@ QVariant RoomEventsModel::data(const QModelIndex& index, int role) const
             return pendingEvt->annotation();
         break;
 
-    case TimeRole:
+    case DateTimeRole:
         return isPending
             ? pendingEvt->lastUpdated()
             : evt->timestamp();
+
+    case TimeRole:
+        return isPending
+            ? pendingEvt->lastUpdated().time()
+            : evt->timestamp().time();
+
+    case DateRole:
+        return isPending
+            ? pendingEvt->lastUpdated().date()
+            : evt->timestamp().date();
 
     case HiddenRole:
         if (isPending)
@@ -149,7 +159,9 @@ QHash<int, QByteArray> RoomEventsModel::roleNames() const
     roles.insert(EventTypeRole, "eventType");
     roles.insert(AnnotationRole, "annotation");
     roles.insert(EventStatusRole, "eventStatus");
+    roles.insert(DateTimeRole, "dateTime");
     roles.insert(TimeRole, "time");
+    roles.insert(DateRole, "date");
     roles.insert(HiddenRole, "hidden");
     roles.insert(AuthorRole, "author");
     roles.insert(AuthorDisplayNameRole, "authorDisplayName");

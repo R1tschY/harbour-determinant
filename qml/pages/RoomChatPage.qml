@@ -26,6 +26,14 @@ Page {
         }
     }
 
+    Component {
+        id: sectionHeader
+        SectionHeader {
+            text: Humanize.formatDate(section)
+            horizontalAlignment: Text.AlignHCenter
+        }
+    }
+
     SilicaListView {
         readonly property bool noMoreContent:
             !currentRoom
@@ -40,29 +48,55 @@ Page {
             bottom: input.top
         }
 
-        spacing: Theme.paddingMedium
+        //spacing: Theme.paddingMedium
         verticalLayoutDirection: ListView.BottomToTop
         flickableDirection: Flickable.VerticalFlick
+        quickScroll: false
         clip: true
 
         model: RoomEventsModel {
             room: currentRoom
         }
 
+        section {
+            property: "date"
+            criteria: ViewSection.FullString
+        }
+
         // TODO: footer: LoadIndicator { visible: currentRoom && currentRoom.eventsHistoryJob }
 
         delegate: ListItem {
+            id: listItem
             // LayoutMirroring.childrenInherit: true
             // LayoutMirroring.enabled: author && author.id === connection.localUserId
 
             property int ownMessage:
                 author && author.id === connection.localUserId
 
-            contentHeight: contentLoader.height
+            property bool sectionBoundary: (
+                ListView.nextSection != "" && ListView.nextSection !== ListView.section)
+                || model.index === eventListView.count - 1
+
+            contentHeight: contentLoader.y + contentLoader.height
+
+            property var modelSection: listItem.ListView.section
+
+            Loader {
+                id: sectionHeaderLoader
+
+                property var section: listItem.ListView.section
+
+                sourceComponent: sectionBoundary ? sectionHeader : undefined
+                width: parent.width
+            }
 
             Loader {
                 id: contentLoader
                 source: contentItemSource(eventType)
+                y: sectionBoundary
+                   ? sectionHeaderLoader.y + sectionHeaderLoader.height
+                   : 0
+                width: parent.width
             }
         }
 
@@ -71,8 +105,40 @@ Page {
                 currentRoom.getPreviousContent(21);
         }
 
-        onContentYChanged: ensureHistoryContent()
+        onContentYChanged: {
+            var item = eventListView.itemAt(0, contentY)
+            if (item) {
+                sectionOverlay.text = Humanize.formatDate(item.modelSection)
+            }
+
+            ensureHistoryContent()
+        }
         onContentHeightChanged: ensureHistoryContent()
+        Component.onCompleted: {
+            sectionOverlay.text = Humanize.formatDate(
+                eventListView.itemAt(0, contentY).modelSection)
+        }
+
+        Rectangle {
+            color: Theme.primaryColor
+            opacity: 0.8
+            width: Theme.itemSizeExtraLarge
+            height: sectionOverlay.contentHeight
+            y: Theme.itemSizeSmall / 4
+            radius: Theme.itemSizeSmall
+            anchors.horizontalCenter: parent.horizontalCenter
+
+            Label {
+                id: sectionOverlay
+                anchors.fill: parent
+                width: parent.width
+
+                horizontalAlignment: Text.AlignHCenter
+                color: Theme.highlightColor
+                y: Theme.paddingMedium
+                font.pixelSize: Theme.fontSizeSmall
+            }
+        }
     }
 
     Row {

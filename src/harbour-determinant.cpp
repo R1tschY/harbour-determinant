@@ -12,6 +12,7 @@
 #include "models/roomeventsmodel.h"
 #include "quotientintegration.h"
 #include "store.h"
+#include "humanize.h"
 
 int main(int argc, char* argv[])
 {
@@ -20,15 +21,21 @@ int main(int argc, char* argv[])
     std::unique_ptr<QGuiApplication> app(SailfishApp::application(argc, argv));
 
     QuotientIntegration::registerTypes();
-    ConnectionsManager connectionManager;
 
     qmlRegisterType<ChatsModel>("Determinant", 0, 1, "ChatsModel");
     qmlRegisterType<RoomEventsModel>("Determinant", 0, 1, "RoomEventsModel");
+    qmlRegisterSingletonType<Humanize>(
+        "Determinant", 0, 1, "Humanize",
+        [](QQmlEngine*, QJSEngine*) -> QObject* { return new Humanize(); });
 
+    ConnectionsManager connectionManager;
     connectionManager.load();
 
     QQuickView* view = SailfishApp::createView();
-    view->rootContext()->setContextProperty("connection", connectionManager.connection());
+
+    QQmlContext* ctx = view->rootContext();
+    ctx->setContextProperty("connection", connectionManager.connection());
+
     view->setSource(SailfishApp::pathToMainQml());
     view->showFullScreen();
 
