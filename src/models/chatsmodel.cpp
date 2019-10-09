@@ -4,7 +4,7 @@
 #include <algorithm>
 
 #include <util.h>
-#include "roomhelper.h"
+#include "messagerenderer.h"
 
 namespace Det {
 
@@ -33,7 +33,8 @@ QVariant ChatsModel::data(const QModelIndex& index, int role) const
         return QVariant();
 
     Room* room = m_rooms[index.row()];
-    RoomHelper helper(room);
+    MessageRenderer renderer(room);
+
     switch (role) {
     case DisplayNameRole:
         return room->displayName();
@@ -46,9 +47,9 @@ QVariant ChatsModel::data(const QModelIndex& index, int role) const
     case HighlightsCountRole:
         return room->highlightCount();
     case LastEventRole:
-        return helper.getLastEvent();
+        return renderer.getLastEvent();
     case LastActivityRole:
-        return helper.getLastActivity();
+        return renderer.getLastActivity();
     case RoomRole:
         return QVariant::fromValue(room);
     }

@@ -18,11 +18,12 @@ include(libquotient/libqmatrixclient.pri)
 
 SOURCES += src/harbour-determinant.cpp \
     src/connectionsmanager.cpp \
+    src/humanize.cpp \
+    src/models/chatsmodel.cpp \
+    src/models/messagerenderer.cpp \
     src/models/roommembersmodel.cpp \
     src/quotientintegration.cpp \
-    src/roomhelper.cpp \
     src/store.cpp \
-    src/chatsmodel.cpp \
     src/models/roomeventsmodel.cpp
 
 DISTFILES += qml/harbour-determinant.qml \
@@ -61,9 +62,10 @@ TRANSLATIONS += translations/harbour-determinant-de.ts
 
 HEADERS += \
     src/connectionsmanager.h \
+    src/humanize.h \
+    src/models/chatsmodel.h \
+    src/models/messagerenderer.h \
     src/models/roommembersmodel.h \
     src/quotientintegration.h \
-    src/roomhelper.h \
     src/store.h \
-    src/chatsmodel.h \
     src/models/roomeventsmodel.h

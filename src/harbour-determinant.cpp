@@ -7,8 +7,8 @@
 #include <connection.h>
 #include <sailfishapp.h>
 
-#include "chatsmodel.h"
 #include "connectionsmanager.h"
+#include "models/chatsmodel.h"
 #include "models/roomeventsmodel.h"
 #include "quotientintegration.h"
 #include "store.h"

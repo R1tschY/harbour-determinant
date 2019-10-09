@@ -27,7 +27,14 @@
     </message>
 </context>
 <context>
-    <name>Det::RoomEventsModel</name>
+    <name>LoginPage</name>
+    <message>
+        <source>Matrix Login</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>MessageRenderer</name>
     <message>
         <source>%1 redacted message</source>
         <translation type="unfinished"></translation>
@@ -118,13 +125,6 @@
     </message>
     <message>
         <source>%1 created room</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>LoginPage</name>
-    <message>
-        <source>Matrix Login</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

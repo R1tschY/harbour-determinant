@@ -13,6 +13,8 @@
 #include <events/simplestateevents.h>
 #include <user.h>
 
+#include "messagerenderer.h"
+
 namespace Det {
 
 using namespace QMatrixClient;
@@ -54,7 +56,7 @@ QVariant RoomEventsModel::data(const QModelIndex& index, int role) const
     if (row > m_room->timelineSize() + m_pendingEvents)
         return QVariant();
 
-    if (m_pendingEvents != m_room->pendingEvents().size()) {
+    if (m_pendingEvents != int(m_room->pendingEvents().size())) {
         qCDebug(logger) << "wrong pendingEvents count";
     }
 
@@ -75,15 +77,17 @@ QVariant RoomEventsModel::data(const QModelIndex& index, int role) const
         evt = evtRef.get();
     }
 
+    MessageRenderer renderer(m_room);
+
     switch (role) {
     case DisplayRole:
-        return renderEventText(isPending, evt);
+        return renderer.renderEventText(isPending, evt);
 
     case AuthorRole:
-        return QVariant::fromValue(getAuthor(isPending, evt));
+        return QVariant::fromValue(renderer.getAuthor(isPending, evt));
 
     case AuthorDisplayNameRole:
-        return QVariant::fromValue(getAuthorDisplayName(isPending, evt));
+        return renderer.getAuthorDisplayName(isPending, evt);
 
     case EventIdRole:
         break;
@@ -134,8 +138,9 @@ QVariant RoomEventsModel::data(const QModelIndex& index, int role) const
 
     case HiddenRole:
         if (isPending)
-            return pendingEvt->deliveryStatus() & EventStatus::Hidden;
-        return false;
+            return renderer.isPendingHidden(pendingEvt);
+        else
+            return renderer.isHidden(evt);
 
     case ContentTypeRole:
         return visit(
@@ -167,236 +172,6 @@ QHash<int, QByteArray> RoomEventsModel::roleNames() const
     roles.insert(AuthorDisplayNameRole, "authorDisplayName");
     roles.insert(ContentTypeRole, "contentType");
     return roles;
-}
-
-QVariant RoomEventsModel::renderEventText(
-        bool isPending, const RoomEvent* event) const
-{
-    if (event->isRedacted()) {
-        QString reason = event->redactedBecause()->reason();
-        QString author = getAuthorHtmlDisplayName(isPending, event);
-        if (reason.isEmpty())
-            return tr("%1 redacted message").arg(author);
-        else
-            return tr("%1 redacted: %2").arg(author, reason);
-    }
-
-    QString result = visit(
-        *event,
-        [this, isPending](const RoomMessageEvent& evt) {
-            return renderMessageText(isPending, evt);
-        },
-        [this, isPending](const RoomMemberEvent& evt) {
-            return renderMemberEvent(evt);
-        },
-        QString());
-    if (!result.isNull()) {
-        return result;
-    }
-
-    result = visit(
-        *event,
-        [this, isPending](const RoomAliasesEvent& evt) {
-            QString author = getAuthorHtmlDisplayName(isPending, &evt);
-            return tr("%1 set room aliases on server %1 to %2")
-                .arg(author, evt.stateKey().toHtmlEscaped(),
-                     QLocale().createSeparatedList(
-                         evt.aliases()).toHtmlEscaped());
-        },
-        [this, isPending](const RoomCanonicalAliasEvent& evt) {
-            QString author = getAuthorHtmlDisplayName(isPending, &evt);
-            auto alias = evt.alias();
-            return alias.isEmpty()
-                ? tr("%1 cleared room main alias").arg(author)
-                : tr("%1 set room main alias to %2")
-                  .arg(author, alias.toHtmlEscaped());
-        },
-        [this, isPending](const RoomNameEvent& evt) {
-            QString author = getAuthorHtmlDisplayName(isPending, &evt);
-            auto name = evt.name();
-            return name.isEmpty()
-                ? tr("%1 cleared room name").arg(author)
-                : tr("%1 set room name to %2")
-                  .arg(author, name.toHtmlEscaped());
-        },
-        [this, isPending](const RoomTopicEvent& evt) {
-            QString author = getAuthorHtmlDisplayName(isPending, &evt);
-            auto topic = evt.topic();
-            return topic.isEmpty()
-                ? tr("%1 removed topic").arg(author)
-                : tr("%1 set topic to %2").arg(author, topic.toHtmlEscaped());
-        },
-        [this, isPending](const EncryptionEvent& evt) {
-            QString author = getAuthorHtmlDisplayName(isPending, &evt);
-            return tr("%1 activated end-to-end encryption").arg(author);
-        },
-        [this](const RoomCreateEvent& evt) {
-            return renderRoomCreated(evt);
-        },
-        [this, isPending](const RoomTombstoneEvent& evt) {
-            QString author = getAuthorHtmlDisplayName(isPending, &evt);
-            return tr("upgraded room to version %1")
-                .arg(evt.serverMessage().toHtmlEscaped());
-        },
-        QString());
-    if (!result.isNull()) {
-        return result;
-    }
-
-    return tr("Unsupported event: %1").arg(event->matrixType());
-}
-
-static QString renderMarkdown(const QString& content)
-{
-    static QRegularExpression boldRe(R"#(\*\*(.+?)\*\*)#");
-    static QRegularExpression italicRe(R"#(\*(.+?)\*)#");
-    // TODO: use markdown engine or more regexes
-    // TODO: newlines
-    QString result = content;
-    result.replace(boldRe, "<b>\\1</b>");
-    result.replace(italicRe, "<i>\\1</i>");
-    return result;
-}
-
-QString RoomEventsModel::renderMessageText(
-        bool isPending, const RoomMessageEvent& event) const
-{
-    using namespace QMatrixClient::EventContent;
-
-    auto* content = event.content();
-    if (!content) {
-        return event.plainBody().toHtmlEscaped();
-    }
-
-    auto type = event.msgtype();
-    switch (type) {
-    case RoomMessageEvent::MsgType::Text:
-    case RoomMessageEvent::MsgType::Emote:
-    case RoomMessageEvent::MsgType::Notice: {
-        auto textContent = static_cast<TextContent*>(content);
-        QString mimeType = textContent->mimeType.name();
-        if (mimeType == QStringLiteral("text/markdown")) {
-            // TODO: cleanup HTML
-            return renderMarkdown(textContent->body);
-        }
-        if (mimeType == QStringLiteral("text/html")) {
-            // TODO: cleanup HTML
-            return textContent->body;
-        }
-
-        QString text = textContent->body.toHtmlEscaped();
-        text.replace(QChar('\n'), QStringLiteral("<br/>"));
-        return text;
-    }
-
-    case RoomMessageEvent::MsgType::Image:
-    case RoomMessageEvent::MsgType::File:
-    case RoomMessageEvent::MsgType::Location:
-    case RoomMessageEvent::MsgType::Video:
-    case RoomMessageEvent::MsgType::Audio:
-    case RoomMessageEvent::MsgType::Unknown:
-    default:
-        break;
-    }
-
-    return tr("Unsupported message");
-}
-
-QString RoomEventsModel::renderMemberEvent(const RoomMemberEvent& event) const
-{
-    QStringList messages;
-
-    QString member = event.displayName().toHtmlEscaped();
-    auto membership = event.membership();
-    auto* prevContent = event.prevContent();
-    if (!prevContent || membership != prevContent->membership) {
-        // membership changed
-        switch (membership) {
-        case RoomMemberEvent::MembershipType::Join:
-            messages.append(tr("%1 has joined").arg(member));
-            break;
-        case RoomMemberEvent::MembershipType::Invite:
-            messages.append(tr("%1 was invited").arg(member));
-            break;
-        case RoomMemberEvent::MembershipType::Ban:
-            messages.append(tr("%1 is banned").arg(member));
-            break;
-        case RoomMemberEvent::MembershipType::Leave:
-            if (!prevContent
-                    || prevContent->membership != RoomMemberEvent::MembershipType::Ban) {
-                messages.append(tr("%1 has left").arg(member));
-            }
-            break;
-        case RoomMemberEvent::MembershipType::Knock:
-            messages.append(tr("%1 knocked").arg(member));
-            break;
-        case RoomMemberEvent::MembershipType::Undefined:
-        default:
-            // TODO:
-            messages.append(tr("%1 has undefined state").arg(member));
-            break;
-        }
-    }
-
-    QString prevName = prevContent ? prevContent->displayName : QString();
-    if (prevName != member) {
-        if (prevName.isEmpty()) {
-            // TODO?
-            qCWarning(logger) << "User" << member
-                              << "had not a name before";
-        } else {
-            // display name changed
-            messages.append(
-                tr("%1 has changed name to %2").arg(prevName, member));
-        }
-    }
-
-    QUrl prevAvatar = prevContent ? prevContent->avatarUrl : QUrl();
-    if (prevAvatar != event.avatarUrl()) {
-        // avatar changed
-        messages.append(
-            tr("%1 has changed avatar").arg(member));
-    }
-
-    if (messages.isEmpty()) {
-        // TODO:
-        qCWarning(logger) << "No change detected";
-        return QStringLiteral("No change detected");
-    }
-
-    return messages.join(QStringLiteral("<br/>"));
-}
-
-QString RoomEventsModel::renderRoomCreated(const RoomCreateEvent& evt) const
-{
-    QString author = getAuthorHtmlDisplayName(false, &evt);
-    if (evt.isUpgrade()) {
-        QString version = evt.version();
-        QString versionString = version.isEmpty() ? "1" : version;
-        return tr("%1 upgraded room to version %2").arg(
-            author, versionString.toHtmlEscaped());
-    } else {
-        return tr("%1 created room").arg(author);
-    }
-}
-
-User* RoomEventsModel::getAuthor(bool isPending, const RoomEvent* evt) const
-{
-    return isPending
-            ? m_room->localUser()
-            : m_room->user(evt->senderId());
-}
-
-QString RoomEventsModel::getAuthorDisplayName(
-        bool isPending, const RoomEvent* evt) const
-{
-    return m_room->roomMembername(getAuthor(isPending, evt));
-}
-
-QString RoomEventsModel::getAuthorHtmlDisplayName(
-        bool isPending, const RoomEvent* evt) const
-{
-    return getAuthorDisplayName(isPending, evt).toHtmlEscaped();
 }
 
 int RoomEventsModel::pendingEventsCount() const

@@ -68,20 +68,6 @@ private:
     void updateRow(int row);
     void updateEvent(const QString& eventId);
     int findEvent(const QString& eventId);
-
-    QVariant renderEventText(
-        bool isPending, const QMatrixClient::RoomEvent* evt) const;
-    QString renderMessageText(
-        bool isPending, const QMatrixClient::RoomMessageEvent& event) const;
-    QString renderMemberEvent(const QMatrixClient::RoomMemberEvent& event) const;
-    QString renderRoomCreated(const QMatrixClient::RoomCreateEvent& evt) const;
-
-    QMatrixClient::User *getAuthor(
-            bool isPending, const QMatrixClient::RoomEvent* evt) const;
-    QString getAuthorDisplayName(
-            bool isPending, const QMatrixClient::RoomEvent* evt) const;
-    QString getAuthorHtmlDisplayName(
-            bool isPending, const QMatrixClient::RoomEvent* evt) const;
 };
 
 } // namespace Det
