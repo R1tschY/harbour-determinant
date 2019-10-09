@@ -101,7 +101,7 @@ Page {
         }
 
         function ensureHistoryContent() {
-            if (!noMoreContent && contentY - 5000 < originY)
+            if (!noMoreContent && contentY - originY < 5000)
                 currentRoom.getPreviousContent(21);
         }
 
@@ -117,6 +117,9 @@ Page {
         Component.onCompleted: {
             sectionOverlay.text = Humanize.formatDate(
                 eventListView.itemAt(0, contentY).modelSection)
+
+            if (eventListView.count < 21 && !noMoreContent)
+                currentRoom.getPreviousContent(21 - eventListView.count);
         }
 
         Rectangle {
