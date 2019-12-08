@@ -3,6 +3,9 @@
 #ifdef QT_QML_DEBUG
 #include <QtQuick>
 #endif
+#include <QtQml>
+#include <QQuickView>
+#include <QGuiApplication>
 
 #include <connection.h>
 #include <sailfishapp.h>

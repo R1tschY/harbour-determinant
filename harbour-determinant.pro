@@ -24,7 +24,8 @@ SOURCES += src/harbour-determinant.cpp \
     src/models/roommembersmodel.cpp \
     src/quotientintegration.cpp \
     src/store.cpp \
-    src/models/roomeventsmodel.cpp
+    src/models/roomeventsmodel.cpp \
+    src/thumbnailprovider.cpp
 
 DISTFILES += qml/harbour-determinant.qml \
     TODO.txt \
@@ -44,8 +45,8 @@ DISTFILES += qml/harbour-determinant.qml \
 
 DEFINES += \
     QT_DEPRECATED_WARNINGS \
-    QT_DISABLE_DEPRECATED_BEFORE=0x050600 \
-    QT_USE_QSTRINGBUILDER
+    QT_DISABLE_DEPRECATED_BEFORE=0x050600
+# DEFINES +=QT_USE_QSTRINGBUILDER # Problems with libquotient
 CONFIG(release, debug|release):DEFINES += QT_NO_DEBUG_OUTPUT QT_NO_DEBUG
 
 SAILFISHAPP_ICONS = 86x86 108x108 128x128 172x172
@@ -68,4 +69,5 @@ HEADERS += \
     src/models/roommembersmodel.h \
     src/quotientintegration.h \
     src/store.h \
-    src/models/roomeventsmodel.h
+    src/models/roomeventsmodel.h \
+    src/thumbnailprovider.h

@@ -1,18 +1,19 @@
 #include "messagerenderer.h"
 
-#include <QString>
-#include <QRegularExpression>
 #include <QLoggingCategory>
+#include <QRegularExpression>
+#include <QString>
+#include <QStringBuilder>
 
+#include <connection.h>
 #include <events/redactionevent.h>
 #include <events/roomcreateevent.h>
 #include <events/roommemberevent.h>
 #include <events/roommessageevent.h>
 #include <events/roomtombstoneevent.h>
 #include <events/simplestateevents.h>
-#include <user.h>
 #include <room.h>
-#include <connection.h>
+#include <user.h>
 
 namespace Det {
 
@@ -20,7 +21,7 @@ using namespace QMatrixClient;
 
 static Q_LOGGING_CATEGORY(logger, "determinant.messagerenderer")
 
-QString MessageRenderer::renderEventText(
+    QString MessageRenderer::renderEventText(
         bool isPending, const RoomEvent* event) const
 {
     if (event->isRedacted()) {
@@ -51,8 +52,9 @@ QString MessageRenderer::renderEventText(
             QString author = getAuthorHtmlDisplayName(isPending, &evt);
             return tr("%1 set room aliases on server %1 to %2")
                 .arg(author, evt.stateKey().toHtmlEscaped(),
-                     QLocale().createSeparatedList(
-                         evt.aliases()).toHtmlEscaped());
+                    QLocale().createSeparatedList(
+                                 evt.aliases())
+                        .toHtmlEscaped());
         },
         [this, isPending](const RoomCanonicalAliasEvent& evt) {
             QString author = getAuthorHtmlDisplayName(isPending, &evt);
@@ -60,7 +62,7 @@ QString MessageRenderer::renderEventText(
             return alias.isEmpty()
                 ? tr("%1 cleared room main alias").arg(author)
                 : tr("%1 set room main alias to %2")
-                  .arg(author, alias.toHtmlEscaped());
+                      .arg(author, alias.toHtmlEscaped());
         },
         [this, isPending](const RoomNameEvent& evt) {
             QString author = getAuthorHtmlDisplayName(isPending, &evt);
@@ -68,7 +70,7 @@ QString MessageRenderer::renderEventText(
             return name.isEmpty()
                 ? tr("%1 cleared room name").arg(author)
                 : tr("%1 set room name to %2")
-                  .arg(author, name.toHtmlEscaped());
+                      .arg(author, name.toHtmlEscaped());
         },
         [this, isPending](const RoomTopicEvent& evt) {
             QString author = getAuthorHtmlDisplayName(isPending, &evt);
@@ -110,7 +112,7 @@ static QString renderMarkdown(const QString& content)
 }
 
 QString MessageRenderer::renderMessageText(
-        bool isPending, const RoomMessageEvent& event) const
+    bool isPending, const RoomMessageEvent& event) const
 {
     using namespace QMatrixClient::EventContent;
 
@@ -153,7 +155,6 @@ QString MessageRenderer::renderMessageText(
     return tr("Unsupported message");
 }
 
-
 QString MessageRenderer::renderMemberEvent(const RoomMemberEvent& event) const
 {
     QStringList messages;
@@ -175,7 +176,7 @@ QString MessageRenderer::renderMemberEvent(const RoomMemberEvent& event) const
             break;
         case RoomMemberEvent::MembershipType::Leave:
             if (!prevContent
-                    || prevContent->membership != RoomMemberEvent::MembershipType::Ban) {
+                || prevContent->membership != RoomMemberEvent::MembershipType::Ban) {
                 messages.append(tr("%1 has left").arg(member));
             }
             break;
@@ -225,8 +226,7 @@ QString MessageRenderer::renderRoomCreated(const RoomCreateEvent& evt) const
     if (evt.isUpgrade()) {
         QString version = evt.version();
         QString versionString = version.isEmpty() ? "1" : version;
-        return tr("%1 upgraded room to version %2").arg(
-            author, versionString.toHtmlEscaped());
+        return tr("%1 upgraded room to version %2").arg(author, versionString.toHtmlEscaped());
     } else {
         return tr("%1 created room").arg(author);
     }
@@ -235,23 +235,23 @@ QString MessageRenderer::renderRoomCreated(const RoomCreateEvent& evt) const
 User* MessageRenderer::getAuthor(bool isPending, const RoomEvent* evt) const
 {
     return isPending
-            ? m_room->localUser()
-            : m_room->user(evt->senderId());
+        ? m_room->localUser()
+        : m_room->user(evt->senderId());
 }
 
 QString MessageRenderer::getAuthorDisplayName(
-        bool isPending, const RoomEvent* evt) const
+    bool isPending, const RoomEvent* evt) const
 {
     return m_room->roomMembername(getAuthor(isPending, evt));
 }
 
 QString MessageRenderer::getAuthorHtmlDisplayName(
-        bool isPending, const RoomEvent* evt) const
+    bool isPending, const RoomEvent* evt) const
 {
     return getAuthorDisplayName(isPending, evt).toHtmlEscaped();
 }
 
-bool MessageRenderer::isHidden(const RoomEvent *evt) const
+bool MessageRenderer::isHidden(const RoomEvent* evt) const
 {
     if (evt->isRedacted())
         return true;
@@ -263,7 +263,7 @@ bool MessageRenderer::isHidden(const RoomEvent *evt) const
     return false;
 }
 
-bool MessageRenderer::isPendingHidden(const PendingEventItem *evt) const
+bool MessageRenderer::isPendingHidden(const PendingEventItem* evt) const
 {
     return evt->deliveryStatus() & EventStatus::Hidden;
 }
@@ -285,9 +285,9 @@ QString MessageRenderer::getLastEvent() const
         } else {
             const User* user = m_room->user(evt->senderId());
             return QStringLiteral("<b>")
-                    % m_room->roomMembername(user)
-                    % QStringLiteral("</b>: ")
-                    % renderEventText(false, evt);
+                % m_room->roomMembername(user)
+                % QStringLiteral("</b>: ")
+                % renderEventText(false, evt);
         }
     }
 

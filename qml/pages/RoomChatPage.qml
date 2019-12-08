@@ -74,7 +74,7 @@ Page {
                 author && author.id === connection.localUserId
 
             property bool sectionBoundary: (
-                ListView.nextSection != "" && ListView.nextSection !== ListView.section)
+                ListView.nextSection !== "" && ListView.nextSection !== ListView.section)
                 || model.index === eventListView.count - 1
 
             contentHeight: contentLoader.y + contentLoader.height

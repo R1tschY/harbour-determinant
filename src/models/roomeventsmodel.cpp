@@ -131,7 +131,7 @@ QVariant RoomEventsModel::data(const QModelIndex& index, int role) const
             ? pendingEvt->lastUpdated().time()
             : evt->timestamp().time();
 
-    case DateRole:
+    case DateRole:       
         return isPending
             ? pendingEvt->lastUpdated().date()
             : evt->timestamp().date();
@@ -143,13 +143,13 @@ QVariant RoomEventsModel::data(const QModelIndex& index, int role) const
             return renderer.isHidden(evt);
 
     case ContentTypeRole:
-        return visit(
-            *evt,
-            [](const RoomMessageEvent& evt) {
-                return evt.rawMsgtype();
-            },
-            QString());
-        break;
+        if (auto msgEvt = eventCast<const RoomMessageEvent>(evt)) {
+            return msgEvt->rawMsgtype();
+        }
+        return QString();
+
+    case ContentJsonRole:
+        return evt->contentJson();
     }
 
     return QVariant();
@@ -171,6 +171,7 @@ QHash<int, QByteArray> RoomEventsModel::roleNames() const
     roles.insert(AuthorRole, "author");
     roles.insert(AuthorDisplayNameRole, "authorDisplayName");
     roles.insert(ContentTypeRole, "contentType");
+    roles.insert(ContentJsonRole, "contentJson");
     return roles;
 }
 
