@@ -21,18 +21,6 @@ ThumbnailResponse::ThumbnailResponse(
 {
     Q_ASSERT(m_conn != nullptr);
 
-    if (m_requestedSize.isEmpty()) {
-        emit finished();
-        return;
-    }
-
-    if (mediaId.count(QChar('/')) != 1) {
-        m_error = tr("Media id `%1` does not have expected pattern: server/id")
-                      .arg(mediaId);
-        emit finished();
-        return;
-    }
-
     QString cacheDir = QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
     m_localPath = QStringLiteral("%1/images/%2-%3x%4")
                       .arg(cacheDir, mediaId,
@@ -47,6 +35,18 @@ void ThumbnailResponse::doStart()
 {
     Q_ASSERT(QThread::currentThread() == m_conn->thread());
     Q_ASSERT(m_job == nullptr);
+
+    if (m_requestedSize.isEmpty()) {
+        emit finished();
+        return;
+    }
+
+    if (m_mediaId.count(QChar('/')) != 1) {
+        m_error = tr("Media id `%1` does not have expected pattern: server/id")
+                      .arg(m_mediaId);
+        emit finished();
+        return;
+    }
 
     // must be done in connection thread else data race with onJobFinished
     if (QFileInfo::exists(m_localPath)) {
