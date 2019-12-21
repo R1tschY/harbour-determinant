@@ -37,6 +37,12 @@ ConnectionsManager::ConnectionsManager(QObject* parent)
     });
 }
 
+ConnectionsManager::~ConnectionsManager()
+{
+    m_connection.stopSync();
+    m_connection.saveState();
+}
+
 void ConnectionsManager::load()
 {
     QSettings settings;
@@ -88,16 +94,21 @@ void ConnectionsManager::onConnected()
 
     saveLogin();
 
+    m_connection.setLazyLoading(true);
     m_connection.loadState();
-
-    sync();
+    m_connection.syncLoop(m_syncTimeout);
 }
 
 void ConnectionsManager::onSyncDone()
 {
     qCDebug(logger) << "Sync done";
 
-    sync();
+    ++m_syncCounter;
+
+    if ((m_syncCounter % 16) == 2) {
+        qCDebug(logger) << "Save state to" << m_connection.stateCachePath();
+        m_connection.saveState();
+    }
 }
 
 void ConnectionsManager::onSyncError(QString message, QString details)
@@ -115,18 +126,6 @@ void ConnectionsManager::saveLogin()
     settings.setValue(QStringLiteral("userId"), m_connection.userId());
     settings.setValue(QStringLiteral("deviceId"), m_connection.deviceId());
     settings.sync();
-}
-
-void ConnectionsManager::sync()
-{
-    ++m_syncCounter;
-
-    m_connection.sync(m_syncTimeout);
-
-    if ((m_syncCounter % 16) == 2) {
-        qCDebug(logger) << "Save state to" << m_connection.stateCachePath();
-        m_connection.saveState();
-    }
 }
 
 } // namespace Det

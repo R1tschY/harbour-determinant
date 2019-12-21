@@ -11,6 +11,7 @@ class ConnectionsManager : public QObject {
     Q_OBJECT
 public:
     explicit ConnectionsManager(QObject* parent = nullptr);
+    ~ConnectionsManager();
 
     /**
      * @brief logins in if login data exists
@@ -40,7 +41,6 @@ private:
     void onSyncError(QString message, QString details);
 
     void saveLogin();
-    void sync();
 };
 
 } // namespace Det

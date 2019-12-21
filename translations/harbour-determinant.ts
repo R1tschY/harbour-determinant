@@ -27,6 +27,17 @@
     </message>
 </context>
 <context>
+    <name>Det::ThumbnailResponse</name>
+    <message>
+        <source>Media id `%1` does not have expected pattern: server/id</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Thumbnail request was canceled</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>LoginPage</name>
     <message>
         <source>Matrix Login</source>
