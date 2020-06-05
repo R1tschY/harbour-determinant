@@ -3,19 +3,20 @@
 #ifdef QT_QML_DEBUG
 #include <QtQuick>
 #endif
-#include <QtQml>
-#include <QQuickView>
 #include <QGuiApplication>
+#include <QQuickView>
+#include <QtQml>
 
 #include <connection.h>
 #include <sailfishapp.h>
 
 #include "connectionsmanager.h"
+#include "humanize.h"
 #include "models/chatsmodel.h"
 #include "models/roomeventsmodel.h"
 #include "quotientintegration.h"
+#include "secretsservice.h"
 #include "store.h"
-#include "humanize.h"
 
 int main(int argc, char* argv[])
 {
@@ -31,7 +32,8 @@ int main(int argc, char* argv[])
         "Determinant", 0, 1, "Humanize",
         [](QQmlEngine*, QJSEngine*) -> QObject* { return new Humanize(); });
 
-    ConnectionsManager connectionManager;
+    SecretsService secretsService;
+    ConnectionsManager connectionManager(&secretsService);
     connectionManager.load();
 
     QQuickView* view = SailfishApp::createView();

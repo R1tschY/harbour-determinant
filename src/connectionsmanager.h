@@ -7,10 +7,13 @@
 
 namespace Det {
 
+class SecretsService;
+
 class ConnectionsManager : public QObject {
     Q_OBJECT
 public:
-    explicit ConnectionsManager(QObject* parent = nullptr);
+    explicit ConnectionsManager(
+        SecretsService* secretsService, QObject* parent = nullptr);
     ~ConnectionsManager();
 
     /**
@@ -32,6 +35,7 @@ signals:
 
 private:
     QMatrixClient::Connection m_connection;
+    SecretsService* m_secretsService;
     int m_syncTimeout = 30 * 1000;
     int m_syncCounter = 0;
 

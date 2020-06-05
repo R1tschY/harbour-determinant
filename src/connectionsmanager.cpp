@@ -10,8 +10,9 @@ static Q_LOGGING_CATEGORY(logger, "determinant.conectionsmanager");
 
 static QString DEFAULT_HOME_SERVER = QStringLiteral("https://matrix.org");
 
-ConnectionsManager::ConnectionsManager(QObject* parent)
+ConnectionsManager::ConnectionsManager(SecretsService* secretsService, QObject* parent)
     : QObject(parent)
+    , m_secretsService(secretsService)
 {
     connect(
         &m_connection, &Connection::connected,

@@ -20,6 +20,7 @@ Builder: qmake5
 # This is the preferred way of specifying build dependencies for your package.
 PkgConfigBR:
   - sailfishapp >= 1.0.2
+  - sailfishsecrets
   - Qt5Core
   - Qt5Qml
   - Qt5Quick

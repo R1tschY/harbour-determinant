@@ -13,6 +13,9 @@
 TARGET = harbour-determinant
 
 CONFIG += sailfishapp
+CONFIG += link_pkgconfig
+
+PKGCONFIG += sailfishsecrets sailfishapp
 
 include(libquotient/libqmatrixclient.pri)
 
@@ -23,6 +26,7 @@ SOURCES += src/harbour-determinant.cpp \
     src/models/messagerenderer.cpp \
     src/models/roommembersmodel.cpp \
     src/quotientintegration.cpp \
+    src/secretsservice.cpp \
     src/store.cpp \
     src/models/roomeventsmodel.cpp \
     src/thumbnailprovider.cpp
@@ -68,6 +72,7 @@ HEADERS += \
     src/models/messagerenderer.h \
     src/models/roommembersmodel.h \
     src/quotientintegration.h \
+    src/secretsservice.h \
     src/store.h \
     src/models/roomeventsmodel.h \
     src/thumbnailprovider.h
