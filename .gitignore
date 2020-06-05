@@ -1,0 +1,7 @@
+*~
+*.bak
+
+# QtCreator
+*.pro.user
+*.pro.user.*
+*.autosave
