@@ -29,7 +29,7 @@ Page {
     Component {
         id: sectionHeader
         SectionHeader {
-            text: Humanize.formatDate(section)
+            text: humanize.formatDate(section)
             horizontalAlignment: Text.AlignHCenter
         }
     }
@@ -108,16 +108,20 @@ Page {
         onContentYChanged: {
             var item = eventListView.itemAt(0, contentY)
             if (item) {
-                sectionOverlay.text = Humanize.formatDate(item.modelSection)
+                sectionOverlay.text = humanize.formatDate(item.modelSection)
             }
 
             ensureHistoryContent()
         }
         onContentHeightChanged: ensureHistoryContent()
         Component.onCompleted: {
-            sectionOverlay.text = Humanize.formatDate(
-                eventListView.itemAt(0, contentY).modelSection)
+            // set inital section overlay
+            var item = eventListView.itemAt(0, contentY)
+            if (item) {
+                sectionOverlay.text = humanize.formatDate(item.modelSection)
+            }
 
+            // load history when needed
             if (eventListView.count < 21 && !noMoreContent)
                 currentRoom.getPreviousContent(21 - eventListView.count);
         }

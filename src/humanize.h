@@ -6,16 +6,31 @@
 class QString;
 class QDateTime;
 
-
 namespace Det {
 
-class Humanize : public QObject
-{
+class Humanize : public QObject {
     Q_OBJECT
+    Q_PROPERTY(TimeFormat timeFormat READ timeFormat WRITE setTimeFormat
+            NOTIFY timeFormatChanged)
 public:
-    Q_INVOKABLE static QString formatTime(const QTime& time);
-    Q_INVOKABLE static QString formatDate(const QDate& date);
-    Q_INVOKABLE static QString formatDateTime(const QDateTime& time);
+    enum TimeFormat : bool {
+        TimeFormat12Hours,
+        TimeFormat24Hours
+    };
+    Q_ENUM(TimeFormat)
+
+    Q_INVOKABLE QString formatTime(const QTime& time);
+    Q_INVOKABLE QString formatDate(const QDate& date);
+    Q_INVOKABLE QString formatDateTime(const QDateTime& time);
+
+    TimeFormat timeFormat() const { return m_timeFormat; }
+    void setTimeFormat(TimeFormat timeFormat);
+
+signals:
+    void timeFormatChanged();
+
+private:
+    TimeFormat m_timeFormat;
 };
 
 } // namespace Det

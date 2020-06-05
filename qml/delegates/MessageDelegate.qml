@@ -72,9 +72,9 @@ Item {
             x: Theme.paddingSmall
 
             text: ownMessage
-                  ? (Humanize.formatTime(time) + " • "
+                  ? (humanize.formatTime(time) + " • "
                      + formatEventStatus(eventStatus))
-                  : Humanize.formatTime(time)
+                  : humanize.formatTime(time)
             color: Theme.secondaryColor
             font.pixelSize: Theme.fontSizeSmall
             horizontalAlignment: Text.AlignRight

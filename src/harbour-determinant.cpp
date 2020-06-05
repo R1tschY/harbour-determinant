@@ -28,9 +28,7 @@ int main(int argc, char* argv[])
 
     qmlRegisterType<ChatsModel>("Determinant", 0, 1, "ChatsModel");
     qmlRegisterType<RoomEventsModel>("Determinant", 0, 1, "RoomEventsModel");
-    qmlRegisterSingletonType<Humanize>(
-        "Determinant", 0, 1, "Humanize",
-        [](QQmlEngine*, QJSEngine*) -> QObject* { return new Humanize(); });
+    qmlRegisterType<Humanize>("Determinant", 0, 1, "Humanize");
 
     SecretsService secretsService;
     ConnectionsManager connectionManager(&secretsService);
