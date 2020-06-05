@@ -48,7 +48,7 @@ Page {
             bottom: input.top
         }
 
-        //spacing: Theme.paddingMedium
+        spacing: Theme.paddingMedium
         verticalLayoutDirection: ListView.BottomToTop
         flickableDirection: Flickable.VerticalFlick
         quickScroll: false

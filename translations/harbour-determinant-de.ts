@@ -138,6 +138,10 @@
         <source>%1 created room</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>&lt;Unnamed user&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>RoomChatPage</name>

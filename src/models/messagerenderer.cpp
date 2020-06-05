@@ -14,15 +14,16 @@
 #include <events/simplestateevents.h>
 #include <room.h>
 #include <user.h>
+#include <util.h>
 
 namespace Det {
 
 using namespace QMatrixClient;
 
-static Q_LOGGING_CATEGORY(logger, "determinant.messagerenderer")
+static Q_LOGGING_CATEGORY(logger, "determinant.messagerenderer");
 
-    QString MessageRenderer::renderEventText(
-        bool isPending, const RoomEvent* event) const
+QString MessageRenderer::renderEventText(
+    bool isPending, const RoomEvent* event) const
 {
     if (event->isRedacted()) {
         QString reason = event->redactedBecause()->reason();
@@ -38,7 +39,7 @@ static Q_LOGGING_CATEGORY(logger, "determinant.messagerenderer")
         [this, isPending](const RoomMessageEvent& evt) {
             return renderMessageText(isPending, evt);
         },
-        [this, isPending](const RoomMemberEvent& evt) {
+        [this](const RoomMemberEvent& evt) {
             return renderMemberEvent(evt);
         },
         QString());
@@ -130,16 +131,18 @@ QString MessageRenderer::renderMessageText(
         QString mimeType = textContent->mimeType.name();
         if (mimeType == QStringLiteral("text/markdown")) {
             // TODO: cleanup HTML
+            // TODO: detect links
+            qDebug(logger) << "Markdown message: " << textContent->body;
             return renderMarkdown(textContent->body);
         }
         if (mimeType == QStringLiteral("text/html")) {
             // TODO: cleanup HTML
+            // TODO: detect links
+            qDebug(logger) << "HTML message: " << textContent->body;
             return textContent->body;
         }
 
-        QString text = textContent->body.toHtmlEscaped();
-        text.replace(QChar('\n'), QStringLiteral("<br/>"));
-        return text;
+        return prettyPrint(textContent->body);
     }
 
     case RoomMessageEvent::MsgType::Image:
@@ -159,25 +162,32 @@ QString MessageRenderer::renderMemberEvent(const RoomMemberEvent& event) const
 {
     QStringList messages;
 
-    QString member = event.displayName().toHtmlEscaped();
+    QString member = event.displayName();
     auto membership = event.membership();
     auto* prevContent = event.prevContent();
+
+    if (member.isEmpty()) {
+        if (prevContent && !prevContent->displayName.isEmpty()) {
+            member = prevContent->displayName;
+        } else {
+            member = tr("<Unnamed user>");
+        }
+    }
+
     if (!prevContent || membership != prevContent->membership) {
         // membership changed
         switch (membership) {
         case RoomMemberEvent::MembershipType::Join:
-            messages.append(tr("%1 has joined").arg(member));
-            break;
+            return tr("%1 has joined").arg(member);
         case RoomMemberEvent::MembershipType::Invite:
             messages.append(tr("%1 was invited").arg(member));
             break;
         case RoomMemberEvent::MembershipType::Ban:
-            messages.append(tr("%1 is banned").arg(member));
-            break;
+            return tr("%1 is banned").arg(member);
         case RoomMemberEvent::MembershipType::Leave:
             if (!prevContent
                 || prevContent->membership != RoomMemberEvent::MembershipType::Ban) {
-                messages.append(tr("%1 has left").arg(member));
+                return tr("%1 has left").arg(member);
             }
             break;
         case RoomMemberEvent::MembershipType::Knock:
@@ -217,7 +227,7 @@ QString MessageRenderer::renderMemberEvent(const RoomMemberEvent& event) const
         return QStringLiteral("No change detected");
     }
 
-    return messages.join(QStringLiteral("<br/>"));
+    return messages.join(QStringLiteral("\n"));
 }
 
 QString MessageRenderer::renderRoomCreated(const RoomCreateEvent& evt) const
@@ -280,6 +290,7 @@ QString MessageRenderer::getLastEvent() const
         if (isHidden(evt))
             continue;
 
+        // FIXME: only first line, no HTML
         if (m_room->isDirectChat() || evt->isStateEvent()) {
             return renderEventText(false, evt);
         } else {

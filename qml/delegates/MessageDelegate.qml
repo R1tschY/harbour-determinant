@@ -12,7 +12,7 @@ Item {
     Rectangle {
         anchors.fill: contentColumn
         color: Theme.primaryColor
-        opacity: 0.1
+        opacity: ownMessage ? 0.05 : 0.1
         radius: Theme.paddingSmall
     }
 
@@ -34,10 +34,10 @@ Item {
 
     Column {
         id: contentColumn
-        width: page.width * 0.8 - 2 * Theme.horizontalPageMargin
+        width: page.width * 0.8 - 2 * Theme.paddingMedium
         x: ownMessage
-            ? page.width * 0.2 + Theme.horizontalPageMargin
-            : Theme.horizontalPageMargin
+            ? page.width * 0.2 + Theme.paddingMedium
+            : Theme.paddingMedium
 
         Label {
             id: authorLabel
@@ -58,12 +58,14 @@ Item {
             width: parent.width - 2 * Theme.paddingSmall
             x: Theme.paddingSmall
 
-            text: display
-            textFormat: Text.StyledText
+            text: customMessageCss + display
+            textFormat: Text.RichText
+            font.pixelSize: Theme.fontSizeSmall
             color: Theme.primaryColor
             wrapMode: Text.Wrap
             horizontalAlignment: textAlign
-            linkColor: Theme.secondaryColor
+
+            onLinkActivated: page.openLink(link)
         }
 
         Label {

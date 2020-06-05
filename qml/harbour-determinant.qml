@@ -9,6 +9,11 @@ ApplicationWindow
     id: app
 
     property bool timeFormat24: timeFormatSetting.value === "24"
+    property string customMessageCss: getCustomMessageCss()
+
+    initialPage: Component { LoginPage { } }
+    cover: Qt.resolvedUrl("cover/CoverPage.qml")
+    allowedOrientations: defaultAllowedOrientations
 
     ConfigurationValue {
         id: timeFormatSetting
@@ -22,7 +27,10 @@ ApplicationWindow
             ? Humanize.TimeFormat24Hours : Humanize.TimeFormat12Hours
     }
 
-    initialPage: Component { LoginPage { } }
-    cover: Qt.resolvedUrl("cover/CoverPage.qml")
-    allowedOrientations: defaultAllowedOrientations
+    function getCustomMessageCss() {
+        return "<style>
+            a { color: " + Theme.highlightColor + "; }
+            code { font-size: " + Theme.fontSizeExtraSmall + "px; }
+        </style>"
+    }
 }

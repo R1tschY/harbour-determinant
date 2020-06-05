@@ -75,6 +75,7 @@ Page {
 
                 truncationMode: TruncationMode.Fade
                 text: lastEvent
+                textFormat: Text.StyledText
                 font.pixelSize: Theme.fontSizeSmall
                 color: delegate.highlighted
                        ? Theme.secondaryHighlightColor: Theme.secondaryColor
