@@ -90,7 +90,7 @@ QVariant RoomEventsModel::data(const QModelIndex& index, int role) const
         return renderer.getAuthorDisplayName(isPending, evt);
 
     case EventIdRole:
-        break;
+        return evt->id();
 
     case MatrixTypeRole:
         return evt->matrixType();
@@ -150,6 +150,18 @@ QVariant RoomEventsModel::data(const QModelIndex& index, int role) const
 
     case ContentJsonRole:
         return evt->contentJson();
+
+    case AuthorHueRole:
+        if (isPending) {
+            return 0.0; // TODO: m_room->localUser()->hueF();
+        } else if (!evt->senderId().isEmpty()) {
+            return 0.0; // TODO: m_room->user(evt->senderId())->hueF());
+    }
+        return 0.0;
+
+    case ReadMarkerRole:
+        // TODO: make it faster?
+        return m_room->readMarkerEventId() == evt->id();
     }
 
     return QVariant();
@@ -172,6 +184,8 @@ QHash<int, QByteArray> RoomEventsModel::roleNames() const
     roles.insert(AuthorDisplayNameRole, "authorDisplayName");
     roles.insert(ContentTypeRole, "contentType");
     roles.insert(ContentJsonRole, "contentJson");
+    roles.insert(AuthorHueRole, "authorHue");
+    roles.insert(ReadMarkerRole, "readMarker");
     return roles;
 }
 

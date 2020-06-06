@@ -39,6 +39,7 @@ Page {
             !currentRoom
             || !!currentRoom.eventsHistoryJob
             || !!currentRoom.allHistoryLoaded
+        property string showUnreadMarkerId: null
 
         id: eventListView
         anchors {
@@ -77,9 +78,12 @@ Page {
                 ListView.nextSection !== "" && ListView.nextSection !== ListView.section)
                 || model.index === eventListView.count - 1
 
-            contentHeight: contentLoader.y + contentLoader.height
+            contentHeight:
+                contentLoader.y + contentLoader.height +
+                (readMarker ? Theme.fontSizeSmall : 0)
 
             property var modelSection: listItem.ListView.section
+            property bool readMarker: eventListView.showUnreadMarkerId === eventId
 
             Loader {
                 id: sectionHeaderLoader
@@ -97,6 +101,27 @@ Page {
                    ? sectionHeaderLoader.y + sectionHeaderLoader.height
                    : 0
                 width: parent.width
+            }
+
+            Label {
+                id: unreadMarkerLabel
+                visible: readMarker
+                anchors {
+                    top: contentLoader.bottom
+                    horizontalCenter: parent.horizontalCenter
+                }
+
+                text: qsTr("Unread")
+                color: Theme.highlightColor
+                font.pixelSize: Theme.fontSizeExtraSmall
+
+                Rectangle {
+                    y: Theme.fontSizeSmall
+                    x: -unreadMarkerLabel.x + Theme.paddingMedium
+                    height: 1
+                    width: page.width - 2 * Theme.paddingMedium
+                    color: Theme.highlightBackgroundColor
+        }
             }
         }
 
@@ -124,6 +149,12 @@ Page {
             // load history when needed
             if (eventListView.count < 21 && !noMoreContent)
                 currentRoom.getPreviousContent(21 - eventListView.count);
+
+            // read marker
+            showUnreadMarkerId = currentRoom.readMarkerEventId
+            eventListView.positionViewAtIndex(
+                currentRoom.unreadCount - 1, ListView.End)
+            currentRoom.markAllMessagesAsRead()
         }
 
         Rectangle {
@@ -183,6 +214,7 @@ Page {
 
                 currentRoom.postPlainText(inputEdit.text.trim())
                 inputEdit.text = ""
+                eventListView.positionViewAtBeginning()
             }
         }
     }
