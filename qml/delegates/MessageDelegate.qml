@@ -78,7 +78,7 @@ Item {
                      + formatEventStatus(eventStatus))
                   : humanize.formatTime(time)
             color: Theme.secondaryColor
-            font.pixelSize: Theme.fontSizeSmall
+            font.pixelSize: Theme.fontSizeExtraSmall
             horizontalAlignment: Text.AlignRight
         }
     }

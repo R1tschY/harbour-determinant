@@ -15,8 +15,6 @@ Page {
 
         anchors.fill: parent
 
-        spacing: Theme.paddingMedium
-
         model: ChatsModel {
             connection: _connection
         }
@@ -28,23 +26,50 @@ Page {
         delegate: ListItem {
             id: delegate
 
-            height: Theme.itemSizeSmall
-            width: parent.width
+            contentHeight: Theme.itemSizeSmall + 2 * Theme.paddingSmall
+            x: Theme.paddingMedium
+            width: parent.width - Theme.paddingMedium
+
+            Rectangle {
+                id: unreadLabel
+
+                anchors {
+                    left: parent.left
+                    top: parent.top
+                    topMargin: Theme.paddingSmall
+                }
+
+                radius: Theme.paddingSmall
+                color: Theme.highlightBackgroundColor
+                visible: unreadCount > 0
+                width: unreadLabelText.contentWidth + 2 * Theme.paddingSmall
+                height: unreadLabelText.contentHeight
+
+                Label {
+                    id: unreadLabelText
+                    x: Theme.paddingSmall
+
+                    truncationMode: TruncationMode.Fade
+                    font.weight: Font.Bold
+                    text: unreadCount
+                    color: Theme.primaryColor
+                }
+            }
 
             Label {
                 id: nameLabel
                 anchors {
-                    top: parent.top
-                    left: parent.left
-                    leftMargin: Theme.horizontalPageMargin
+                    left: unreadLabel.visible ? unreadLabel.right : parent.left
+                    leftMargin: unreadLabel.visible ? Theme.paddingSmall : 0
                     right: dateLabel.left
                     rightMargin: Theme.paddingMedium
+                    top: parent.top
+                    topMargin: Theme.paddingSmall
                 }
 
+                textFormat: Text.PlainText
                 truncationMode: TruncationMode.Fade
-                text: unreadCount > 0
-                      ? "<b>%1</b> %2".arg(unreadCount).arg(displayname)
-                      : displayname
+                text: displayname
                 color: delegate.highlighted
                        ? Theme.highlightColor : Theme.primaryColor
             }
@@ -52,7 +77,6 @@ Page {
             Label {
                 id: dateLabel
                 anchors {
-                    top: parent.top
                     right: parent.right
                     rightMargin: Theme.paddingMedium
                 }
@@ -67,10 +91,10 @@ Page {
             Label {
                 id: messageLabel
                 anchors {
-                    top: nameLabel.bottom
                     left: parent.left
-                    leftMargin: Theme.horizontalPageMargin
+                    top: nameLabel.bottom
                     right: parent.right
+                    bottom: parent.bottom
                 }
 
                 truncationMode: TruncationMode.Fade

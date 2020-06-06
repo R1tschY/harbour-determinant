@@ -18,6 +18,20 @@ Page {
         return "../delegates/MessageDelegate.qml"
     }
 
+    function openLink(url) {
+        if (url.match(/^(@|https:\/\/matrix.to\/#\/@|matrix:user\/)/)) {
+
+        } else if (url.match(/^(?:https?:\/\/|mailto:)/)) {
+            // TODO: open Page to show URL and confirm
+            // TODO: detect: https://matrix.to/#/@USER:SERVER
+            // TODO: detect: https://matrix.to/#/!qcAsnnvBmpOPQJqViM:matrix.org/$-a8TY2U6FadTq3TP8rU6-NIDrhpxvglMl-egCfaaQvM?via=matrix.org
+            console.info("open link external: " + url)
+            Qt.openUrlExternally(url)
+        } else {
+            console.info("unknown scheme in URL: " + url)
+        }
+    }
+
     onStatusChanged: {
         if (status === PageStatus.Active && !pageStack.nextPage(page)) {
             pageStack.pushAttached(
@@ -121,7 +135,7 @@ Page {
                     height: 1
                     width: page.width - 2 * Theme.paddingMedium
                     color: Theme.highlightBackgroundColor
-        }
+                }
             }
         }
 

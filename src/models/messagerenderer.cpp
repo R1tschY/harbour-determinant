@@ -278,6 +278,34 @@ bool MessageRenderer::isPendingHidden(const PendingEventItem* evt) const
     return evt->deliveryStatus() & EventStatus::Hidden;
 }
 
+static QString extractPreview(const QString& messageHtml)
+{
+    static QRegularExpression brRe("<br\\s*/?>", QRegularExpression::OptimizeOnFirstUsageOption);
+    static QRegularExpression tagRe("<[^>]*>", QRegularExpression::OptimizeOnFirstUsageOption);
+
+    QString result = messageHtml;
+
+    // remove <mx-reply>*</mx-reply>
+    if (messageHtml.startsWith(QStringLiteral("<mx-reply>"))) {
+        int index = messageHtml.indexOf(QStringLiteral("</mx-reply>"));
+        if (index >= 0) {
+            result.remove(0, index + QStringLiteral("</mx-reply>").length());
+        }
+    }
+
+    // remove <br> and everything after it
+    QRegularExpressionMatch brMatch = brRe.match(messageHtml);
+    if (brMatch.hasMatch()) {
+        int start = brMatch.capturedStart();
+        result.truncate(start);
+    }
+
+    // remove every HTML tag
+    result.replace(tagRe, QString());
+
+    return result;
+}
+
 QString MessageRenderer::getLastEvent() const
 {
     auto begin = m_room->messageEvents().crbegin();
@@ -291,14 +319,16 @@ QString MessageRenderer::getLastEvent() const
             continue;
 
         // FIXME: only first line, no HTML
-        if (m_room->isDirectChat() || evt->isStateEvent()) {
-            return renderEventText(false, evt);
+        if (m_room->isDirectChat()) {
+            return extractPreview(renderEventText(false, evt));
+        } else if (evt->isStateEvent()) {
+            return QStringLiteral("<i>") % extractPreview(renderEventText(false, evt)) % QStringLiteral("</i>");
         } else {
             const User* user = m_room->user(evt->senderId());
             return QStringLiteral("<b>")
                 % m_room->roomMembername(user)
                 % QStringLiteral("</b>: ")
-                % renderEventText(false, evt);
+                % extractPreview(renderEventText(false, evt));
         }
     }
 

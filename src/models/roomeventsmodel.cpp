@@ -62,9 +62,9 @@ QVariant RoomEventsModel::data(const QModelIndex& index, int role) const
 
     bool isPending = row < m_pendingEvents;
 
-    const RoomEvent* evt;
-    const PendingEventItem* pendingEvt;
-    const TimelineItem* timelineEvt;
+    const RoomEvent* evt = nullptr;
+    const PendingEventItem* pendingEvt = nullptr;
+    const TimelineItem* timelineEvt = nullptr;
     if (isPending) {
         auto& evtRef = *(
             m_room->pendingEvents().crbegin() + row);
@@ -131,7 +131,7 @@ QVariant RoomEventsModel::data(const QModelIndex& index, int role) const
             ? pendingEvt->lastUpdated().time()
             : evt->timestamp().time();
 
-    case DateRole:       
+    case DateRole:
         return isPending
             ? pendingEvt->lastUpdated().date()
             : evt->timestamp().date();
@@ -156,7 +156,7 @@ QVariant RoomEventsModel::data(const QModelIndex& index, int role) const
             return 0.0; // TODO: m_room->localUser()->hueF();
         } else if (!evt->senderId().isEmpty()) {
             return 0.0; // TODO: m_room->user(evt->senderId())->hueF());
-    }
+        }
         return 0.0;
 
     case ReadMarkerRole:
@@ -198,7 +198,8 @@ void RoomEventsModel::onBeginInsertMessages(RoomEventsRange events)
 {
     Q_ASSERT(events.size() > 0);
 
-    beginInsertRows({}, m_pendingEvents, m_pendingEvents + events.size() - 1);
+    beginInsertRows(
+        {}, m_pendingEvents, m_pendingEvents + int(events.size()) - 1);
 }
 
 void RoomEventsModel::onBeginInsertOldMessages(RoomEventsRange events)
@@ -206,7 +207,7 @@ void RoomEventsModel::onBeginInsertOldMessages(RoomEventsRange events)
     Q_ASSERT(events.size() > 0);
 
     int size = m_room->timelineSize() + m_pendingEvents;
-    beginInsertRows({}, size, size + events.size() - 1);
+    beginInsertRows({}, size, size + int(events.size()) - 1);
 }
 
 void RoomEventsModel::onBeginSyncMessage(int i)
@@ -322,7 +323,7 @@ void RoomEventsModel::setRoom(QMatrixClient::Room* room)
         connect(m_room, &Room::pendingEventChanged,
             this, [this](int i) { updateRow(i); });
 
-        m_pendingEvents = m_room->pendingEvents().size();
+        m_pendingEvents = int(m_room->pendingEvents().size());
     } else {
         m_pendingEvents = 0;
     }
