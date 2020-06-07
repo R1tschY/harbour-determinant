@@ -3,8 +3,8 @@
 #include <QDebug>
 #include <algorithm>
 
-#include <util.h>
 #include "messagerenderer.h"
+#include <util.h>
 
 namespace Det {
 
@@ -21,7 +21,7 @@ int ChatsModel::rowCount(const QModelIndex& parent) const
     if (parent.isValid())
         return 0;
 
-    return m_rooms.size();
+    return rows();
 }
 
 QVariant ChatsModel::data(const QModelIndex& index, int role) const
@@ -29,16 +29,16 @@ QVariant ChatsModel::data(const QModelIndex& index, int role) const
     if (!index.isValid())
         return QVariant();
 
-    if (index.row() >= int(m_rooms.size()))
+    if (index.row() >= rows())
         return QVariant();
 
-    Room* room = m_rooms[index.row()];
+    Room* room = m_rooms[size_t(index.row())];
     MessageRenderer renderer(room);
 
     switch (role) {
     case DisplayNameRole:
         return room->displayName();
-    case ImageRole:
+    case AvatarRole:
         return room->avatarMediaId();
     case UnreadCountRole:
         return room->unreadCount();
@@ -52,6 +52,8 @@ QVariant ChatsModel::data(const QModelIndex& index, int role) const
         return renderer.getLastActivity();
     case RoomRole:
         return QVariant::fromValue(room);
+    case RoomIdRole:
+        return room->id();
     }
 
     return QVariant();
@@ -102,7 +104,7 @@ void ChatsModel::onNewRoom(Room* room)
     Q_ASSERT(room != nullptr);
     qDebug() << room->displayName();
 
-    beginInsertRows(QModelIndex(), m_rooms.size(), m_rooms.size());
+    beginInsertRows(QModelIndex(), int(m_rooms.size()), int(m_rooms.size()));
     addRoom(room);
     endInsertRows();
 }
@@ -111,9 +113,9 @@ void ChatsModel::onDeleteRoom(Room* room)
 {
     qDebug() << room->displayName();
 
-    size_t i = indexOfRoom(room);
-    Q_ASSERT(i != m_rooms.size());
-    if (i != m_rooms.size()) {
+    int i = indexOfRoom(room);
+    Q_ASSERT(i != rows());
+    if (i != rows()) {
         beginRemoveRows(QModelIndex(), i, i);
         m_rooms.erase(m_rooms.cbegin() + i);
         endRemoveRows();
@@ -124,24 +126,24 @@ void ChatsModel::onRoomChanged(Room* room, const QVector<int>& roles)
 {
     qDebug() << room->displayName();
 
-    size_t i = indexOfRoom(room);
-    Q_ASSERT(i != m_rooms.size());
-    if (i != m_rooms.size()) {
+    int i = indexOfRoom(room);
+    Q_ASSERT(i != rows());
+    if (i != rows()) {
         emit dataChanged(index(i), index(i), roles);
     }
 }
 
-void ChatsModel::onRoomMessage(Room *room)
+void ChatsModel::onRoomMessage(Room* room)
 {
     onRoomChanged(room, { LastEventRole, LastActivityRole });
 }
 
-size_t ChatsModel::indexOfRoom(Room* room) const
+int ChatsModel::indexOfRoom(Room* room) const
 {
     Q_ASSERT(room != nullptr);
 
     return std::distance(
-                m_rooms.begin(), std::find(m_rooms.begin(), m_rooms.end(), room));
+        m_rooms.begin(), std::find(m_rooms.begin(), m_rooms.end(), room));
 }
 
 void ChatsModel::addRoom(Room* room)
@@ -165,7 +167,7 @@ void ChatsModel::connectToRoom(Room* room)
     //connect(room, &Room::joinStateChanged,
     //        this, [=]{ onRoomChanged(room, {}); });
     connect(room, &Room::avatarChanged,
-        this, [=] { onRoomChanged(room, { ImageRole }); });
+        this, [=] { onRoomChanged(room, { AvatarRole }); });
     connect(room, &Room::unreadMessagesChanged,
         this, [=] { onRoomChanged(room, { UnreadCountRole }); });
     connect(room, &Room::notificationCountChanged,
@@ -185,14 +187,15 @@ void ChatsModel::connectToRoom(Room* room)
 QHash<int, QByteArray> ChatsModel::roleNames() const
 {
     QHash<int, QByteArray> roles;
-    roles.insert(DisplayNameRole, "displayname");
-    roles.insert(ImageRole, "avatar");
+    roles.insert(DisplayNameRole, "displayName");
+    roles.insert(AvatarRole, "avatar");
     roles.insert(UnreadCountRole, "unreadCount");
     roles.insert(NotificationsCountRole, "notificationCount");
     roles.insert(HighlightsCountRole, "highlightCount");
     roles.insert(LastEventRole, "lastEvent");
     roles.insert(LastActivityRole, "lastActivity");
     roles.insert(RoomRole, "room");
+    roles.insert(RoomIdRole, "roomId");
     return roles;
 }
 

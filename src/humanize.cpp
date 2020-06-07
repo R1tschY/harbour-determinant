@@ -1,6 +1,7 @@
 #include "humanize.h"
 
 #include <QCoreApplication>
+#include <QCryptographicHash>
 #include <QDateTime>
 
 namespace Det {
@@ -55,6 +56,15 @@ void Humanize::setTimeFormat(TimeFormat timeFormat)
 
     m_timeFormat = timeFormat;
     emit timeFormatChanged();
+}
+
+// TODO: move to customized Room/User
+qreal Humanize::stringToHue(const QString& str)
+{
+    QByteArray hash = QCryptographicHash::hash(str.toUtf8(),
+        QCryptographicHash::Sha1);
+    quint16 hashValue = quint16(hash[0] | hash[1] << 8);
+    return qreal(hashValue) / std::numeric_limits<quint16>::max();
 }
 
 } // namespace Det

@@ -32,10 +32,6 @@
         <source>Media id `%1` does not have expected pattern: server/id</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>Thumbnail request was canceled</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>LoginPage</name>
@@ -147,6 +143,10 @@
     <name>RoomChatPage</name>
     <message>
         <source>Message</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unread</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

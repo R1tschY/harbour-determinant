@@ -17,6 +17,7 @@
 #include "quotientintegration.h"
 #include "secretsservice.h"
 #include "store.h"
+#include "thumbnailprovider.h"
 
 int main(int argc, char* argv[])
 {
@@ -38,6 +39,10 @@ int main(int argc, char* argv[])
 
     QQmlContext* ctx = view->rootContext();
     ctx->setContextProperty("connection", connectionManager.connection());
+
+    view->engine()->addImageProvider(
+        QStringLiteral("mtx"),
+        new ThumbnailProvider(connectionManager.connection(), view));
 
     view->setSource(SailfishApp::pathToMainQml());
     view->showFullScreen();

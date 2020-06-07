@@ -20,13 +20,14 @@ class ChatsModel : public QAbstractListModel {
 
     enum {
         DisplayNameRole = Qt::DisplayRole,
-        ImageRole = Qt::DecorationRole,
+        AvatarRole = Qt::DecorationRole,
         UnreadCountRole = Qt::UserRole,
         NotificationsCountRole,
         HighlightsCountRole,
         LastEventRole,
         LastActivityRole,
         RoomRole,
+        RoomIdRole,
     };
 
 public:
@@ -55,9 +56,10 @@ private:
 
     void onRoomMessage(QMatrixClient::Room* room);
 
-    size_t indexOfRoom(QMatrixClient::Room* room) const;
+    int indexOfRoom(QMatrixClient::Room* room) const;
 
     std::vector<QMatrixClient::Room*> m_rooms;
+    int rows() const { return int(m_rooms.size()); }
 };
 
 } // namespace Det
