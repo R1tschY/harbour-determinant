@@ -22,7 +22,7 @@ Page {
         }
 
         header: PageHeader {
-            title: qsTr("Chats")
+            title: qsTr("Rooms")
         }
 
         delegate: ListItem {
@@ -43,6 +43,7 @@ Page {
                 mediaId: avatar
                 itemName: displayName
                 itemId: roomId
+                size: Theme.itemSizeSmall
             }
 
             Rectangle {

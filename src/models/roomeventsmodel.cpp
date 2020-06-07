@@ -162,7 +162,7 @@ QVariant RoomEventsModel::data(const QModelIndex& index, int role) const
     case ReadMarkerRole:
         // TODO: make it faster?
         return m_room->readMarkerEventId() == evt->id();
-    }
+    };
 
     return QVariant();
 }

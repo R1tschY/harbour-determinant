@@ -2,6 +2,7 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 import Quotient 0.5
 import Determinant 0.1
+import "../components"
 
 Item {
     property int textAlign: ownMessage ? Text.AlignRight : Text.AlignLeft
@@ -11,6 +12,7 @@ Item {
 
     Rectangle {
         anchors.fill: contentColumn
+
         color: Theme.primaryColor
         opacity: ownMessage ? 0.05 : 0.1
         radius: Theme.paddingSmall
@@ -32,12 +34,33 @@ Item {
         return "◌"
     }
 
+    Avatar {
+        id: avatarThumbnail
+
+        anchors {
+            left: contentColumn.right
+            leftMargin: Theme.paddingSmall
+        }
+
+        size: Theme.iconSizeMedium
+        mediaId: author.avatarMediaId
+        itemName: author.name
+        itemId: author.id
+    }
+
     Column {
+        property int maxWidth: page.width - Theme.iconSizeMedium - 3 * Theme.paddingMedium
+
         id: contentColumn
-        width: page.width * 0.8 - 2 * Theme.paddingMedium
-        x: ownMessage
-            ? page.width * 0.2 + Theme.paddingMedium
-            : Theme.paddingMedium
+        width: Math.min(Math.max(
+            messageLabel.implicitWidth, timeLabel.implicitWidth,
+            authorLabel.implicitWidth) + 2 * Theme.paddingSmall, maxWidth)
+        anchors {
+            left: ownMessage ? undefined : parent.left
+            right: ownMessage ? parent.right: undefined
+            leftMargin: Theme.paddingMedium
+            rightMargin: Theme.paddingMedium
+        }
 
         Label {
             id: authorLabel
@@ -79,7 +102,7 @@ Item {
                   : humanize.formatTime(time)
             color: Theme.secondaryColor
             font.pixelSize: Theme.fontSizeExtraSmall
-            horizontalAlignment: Text.AlignRight
+            horizontalAlignment: textAlign
         }
     }
 }

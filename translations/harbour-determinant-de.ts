@@ -215,7 +215,7 @@
 <context>
     <name>RoomListPage</name>
     <message>
-        <source>Chats</source>
+        <source>Rooms</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

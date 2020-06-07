@@ -85,7 +85,7 @@ SilicaListView {
     }
 
     Rectangle {
-        color: Theme.primaryColor
+        color: Theme.highlightBackgroundColor
         opacity: 0.8
         width: Theme.itemSizeExtraLarge
         height: sectionOverlay.contentHeight
@@ -99,7 +99,7 @@ SilicaListView {
             width: parent.width
 
             horizontalAlignment: Text.AlignHCenter
-            color: Theme.highlightColor
+            color: Theme.primaryColor
             y: Theme.paddingMedium
             font.pixelSize: Theme.fontSizeSmall
         }

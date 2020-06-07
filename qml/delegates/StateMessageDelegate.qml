@@ -11,7 +11,7 @@ Column {
         x: Theme.horizontalPageMargin
         text: display
         textFormat: Text.PlainText
-        font.pixelSize: Theme.fontSizeSmall
+        font.pixelSize: Theme.fontSizeExtraSmall
         color: Theme.secondaryColor
         wrapMode: Text.Wrap
         horizontalAlignment: Text.AlignHCenter

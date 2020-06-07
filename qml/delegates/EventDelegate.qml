@@ -11,7 +11,7 @@ ListItem {
 
     property bool sectionBoundary: (
         ListView.nextSection !== "" && ListView.nextSection !== ListView.section)
-        || model.index === eventListView.count - 1
+        || model.index === eventsView.count - 1
 
     contentHeight:
         contentLoader.y + contentLoader.height +
@@ -19,7 +19,7 @@ ListItem {
 
     property var modelSection: listItem.ListView.section
     property bool readMarker:
-        eventListView.showUnreadMarkerId === eventId
+        eventsView.showUnreadMarkerId === eventId
 
     Loader {
         id: sectionHeaderLoader
