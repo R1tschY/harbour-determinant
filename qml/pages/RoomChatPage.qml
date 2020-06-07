@@ -53,7 +53,7 @@ Page {
             !currentRoom
             || !!currentRoom.eventsHistoryJob
             || !!currentRoom.allHistoryLoaded
-        property string showUnreadMarkerId: null
+        property string showUnreadMarkerId: "<???>"
 
         id: eventListView
         anchors {
@@ -97,7 +97,8 @@ Page {
                 (readMarker ? Theme.fontSizeSmall : 0)
 
             property var modelSection: listItem.ListView.section
-            property bool readMarker: eventListView.showUnreadMarkerId === eventId
+            property bool readMarker:
+                eventListView.showUnreadMarkerId === eventId
 
             Loader {
                 id: sectionHeaderLoader
@@ -165,7 +166,12 @@ Page {
                 currentRoom.getPreviousContent(21 - eventListView.count);
 
             // read marker
-            showUnreadMarkerId = currentRoom.readMarkerEventId
+            if (currentRoom.unreadCount >= 0) {
+                showUnreadMarkerId = currentRoom.readMarkerEventId
+            } else {
+                showUnreadMarkerId = "<???>"
+            }
+
             eventListView.positionViewAtIndex(
                 currentRoom.unreadCount - 1, ListView.End)
             currentRoom.markAllMessagesAsRead()
