@@ -47,12 +47,12 @@ int RoomEventsModel::rowCount(const QModelIndex& parent) const
     return m_room->timelineSize() + m_pendingEvents;
 }
 
-QVariant RoomEventsModel::data(const QModelIndex& index, int role) const
+QVariant RoomEventsModel::data(const QModelIndex& idx, int role) const
 {
-    if (!m_room || !index.isValid())
+    if (!m_room || !idx.isValid())
         return QVariant();
 
-    int row = index.row();
+    int row = idx.row();
     if (row > m_room->timelineSize() + m_pendingEvents)
         return QVariant();
 
@@ -151,17 +151,33 @@ QVariant RoomEventsModel::data(const QModelIndex& index, int role) const
     case ContentJsonRole:
         return evt->contentJson();
 
-    case AuthorHueRole:
-        if (isPending) {
-            return 0.0; // TODO: m_room->localUser()->hueF();
-        } else if (!evt->senderId().isEmpty()) {
-            return 0.0; // TODO: m_room->user(evt->senderId())->hueF());
-        }
-        return 0.0;
-
     case ReadMarkerRole:
-        // TODO: make it faster?
         return m_room->readMarkerEventId() == evt->id();
+
+    case ShowAuthorRole: {
+        if (isPending) {
+            return true;
+        }
+
+        QModelIndex nextRow;
+        int rows = m_room->timelineSize() + m_pendingEvents;
+        for (auto r = row + 1; r < rows; ++r) {
+            nextRow = index(r);
+            if (!data(nextRow, HiddenRole).toBool()) {
+                break;
+            }
+        }
+
+        if (!nextRow.isValid()) {
+            return true;
+        }
+
+        if (data(nextRow, EventTypeRole) == QStringLiteral("state")) {
+            return true;
+        }
+
+        return data(idx, AuthorRole) != data(nextRow, AuthorRole);
+    }
     };
 
     return QVariant();
@@ -184,8 +200,8 @@ QHash<int, QByteArray> RoomEventsModel::roleNames() const
     roles.insert(AuthorDisplayNameRole, "authorDisplayName");
     roles.insert(ContentTypeRole, "contentType");
     roles.insert(ContentJsonRole, "contentJson");
-    roles.insert(AuthorHueRole, "authorHue");
     roles.insert(ReadMarkerRole, "readMarker");
+    roles.insert(ShowAuthorRole, "showAuthor");
     return roles;
 }
 

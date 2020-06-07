@@ -10,13 +10,13 @@ Item {
     width: contentColumn.width
     height: contentColumn.height
 
-    Rectangle {
-        anchors.fill: contentColumn
+//    Rectangle {
+//        anchors.fill: contentColumn
 
-        color: Theme.primaryColor
-        opacity: ownMessage ? 0.05 : 0.1
-        radius: Theme.paddingSmall
-    }
+//        color: Theme.primaryColor
+//        opacity: ownMessage ? 0.05 : 0.1
+//        radius: Theme.paddingSmall
+//    }
 
     function formatEventStatus(eventStatus) {
         if (eventStatus & EventStatus.Redacted) {
@@ -38,14 +38,15 @@ Item {
         id: avatarThumbnail
 
         anchors {
-            left: contentColumn.right
-            leftMargin: Theme.paddingSmall
+            left: parent.left
+            leftMargin: Theme.paddingMedium
         }
 
         size: Theme.iconSizeMedium
         mediaId: author.avatarMediaId
         itemName: author.name
         itemId: author.id
+        visible: showAuthor
     }
 
     Column {
@@ -58,7 +59,7 @@ Item {
         anchors {
             left: ownMessage ? undefined : parent.left
             right: ownMessage ? parent.right: undefined
-            leftMargin: Theme.paddingMedium
+            leftMargin: 2 * Theme.paddingMedium + Theme.iconSizeMedium
             rightMargin: Theme.paddingMedium
         }
 
@@ -70,10 +71,15 @@ Item {
             text: authorDisplayName
             textFormat: Text.PlainText
             font.pixelSize: Theme.fontSizeSmall
-            color: Theme.secondaryColor
+            font.bold: true
+            color: stringToColour(author.id)
             horizontalAlignment: Text.AlignLeft
             elide: Text.ElideMiddle
-            visible: !ownMessage
+            visible: !ownMessage && showAuthor
+
+            function stringToColour(str) {
+                return Qt.hsla(humanize.stringToHue(str), 0.5, 0.5, 1.0)
+            }
         }
 
         Label {
