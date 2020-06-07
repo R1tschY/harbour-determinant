@@ -11,7 +11,7 @@ ApplicationWindow
     property bool timeFormat24: timeFormatSetting.value === "24"
     property string customMessageCss: getCustomMessageCss()
 
-    initialPage: Component { LoginPage { } }
+    initialPage: Component { StartupPage { } }
     cover: Qt.resolvedUrl("cover/CoverPage.qml")
     allowedOrientations: defaultAllowedOrientations
 

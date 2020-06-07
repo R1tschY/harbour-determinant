@@ -38,6 +38,7 @@ DISTFILES += qml/harbour-determinant.qml \
     qml/delegates/StateMessageDelegate.qml \
     qml/pages/LoginPage.qml \
     qml/pages/RoomDetailsPage.qml \
+    qml/pages/StartupPage.qml \
     rpm/harbour-determinant.changes.in \
     rpm/harbour-determinant.changes.run.in \
     rpm/harbour-determinant.spec \

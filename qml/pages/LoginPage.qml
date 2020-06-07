@@ -37,16 +37,6 @@ Page {
         timer.start();
     }
 
-    Component.onCompleted: {
-        console.log(connection.localUserId)
-        if (connection.localUserId) {
-            delay(100,
-                  function() {
-                      pageStack.replace(Qt.resolvedUrl("RoomListPage.qml"))
-                  })
-        }
-    }
-
     function login(user, pass, server) {
         if (!server) server = "https://matrix.org"
         connection.setHomeserver(server)
