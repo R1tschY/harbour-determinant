@@ -2,6 +2,7 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 import Determinant 0.1
 import QtGraphicalEffects 1.0
+import "../components"
 
 Page {
     id: page
@@ -31,51 +32,17 @@ Page {
             x: Theme.paddingMedium
             width: parent.width - Theme.paddingMedium
 
-            Rectangle {
+            Avatar {
                 id: roomThumbnail
                 anchors {
                     left: parent.left
                     top: parent.top
                     topMargin: Theme.paddingSmall
                 }
-                color: stringToColour(roomId)
-                radius: Theme.paddingSmall
-                width: Theme.itemSizeSmall
-                height: Theme.itemSizeSmall
 
-                function stringToColour(str) {
-                    return Qt.hsla(humanize.stringToHue(str), 0.5, 0.4, 1)
-                }
-
-                Label {
-                    anchors {
-                        verticalCenter: parent.verticalCenter
-                        horizontalCenter: parent.horizontalCenter
-                    }
-
-                    visible: !avatar
-                    text: displayName.charAt(0).toUpperCase()
-                    font.pixelSize: roomThumbnail.height * 0.7
-                }
-
-                Image {
-                    id: avatarImage
-                    visible: !!avatar
-                    width: Theme.itemSizeSmall
-                    height: Theme.itemSizeSmall
-
-                    source: "image://mtx/" + avatar
-                    sourceSize: Qt.size(Theme.itemSizeSmall, Theme.itemSizeSmall)
-
-                    fillMode: Image.PreserveAspectCrop
-                }
-
-//                OpacityMask {
-//                    visible: !!avatar
-//                    anchors.fill: bug
-//                    source: avatarImage
-//                    maskSource: roomThumbnail
-//                }
+                mediaId: avatar
+                itemName: displayName
+                itemId: roomId
             }
 
             Rectangle {
@@ -156,7 +123,7 @@ Page {
             }
 
             onClicked: pageStack.push(
-                           Qt.resolvedUrl("RoomChatPage.qml"),
+                           Qt.resolvedUrl("RoomPage.qml"),
                            { currentRoom: room })
         }
 

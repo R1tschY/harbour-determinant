@@ -34,9 +34,23 @@
     </message>
 </context>
 <context>
+    <name>EventDelegate</name>
+    <message>
+        <source>Unread</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>LoginPage</name>
     <message>
         <source>Matrix Login</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>MessageInput</name>
+    <message>
+        <source>Message</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -136,17 +150,6 @@
     </message>
     <message>
         <source>&lt;Unnamed user&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>RoomChatPage</name>
-    <message>
-        <source>Message</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Unread</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

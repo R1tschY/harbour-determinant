@@ -1,4 +1,4 @@
-#include "chatsmodel.h"
+#include "roomlistmodel.h"
 
 #include <QDebug>
 #include <algorithm>
@@ -11,12 +11,12 @@ namespace Det {
 using namespace QMatrixClient;
 using namespace Det;
 
-ChatsModel::ChatsModel(QObject* parent)
+RoomListModel::RoomListModel(QObject* parent)
     : QAbstractListModel(parent)
 {
 }
 
-int ChatsModel::rowCount(const QModelIndex& parent) const
+int RoomListModel::rowCount(const QModelIndex& parent) const
 {
     if (parent.isValid())
         return 0;
@@ -24,7 +24,7 @@ int ChatsModel::rowCount(const QModelIndex& parent) const
     return rows();
 }
 
-QVariant ChatsModel::data(const QModelIndex& index, int role) const
+QVariant RoomListModel::data(const QModelIndex& index, int role) const
 {
     if (!index.isValid())
         return QVariant();
@@ -59,12 +59,12 @@ QVariant ChatsModel::data(const QModelIndex& index, int role) const
     return QVariant();
 }
 
-Connection* ChatsModel::connection() const
+Connection* RoomListModel::connection() const
 {
     return m_connection;
 }
 
-void ChatsModel::setConnection(Connection* connection)
+void RoomListModel::setConnection(Connection* connection)
 {
     if (m_connection == connection)
         return;
@@ -85,9 +85,9 @@ void ChatsModel::setConnection(Connection* connection)
         connect(m_connection, &Connection::loggedOut,
             this, [=] { setConnection(nullptr); });
         connect(m_connection, &Connection::newRoom,
-            this, &ChatsModel::onNewRoom);
+            this, &RoomListModel::onNewRoom);
         connect(m_connection, &Connection::aboutToDeleteRoom,
-            this, &ChatsModel::onDeleteRoom);
+            this, &RoomListModel::onDeleteRoom);
 
         qDebug() << connection->roomMap().size() << connection->directChats().size();
         for (Room* room : connection->roomMap())
@@ -99,7 +99,7 @@ void ChatsModel::setConnection(Connection* connection)
     emit connectionChanged();
 }
 
-void ChatsModel::onNewRoom(Room* room)
+void RoomListModel::onNewRoom(Room* room)
 {
     Q_ASSERT(room != nullptr);
     qDebug() << room->displayName();
@@ -109,7 +109,7 @@ void ChatsModel::onNewRoom(Room* room)
     endInsertRows();
 }
 
-void ChatsModel::onDeleteRoom(Room* room)
+void RoomListModel::onDeleteRoom(Room* room)
 {
     qDebug() << room->displayName();
 
@@ -122,7 +122,7 @@ void ChatsModel::onDeleteRoom(Room* room)
     }
 }
 
-void ChatsModel::onRoomChanged(Room* room, const QVector<int>& roles)
+void RoomListModel::onRoomChanged(Room* room, const QVector<int>& roles)
 {
     qDebug() << room->displayName();
 
@@ -133,12 +133,12 @@ void ChatsModel::onRoomChanged(Room* room, const QVector<int>& roles)
     }
 }
 
-void ChatsModel::onRoomMessage(Room* room)
+void RoomListModel::onRoomMessage(Room* room)
 {
     onRoomChanged(room, { LastEventRole, LastActivityRole });
 }
 
-int ChatsModel::indexOfRoom(Room* room) const
+int RoomListModel::indexOfRoom(Room* room) const
 {
     Q_ASSERT(room != nullptr);
 
@@ -146,7 +146,7 @@ int ChatsModel::indexOfRoom(Room* room) const
         m_rooms.begin(), std::find(m_rooms.begin(), m_rooms.end(), room));
 }
 
-void ChatsModel::addRoom(Room* room)
+void RoomListModel::addRoom(Room* room)
 {
     qDebug() << room->displayName();
     Q_ASSERT(room != nullptr);
@@ -157,7 +157,7 @@ void ChatsModel::addRoom(Room* room)
     }
 }
 
-void ChatsModel::connectToRoom(Room* room)
+void RoomListModel::connectToRoom(Room* room)
 {
     qDebug() << room->displayName();
     Q_ASSERT(room != nullptr);
@@ -184,7 +184,7 @@ void ChatsModel::connectToRoom(Room* room)
         this, [=] { onRoomMessage(room); });
 }
 
-QHash<int, QByteArray> ChatsModel::roleNames() const
+QHash<int, QByteArray> RoomListModel::roleNames() const
 {
     QHash<int, QByteArray> roles;
     roles.insert(DisplayNameRole, "displayName");

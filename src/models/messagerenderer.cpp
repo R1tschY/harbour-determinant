@@ -132,13 +132,10 @@ QString MessageRenderer::renderMessageText(
         if (mimeType == QStringLiteral("text/markdown")) {
             // TODO: cleanup HTML
             // TODO: detect links
-            qDebug(logger) << "Markdown message: " << textContent->body;
             return renderMarkdown(textContent->body);
-        }
-        if (mimeType == QStringLiteral("text/html")) {
+        } else if (mimeType == QStringLiteral("text/html")) {
             // TODO: cleanup HTML
             // TODO: detect links
-            qDebug(logger) << "HTML message: " << textContent->body;
             return textContent->body;
         }
 

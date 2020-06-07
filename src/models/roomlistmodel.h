@@ -10,7 +10,7 @@
 
 namespace Det {
 
-class ChatsModel : public QAbstractListModel {
+class RoomListModel : public QAbstractListModel {
     Q_OBJECT
 
     Q_PROPERTY(
@@ -31,7 +31,7 @@ class ChatsModel : public QAbstractListModel {
     };
 
 public:
-    explicit ChatsModel(QObject* parent = nullptr);
+    explicit RoomListModel(QObject* parent = nullptr);
 
     int rowCount(const QModelIndex& parent = QModelIndex()) const override;
     QVariant data(

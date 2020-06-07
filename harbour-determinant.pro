@@ -22,8 +22,8 @@ include(libquotient/libqmatrixclient.pri)
 SOURCES += src/harbour-determinant.cpp \
     src/connectionsmanager.cpp \
     src/humanize.cpp \
-    src/models/chatsmodel.cpp \
     src/models/messagerenderer.cpp \
+    src/models/roomlistmodel.cpp \
     src/models/roommembersmodel.cpp \
     src/quotientintegration.cpp \
     src/secretsservice.cpp \
@@ -33,11 +33,16 @@ SOURCES += src/harbour-determinant.cpp \
 
 DISTFILES += qml/harbour-determinant.qml \
     TODO.txt \
+    qml/components/Avatar.qml \
+    qml/components/EventsView.qml \
+    qml/components/MessageInput.qml \
     qml/cover/CoverPage.qml \
+    qml/delegates/EventDelegate.qml \
     qml/delegates/MessageDelegate.qml \
     qml/delegates/StateMessageDelegate.qml \
     qml/pages/LoginPage.qml \
     qml/pages/RoomDetailsPage.qml \
+    qml/pages/RoomPage.qml \
     qml/pages/StartupPage.qml \
     rpm/harbour-determinant.changes.in \
     rpm/harbour-determinant.changes.run.in \
@@ -45,8 +50,7 @@ DISTFILES += qml/harbour-determinant.qml \
     rpm/harbour-determinant.yaml \
     translations/*.ts \
     harbour-determinant.desktop \
-    qml/pages/RoomListPage.qml \
-    qml/pages/RoomChatPage.qml
+    qml/pages/RoomListPage.qml
 
 DEFINES += \
     QT_DEPRECATED_WARNINGS \
@@ -69,8 +73,8 @@ TRANSLATIONS += translations/harbour-determinant-de.ts
 HEADERS += \
     src/connectionsmanager.h \
     src/humanize.h \
-    src/models/chatsmodel.h \
     src/models/messagerenderer.h \
+    src/models/roomlistmodel.h \
     src/models/roommembersmodel.h \
     src/quotientintegration.h \
     src/secretsservice.h \

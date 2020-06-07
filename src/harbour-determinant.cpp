@@ -12,8 +12,8 @@
 
 #include "connectionsmanager.h"
 #include "humanize.h"
-#include "models/chatsmodel.h"
 #include "models/roomeventsmodel.h"
+#include "models/roomlistmodel.h"
 #include "quotientintegration.h"
 #include "secretsservice.h"
 #include "store.h"
@@ -27,7 +27,7 @@ int main(int argc, char* argv[])
 
     QuotientIntegration::registerTypes();
 
-    qmlRegisterType<ChatsModel>("Determinant", 0, 1, "ChatsModel");
+    qmlRegisterType<RoomListModel>("Determinant", 0, 1, "ChatsModel");
     qmlRegisterType<RoomEventsModel>("Determinant", 0, 1, "RoomEventsModel");
     qmlRegisterType<Humanize>("Determinant", 0, 1, "Humanize");
 
