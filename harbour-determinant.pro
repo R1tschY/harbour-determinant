@@ -23,6 +23,7 @@ SOURCES += src/harbour-determinant.cpp \
     src/connectionsmanager.cpp \
     src/humanize.cpp \
     src/models/messagerenderer.cpp \
+    src/models/publicroomlistmodel.cpp \
     src/models/roomlistmodel.cpp \
     src/models/roommembersmodel.cpp \
     src/quotientintegration.cpp \
@@ -41,6 +42,7 @@ DISTFILES += qml/harbour-determinant.qml \
     qml/delegates/MessageDelegate.qml \
     qml/delegates/StateMessageDelegate.qml \
     qml/pages/LoginPage.qml \
+    qml/pages/PublicRoomListPage.qml \
     qml/pages/RoomDetailsPage.qml \
     qml/pages/RoomPage.qml \
     qml/pages/StartupPage.qml \
@@ -74,6 +76,7 @@ HEADERS += \
     src/connectionsmanager.h \
     src/humanize.h \
     src/models/messagerenderer.h \
+    src/models/publicroomlistmodel.h \
     src/models/roomlistmodel.h \
     src/models/roommembersmodel.h \
     src/quotientintegration.h \

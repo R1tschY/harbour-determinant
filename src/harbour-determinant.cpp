@@ -12,6 +12,7 @@
 
 #include "connectionsmanager.h"
 #include "humanize.h"
+#include "models/publicroomlistmodel.h"
 #include "models/roomeventsmodel.h"
 #include "models/roomlistmodel.h"
 #include "quotientintegration.h"
@@ -29,6 +30,8 @@ int main(int argc, char* argv[])
 
     qmlRegisterType<RoomListModel>("Determinant", 0, 1, "ChatsModel");
     qmlRegisterType<RoomEventsModel>("Determinant", 0, 1, "RoomEventsModel");
+    qmlRegisterType<PublicRoomListModel>(
+        "Determinant", 0, 1, "PublicRoomListModel");
     qmlRegisterType<Humanize>("Determinant", 0, 1, "Humanize");
 
     SecretsService secretsService;

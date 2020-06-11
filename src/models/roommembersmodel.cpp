@@ -4,12 +4,12 @@ namespace Det {
 
 using namespace QMatrixClient;
 
-RoomMembersModel::RoomMembersModel(QObject *parent)
+RoomMembersModel::RoomMembersModel(QObject* parent)
     : QAbstractListModel(parent)
 {
 }
 
-int RoomMembersModel::rowCount(const QModelIndex &parent) const
+int RoomMembersModel::rowCount(const QModelIndex& parent) const
 {
     if (parent.isValid())
         return 0;
@@ -17,7 +17,7 @@ int RoomMembersModel::rowCount(const QModelIndex &parent) const
     return m_users.size();
 }
 
-QVariant RoomMembersModel::data(const QModelIndex &index, int role) const
+QVariant RoomMembersModel::data(const QModelIndex& index, int role) const
 {
     if (!index.isValid())
         return QVariant();
@@ -54,16 +54,21 @@ QVariant RoomMembersModel::data(const QModelIndex &index, int role) const
 QHash<int, QByteArray> RoomMembersModel::roleNames() const
 {
     QHash<int, QByteArray> roles;
-//    roles.insert(DisplayRole, "display");
+    roles.insert(NameRole, "name");
+    roles.insert(MemberNameRole, "memberName");
+    roles.insert(JoinStateRole, "joinState");
+    roles.insert(AvatarRole, "avatar");
+    roles.insert(UserIdRole, "userId");
+    roles.insert(ObjectRole, "object");
     return roles;
 }
 
-QMatrixClient::Room *RoomMembersModel::room() const
+QMatrixClient::Room* RoomMembersModel::room() const
 {
     return m_room;
 }
 
-void RoomMembersModel::setRoom(QMatrixClient::Room *room)
+void RoomMembersModel::setRoom(QMatrixClient::Room* room)
 {
     if (m_room == room)
         return;
@@ -81,7 +86,7 @@ void RoomMembersModel::setRoom(QMatrixClient::Room *room)
         connect(m_room, &Room::userAdded, this, &RoomMembersModel::onUserAdded);
         connect(m_room, &Room::userRemoved, this, &RoomMembersModel::onUserRemoved);
         connect(m_room, &Room::memberRenamed,
-                this, [this](User* usr) { sendDataChange(usr, { NameRole }); });
+            this, [this](User* usr) { sendDataChange(usr, { NameRole }); });
         // TODO: AvatarChanged is missing
         // TODO: MemberNameChanged is missing
         // TODO: JoinStateChanged is missing
@@ -92,14 +97,14 @@ void RoomMembersModel::setRoom(QMatrixClient::Room *room)
     endResetModel();
 }
 
-void RoomMembersModel::onUserAdded(User *user)
+void RoomMembersModel::onUserAdded(User* user)
 {
     beginInsertRows(QModelIndex(), m_users.size(), m_users.size());
     m_users.append(user);
     endInsertRows();
 }
 
-void RoomMembersModel::onUserRemoved(User *user)
+void RoomMembersModel::onUserRemoved(User* user)
 {
     int index = m_users.indexOf(user);
     if (index < 0)
@@ -110,12 +115,12 @@ void RoomMembersModel::onUserRemoved(User *user)
     endRemoveRows();
 }
 
-void RoomMembersModel::onUserRenamed(User *user)
+void RoomMembersModel::onUserRenamed(User* user)
 {
     sendDataChange(user, { NameRole });
 }
 
-void RoomMembersModel::sendDataChange(User *user, const QVector<int> &roles)
+void RoomMembersModel::sendDataChange(User* user, const QVector<int>& roles)
 {
     int row = m_users.indexOf(user);
     if (row < 0)

@@ -17,12 +17,13 @@ Page {
 
         anchors.fill: parent
 
-        model: ChatsModel {
+        model: PublicRoomListModel {
             connection: _connection
+            server: ""
         }
 
         header: PageHeader {
-            title: qsTr("Rooms")
+            title: qsTr("Public Rooms")
         }
 
         delegate: ListItem {
@@ -40,45 +41,18 @@ Page {
                     topMargin: Theme.paddingSmall
                 }
 
-                mediaId: avatar
-                itemName: displayName
+                mediaId: avatarMediaId
+                itemName: name
                 itemId: roomId
                 size: Theme.itemSizeSmall
-            }
-
-            Rectangle {
-                id: unreadLabel
-
-                anchors {
-                    left: roomThumbnail.right
-                    leftMargin: Theme.paddingSmall
-                    top: parent.top
-                    topMargin: Theme.paddingSmall
-                }
-
-                radius: Theme.paddingSmall
-                color: Theme.highlightBackgroundColor
-                visible: unreadCount > 0
-                width: unreadLabelText.contentWidth + 2 * Theme.paddingSmall
-                height: unreadLabelText.contentHeight
-
-                Label {
-                    id: unreadLabelText
-                    x: Theme.paddingSmall
-
-                    truncationMode: TruncationMode.Fade
-                    font.weight: Font.Bold
-                    text: unreadCount
-                    color: Theme.primaryColor
-                }
             }
 
             Label {
                 id: nameLabel
                 anchors {
-                    left: unreadLabel.visible ? unreadLabel.right : roomThumbnail.right
+                    left: roomThumbnail.right
                     leftMargin: Theme.paddingSmall
-                    right: dateLabel.left
+                    right: userCountLabel.left
                     rightMargin: Theme.paddingMedium
                     top: parent.top
                     topMargin: Theme.paddingSmall
@@ -86,27 +60,27 @@ Page {
 
                 textFormat: Text.PlainText
                 truncationMode: TruncationMode.Fade
-                text: displayName
+                text: name || "<unnamed>"
                 color: delegate.highlighted
                        ? Theme.highlightColor : Theme.primaryColor
             }
 
             Label {
-                id: dateLabel
+                id: userCountLabel
                 anchors {
                     right: parent.right
                     rightMargin: Theme.paddingMedium
                 }
 
                 truncationMode: TruncationMode.Fade
-                text: humanize.formatDateTime(lastActivity)
+                text: numJoinedMembers
                 font.pixelSize: Theme.fontSizeSmall
                 color: delegate.highlighted
                        ? Theme.highlightColor : Theme.primaryColor
             }
 
             Label {
-                id: messageLabel
+                id: topicLabel
                 anchors {
                     left: roomThumbnail.right
                     leftMargin: Theme.paddingSmall
@@ -116,29 +90,12 @@ Page {
                 }
 
                 truncationMode: TruncationMode.Fade
-                text: lastEvent
+                text: topic
                 textFormat: Text.StyledText
                 font.pixelSize: Theme.fontSizeSmall
                 color: delegate.highlighted
                        ? Theme.secondaryHighlightColor: Theme.secondaryColor
             }
-
-            onClicked: pageStack.push(
-                           Qt.resolvedUrl("RoomPage.qml"),
-                           { currentRoom: room })
-        }
-
-        PullDownMenu {
-            MenuItem {
-                text: "Logout"
-                onClicked: console.log("Clicked option 1")
-            }
-            MenuItem {
-                text: "Public rooms"
-                onClicked: pageStack.push(
-                               Qt.resolvedUrl("PublicRoomListPage.qml"))
-            }
-            MenuLabel { text: "Informational label" }
         }
 
         VerticalScrollDecorator { flickable: listView }

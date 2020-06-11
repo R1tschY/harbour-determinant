@@ -154,6 +154,13 @@
     </message>
 </context>
 <context>
+    <name>PublicRoomListPage</name>
+    <message>
+        <source>Public Rooms</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>RoomDetailsPage</name>
     <message>
         <source>Matrix Id</source>
