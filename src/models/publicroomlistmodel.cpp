@@ -11,16 +11,14 @@ static Q_LOGGING_CATEGORY(logger, "Det::PublicRoomListModel");
 
 static QString UNKNOWN_NEXT_BATCH = QStringLiteral("");
 
-static QString toMediaId(const QUrl& url)
+static QString toMediaId(const QString& url)
 {
-    if (url.isEmpty()) {
+    if (url.startsWith(QStringLiteral("mxc://"))) {
+        return url.mid(6);
+    } else {
+        qCWarning(logger) << "Cannot can convert" << url << "to media id";
         return QString();
     }
-    if (url.scheme() != "mxc") {
-        qCDebug(logger) << "Cannot can convert" << url << "to media id";
-        return QString();
-    }
-    return url.host() % url.path();
 }
 
 PublicRoomListModel::PublicRoomListModel(QObject* parent)
