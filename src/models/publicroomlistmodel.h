@@ -16,7 +16,7 @@ class PublicRoomListModel : public QAbstractListModel {
     Q_OBJECT
     Q_PROPERTY(QString server READ server WRITE setServer NOTIFY serverChanged)
     Q_PROPERTY(
-        QMatrixClient::Connection* connection
+        Quotient::Connection* connection
             READ connection WRITE setConnection
                 NOTIFY connectionChanged)
     Q_PROPERTY(QString error READ error NOTIFY errorChanged)
@@ -52,8 +52,8 @@ public:
 
     bool fetching() const { return m_job != nullptr; }
 
-    QMatrixClient::Connection* connection() const { return m_connection; }
-    void setConnection(QMatrixClient::Connection* connection);
+    Quotient::Connection* connection() const { return m_connection; }
+    void setConnection(Quotient::Connection* connection);
 
 public slots:
     void resetError();
@@ -66,14 +66,14 @@ signals:
     void totalRoomCountEstimateChanged();
 
 private:
-    std::deque<QMatrixClient::PublicRoomsChunk> m_entries;
-    QMatrixClient::QueryPublicRoomsJob* m_job = nullptr;
+    std::deque<Quotient::PublicRoomsChunk> m_entries;
+    Quotient::QueryPublicRoomsJob* m_job = nullptr;
     QString m_nextBatch;
     int m_totalRoomCountEstimate = -1;
     QString m_error;
 
     QString m_server;
-    QMatrixClient::Connection* m_connection;
+    Quotient::Connection* m_connection;
 
     void abandonJob();
     void resetModel();

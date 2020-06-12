@@ -28,18 +28,18 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
     QHash<int, QByteArray> roleNames() const;
 
-    QMatrixClient::Room *room() const;
-    void setRoom(QMatrixClient::Room *room);
+    Quotient::Room *room() const;
+    void setRoom(Quotient::Room *room);
 
 private:
-    QMatrixClient::Room* m_room;
-    QList<QMatrixClient::User*> m_users;
+    Quotient::Room* m_room;
+    QList<Quotient::User*> m_users;
 
-    void onUserAdded(QMatrixClient::User* user);
-    void onUserRemoved(QMatrixClient::User *user);
-    void onUserRenamed(QMatrixClient::User *user);
+    void onUserAdded(Quotient::User* user);
+    void onUserRemoved(Quotient::User *user);
+    void onUserRenamed(Quotient::User *user);
 
-    void sendDataChange(QMatrixClient::User *user, const QVector<int> &roles);
+    void sendDataChange(Quotient::User *user, const QVector<int> &roles);
 };
 
 } // namespace Det

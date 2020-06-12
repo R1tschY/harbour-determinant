@@ -2,7 +2,7 @@
 
 namespace Det {
 
-using namespace QMatrixClient;
+using namespace Quotient;
 
 RoomMembersModel::RoomMembersModel(QObject* parent)
     : QAbstractListModel(parent)
@@ -63,12 +63,12 @@ QHash<int, QByteArray> RoomMembersModel::roleNames() const
     return roles;
 }
 
-QMatrixClient::Room* RoomMembersModel::room() const
+Room* RoomMembersModel::room() const
 {
     return m_room;
 }
 
-void RoomMembersModel::setRoom(QMatrixClient::Room* room)
+void RoomMembersModel::setRoom(Room* room)
 {
     if (m_room == room)
         return;

@@ -6,18 +6,18 @@
 #include <events/roomevent.h>
 #include <room.h>
 
-namespace QMatrixClient {
+namespace Quotient {
 class RoomMessageEvent;
 class RoomMemberEvent;
 class RoomCreateEvent;
-} // namespace QMatrixClient
+} // namespace Quotient
 
 namespace Det {
 
 class RoomEventsModel : public QAbstractListModel {
     Q_OBJECT
 
-    Q_PROPERTY(QMatrixClient::Room* room
+    Q_PROPERTY(Quotient::Room* room
             READ room WRITE setRoom NOTIFY roomChanged)
 
     enum {
@@ -47,25 +47,25 @@ public:
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
     QHash<int, QByteArray> roleNames() const override;
 
-    void setRoom(QMatrixClient::Room* room);
-    QMatrixClient::Room* room() const;
+    void setRoom(Quotient::Room* room);
+    Quotient::Room* room() const;
     int pendingEventsCount() const;
 
 signals:
     void roomChanged();
 
 private:
-    QMatrixClient::Room* m_room = nullptr;
+    Quotient::Room* m_room = nullptr;
     int m_pendingEvents = 0;
 
     bool m_movingEvents = false;
 
-    void onBeginInsertMessages(QMatrixClient::RoomEventsRange events);
-    void onBeginInsertOldMessages(QMatrixClient::RoomEventsRange events);
+    void onBeginInsertMessages(Quotient::RoomEventsRange events);
+    void onBeginInsertOldMessages(Quotient::RoomEventsRange events);
     void onBeginSyncMessage(int i);
     void onEndSyncMessage();
-    void onReplacedMessage(const QMatrixClient::RoomEvent* newEvent,
-        const QMatrixClient::RoomEvent* oldEvent);
+    void onReplacedMessage(const Quotient::RoomEvent* newEvent,
+        const Quotient::RoomEvent* oldEvent);
 
     void updateRow(int row, const QVector<int>& roles);
     void updateRow(int row);

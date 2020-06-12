@@ -14,7 +14,7 @@ class RoomListModel : public QAbstractListModel {
     Q_OBJECT
 
     Q_PROPERTY(
-        QMatrixClient::Connection* connection
+        Quotient::Connection* connection
             READ connection WRITE setConnection
                 NOTIFY connectionChanged)
 
@@ -38,27 +38,27 @@ public:
         const QModelIndex& index, int role = Qt::DisplayRole) const override;
     QHash<int, QByteArray> roleNames() const override;
 
-    QMatrixClient::Connection* connection() const;
-    void setConnection(QMatrixClient::Connection* connection);
+    Quotient::Connection* connection() const;
+    void setConnection(Quotient::Connection* connection);
 
 signals:
     void connectionChanged();
 
 private:
-    QMatrixClient::Connection* m_connection = nullptr;
+    Quotient::Connection* m_connection = nullptr;
 
-    void addRoom(QMatrixClient::Room* room);
-    void connectToRoom(QMatrixClient::Room* room);
+    void addRoom(Quotient::Room* room);
+    void connectToRoom(Quotient::Room* room);
 
-    void onNewRoom(QMatrixClient::Room* room);
-    void onDeleteRoom(QMatrixClient::Room* room);
-    void onRoomChanged(QMatrixClient::Room* room, const QVector<int>& roles);
+    void onNewRoom(Quotient::Room* room);
+    void onDeleteRoom(Quotient::Room* room);
+    void onRoomChanged(Quotient::Room* room, const QVector<int>& roles);
 
-    void onRoomMessage(QMatrixClient::Room* room);
+    void onRoomMessage(Quotient::Room* room);
 
-    int indexOfRoom(QMatrixClient::Room* room) const;
+    int indexOfRoom(Quotient::Room* room) const;
 
-    std::vector<QMatrixClient::Room*> m_rooms;
+    std::vector<Quotient::Room*> m_rooms;
     int rows() const { return int(m_rooms.size()); }
 };
 

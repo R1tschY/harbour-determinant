@@ -4,7 +4,7 @@
 #include <QSettings>
 
 namespace Det {
-using namespace QMatrixClient;
+using namespace Quotient;
 
 static Q_LOGGING_CATEGORY(logger, "determinant.conectionsmanager");
 

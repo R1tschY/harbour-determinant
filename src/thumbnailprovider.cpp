@@ -9,7 +9,7 @@
 
 namespace Det {
 
-using namespace QMatrixClient;
+using namespace Quotient;
 
 static Q_LOGGING_CATEGORY(logger, "det.thumbnails");
 
@@ -125,7 +125,7 @@ void ThumbnailResponse::cancel()
     QMetaObject::invokeMethod(this, SLOT(doCancel()), Qt::QueuedConnection);
 }
 
-ThumbnailProvider::ThumbnailProvider(QMatrixClient::Connection* m_connection, QObject* parent)
+ThumbnailProvider::ThumbnailProvider(Connection* m_connection, QObject* parent)
     : QObject(parent)
     , m_connection(m_connection)
 {

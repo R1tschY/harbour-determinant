@@ -5,7 +5,7 @@
 
 namespace Det {
 
-using namespace QMatrixClient;
+using namespace Quotient;
 
 static Q_LOGGING_CATEGORY(logger, "Det::PublicRoomListModel");
 
@@ -121,7 +121,7 @@ void PublicRoomListModel::resetError()
     setError(QString());
 }
 
-void PublicRoomListModel::setConnection(QMatrixClient::Connection* connection)
+void PublicRoomListModel::setConnection(Connection* connection)
 {
     if (m_connection == connection)
         return;
@@ -140,16 +140,6 @@ void PublicRoomListModel::setError(const QString& error)
     emit errorChanged();
 }
 
-template <typename T>
-static T unwrap_or(Omittable<T> t, T default_)
-{
-    if (t.omitted()) {
-        return default_;
-    } else {
-        return std::move(t.value());
-    }
-}
-
 void PublicRoomListModel::onFetched()
 {
     const PublicRoomsResponse& data = m_job->data();
@@ -166,7 +156,7 @@ void PublicRoomListModel::onFetched()
     } else {
         m_nextBatch = std::move(data.nextBatch);
     }
-    setTotalRoomCountEstimate(unwrap_or(data.totalRoomCountEstimate, -1));
+    setTotalRoomCountEstimate(data.totalRoomCountEstimate.value_or(-1));
     endInsertRows();
     emit fetchingChanged();
 }

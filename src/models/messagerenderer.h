@@ -3,7 +3,7 @@
 
 #include <QCoreApplication>
 
-namespace QMatrixClient {
+namespace Quotient {
 class Room;
 class User;
 class RoomEvent;
@@ -11,42 +11,41 @@ class RoomMessageEvent;
 class RoomMemberEvent;
 class RoomCreateEvent;
 class PendingEventItem;
-} // namespace QMatrixClient
-
+} // namespace Quotient
 
 namespace Det {
 
-class MessageRenderer
-{
+class MessageRenderer {
     Q_DECLARE_TR_FUNCTIONS(MessageRenderer)
 public:
-    MessageRenderer(const QMatrixClient::Room* room)
+    MessageRenderer(const Quotient::Room* room)
         : m_room(room)
-    { }
+    {
+    }
 
     QString renderEventText(
-        bool isPending, const QMatrixClient::RoomEvent *event) const;
+        bool isPending, const Quotient::RoomEvent* event) const;
     QString renderMessageText(
-        bool isPending, const QMatrixClient::RoomMessageEvent &event) const;
+        bool isPending, const Quotient::RoomMessageEvent& event) const;
     QString renderMemberEvent(
-        const QMatrixClient::RoomMemberEvent &event) const;
-    QString renderRoomCreated(const QMatrixClient::RoomCreateEvent &evt) const;
+        const Quotient::RoomMemberEvent& event) const;
+    QString renderRoomCreated(const Quotient::RoomCreateEvent& evt) const;
 
-    QMatrixClient::User *getAuthor(
-        bool isPending, const QMatrixClient::RoomEvent *evt) const;
+    Quotient::User* getAuthor(
+        bool isPending, const Quotient::RoomEvent* evt) const;
     QString getAuthorDisplayName(
-        bool isPending, const QMatrixClient::RoomEvent *evt) const;
+        bool isPending, const Quotient::RoomEvent* evt) const;
     QString getAuthorHtmlDisplayName(
-        bool isPending, const QMatrixClient::RoomEvent *evt) const;
+        bool isPending, const Quotient::RoomEvent* evt) const;
 
-    bool isHidden(const QMatrixClient::RoomEvent* evt) const;
-    bool isPendingHidden(const QMatrixClient::PendingEventItem* evt) const;
+    bool isHidden(const Quotient::RoomEvent* evt) const;
+    bool isPendingHidden(const Quotient::PendingEventItem* evt) const;
 
     QString getLastEvent() const;
     QDateTime getLastActivity() const;
 
 private:
-    const QMatrixClient::Room* m_room;
+    const Quotient::Room* m_room;
 };
 
 } // namespace Det

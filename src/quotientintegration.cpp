@@ -15,7 +15,7 @@
 //#include <matrixhelper.h>
 #include <eventitem.h>
 
-using namespace QMatrixClient;
+using namespace Quotient;
 
 Q_DECLARE_METATYPE(SyncJob*)
 Q_DECLARE_METATYPE(Room*)

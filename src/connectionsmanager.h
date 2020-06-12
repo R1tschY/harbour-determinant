@@ -27,7 +27,7 @@ public:
 
     Q_SCRIPTABLE void logout();
 
-    Q_SCRIPTABLE QMatrixClient::Connection* connection()
+    Q_SCRIPTABLE Quotient::Connection* connection()
     {
         return &m_connection;
     }
@@ -36,7 +36,7 @@ signals:
     void error(const QString& message);
 
 private:
-    QMatrixClient::Connection m_connection;
+    Quotient::Connection m_connection;
     SecretsService* m_secretsService;
     int m_syncTimeout = 30 * 1000;
     int m_syncCounter = 0;

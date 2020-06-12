@@ -6,7 +6,7 @@
 #include <QObject>
 #include <QQuickAsyncImageProvider>
 
-namespace QMatrixClient {
+namespace Quotient {
 class Connection;
 class MediaThumbnailJob;
 } // namespace
@@ -16,7 +16,7 @@ namespace Det {
 class ThumbnailResponse : public QQuickImageResponse {
     Q_OBJECT
 public:
-    ThumbnailResponse(QMatrixClient::Connection* conn,
+    ThumbnailResponse(Quotient::Connection* conn,
         const QString& mediaId, const QSize& requestedSize);
 
     QQuickTextureFactory* textureFactory() const override;
@@ -26,12 +26,12 @@ public slots:
     void cancel() override;
 
 private:
-    QMatrixClient::Connection* m_conn;
+    Quotient::Connection* m_conn;
 
     QString m_mediaId;
     QSize m_requestedSize;
 
-    QMatrixClient::MediaThumbnailJob* m_job = nullptr;
+    Quotient::MediaThumbnailJob* m_job = nullptr;
 
     QString m_localPath;
     QString m_error;
@@ -47,13 +47,13 @@ private slots:
 class ThumbnailProvider : public QObject, public QQuickAsyncImageProvider {
     Q_OBJECT
 public:
-    ThumbnailProvider(QMatrixClient::Connection* m_connection, QObject* parent = nullptr);
+    ThumbnailProvider(Quotient::Connection* m_connection, QObject* parent = nullptr);
 
     QQuickImageResponse* requestImageResponse(
         const QString& id, const QSize& requestedSize) override;
 
 private:
-    QAtomicPointer<QMatrixClient::Connection> m_connection;
+    QAtomicPointer<Quotient::Connection> m_connection;
 };
 
 } // namespace Det

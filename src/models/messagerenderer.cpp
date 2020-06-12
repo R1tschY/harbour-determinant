@@ -8,17 +8,20 @@
 #include <connection.h>
 #include <events/redactionevent.h>
 #include <events/roomcreateevent.h>
+#include <events/roomevent.h>
 #include <events/roommemberevent.h>
 #include <events/roommessageevent.h>
 #include <events/roomtombstoneevent.h>
+#include <events/roomcanonicalaliasevent.h>
 #include <events/simplestateevents.h>
+#include <events/encryptionevent.h>
 #include <room.h>
 #include <user.h>
 #include <util.h>
 
 namespace Det {
 
-using namespace QMatrixClient;
+using namespace Quotient;
 
 static Q_LOGGING_CATEGORY(logger, "determinant.messagerenderer");
 
@@ -127,7 +130,7 @@ QString MessageRenderer::renderMessageText(
     case RoomMessageEvent::MsgType::Text:
     case RoomMessageEvent::MsgType::Emote:
     case RoomMessageEvent::MsgType::Notice: {
-        auto textContent = static_cast<TextContent*>(content);
+        auto textContent = static_cast<const TextContent*>(content);
         QString mimeType = textContent->mimeType.name();
         if (mimeType == QStringLiteral("text/markdown")) {
             // TODO: cleanup HTML
@@ -337,7 +340,7 @@ QDateTime MessageRenderer::getLastActivity() const
     if (m_room->timelineSize() == 0) {
         return QDateTime();
     } else {
-        return m_room->messageEvents().crbegin()->get()->timestamp();
+        return m_room->messageEvents().crbegin()->get()->originTimestamp();
     }
 }
 

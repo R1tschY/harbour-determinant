@@ -8,8 +8,7 @@
 
 namespace Det {
 
-using namespace QMatrixClient;
-using namespace Det;
+using namespace Quotient;
 
 RoomListModel::RoomListModel(QObject* parent)
     : QAbstractListModel(parent)
@@ -89,8 +88,8 @@ void RoomListModel::setConnection(Connection* connection)
         connect(m_connection, &Connection::aboutToDeleteRoom,
             this, &RoomListModel::onDeleteRoom);
 
-        qDebug() << connection->roomMap().size() << connection->directChats().size();
-        for (Room* room : connection->roomMap())
+        qDebug() << connection->allRooms().size() << connection->directChats().size();
+        for (Room* room : connection->allRooms())
             addRoom(room);
     }
 

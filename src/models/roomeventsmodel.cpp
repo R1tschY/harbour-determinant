@@ -17,7 +17,7 @@
 
 namespace Det {
 
-using namespace QMatrixClient;
+using namespace Quotient;
 
 static Q_LOGGING_CATEGORY(logger, "determinant.roommodel")
 
@@ -295,7 +295,7 @@ Room* RoomEventsModel::room() const
     return m_room;
 }
 
-void RoomEventsModel::setRoom(QMatrixClient::Room* room)
+void RoomEventsModel::setRoom(Room* room)
 {
     if (m_room == room)
         return;

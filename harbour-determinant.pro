@@ -17,7 +17,7 @@ CONFIG += link_pkgconfig
 
 PKGCONFIG += sailfishsecrets sailfishapp
 
-include(libquotient/libqmatrixclient.pri)
+include(libquotient/libquotient.pri)
 
 SOURCES += src/harbour-determinant.cpp \
     src/connectionsmanager.cpp \
