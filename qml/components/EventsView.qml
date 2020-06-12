@@ -10,6 +10,7 @@ SilicaListView {
         || !!room.eventsHistoryJob
         || !!room.allHistoryLoaded
     property string showUnreadMarkerId: "<???>"
+    property bool _completed: false
 
     id: eventsView
     anchors {
@@ -47,19 +48,55 @@ SilicaListView {
     delegate: EventDelegate { }
 
     function ensureHistoryContent() {
+        if (!_completed)
+            return;
+
         if (!noMoreContent && contentY - originY < 5000)
             room.getPreviousContent(21);
     }
 
-    onContentYChanged: {
+    function checkToMarkAsRead() {
+        // has unread messages
+        if (room.unreadCount <= 0)
+            return;
+        // is at latest message
+        if (!atYEnd)
+            return;
+        // application is in foreground
+        if (Qt.application.state !== Qt.ApplicationActive)
+            return;
+        if (!_completed)
+            return;
+
+        console.log("Room: markAllMessagesAsRead", room.unreadCount)
+        room.markAllMessagesAsRead()
+    }
+
+    function updateDateOverlay() {
+        if (!_completed)
+            return;
+
         var item = eventsView.itemAt(0, contentY)
         if (item) {
             sectionOverlay.text = humanize.formatDate(item.modelSection)
         }
+    }
 
+    onContentYChanged: {
+        updateDateOverlay()
         ensureHistoryContent()
     }
     onContentHeightChanged: ensureHistoryContent()
+
+    onAtYEndChanged: checkToMarkAsRead()
+    Connections {
+        target: room
+        onUnreadMessagesChanged: checkToMarkAsRead()
+    }
+    Connections {
+        target: Qt.application
+        onStateChanged: checkToMarkAsRead()
+    }
 
     Component.onCompleted: {
         // set inital section overlay
@@ -79,9 +116,11 @@ SilicaListView {
             showUnreadMarkerId = "<???>"
         }
 
-        eventsView.positionViewAtIndex(
-            room.unreadCount - 1, ListView.End)
-        room.markAllMessagesAsRead()
+        eventsView.positionViewAtIndex(room.unreadCount - 1, ListView.End)
+        _completed = true
+
+        checkToMarkAsRead()
+        updateDateOverlay()
     }
 
     Rectangle {
