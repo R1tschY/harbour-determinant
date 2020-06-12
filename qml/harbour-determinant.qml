@@ -27,6 +27,11 @@ ApplicationWindow
             ? Humanize.TimeFormat24Hours : Humanize.TimeFormat12Hours
     }
 
+    Connections {
+        target: connection
+        onLoggedOut: pageStack.replace(Qt.resolvedUrl("pages/LoginPage.qml"))
+    }
+
     function getCustomMessageCss() {
         return "<style>
             a { color: " + Theme.highlightColor + "; }

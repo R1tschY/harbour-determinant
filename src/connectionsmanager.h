@@ -25,6 +25,8 @@ public:
         const QString& password,
         const QString& homeServer);
 
+    Q_SCRIPTABLE void logout();
+
     Q_SCRIPTABLE QMatrixClient::Connection* connection()
     {
         return &m_connection;

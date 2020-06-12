@@ -26,8 +26,9 @@ ConnectionsManager::ConnectionsManager(SecretsService* secretsService, QObject* 
         &m_connection, &Connection::syncError,
         this, &ConnectionsManager::onSyncError);
 
-    connect(&m_connection, &Connection::loggedOut, this, [] {
+    connect(&m_connection, &Connection::loggedOut, this, [this] {
         qCDebug(logger) << "Log out";
+        saveLogin();
     });
     connect(&m_connection, &Connection::loginError, this, [](QString message, QString details) {
         qCCritical(logger) << "Login error:" << message << "/" << details;
@@ -81,6 +82,11 @@ void ConnectionsManager::login(
 
     m_connection.connectToServer(
         userId, password, m_connection.deviceId());
+}
+
+void ConnectionsManager::logout()
+{
+    m_connection.logout();
 }
 
 void ConnectionsManager::onLoginError(

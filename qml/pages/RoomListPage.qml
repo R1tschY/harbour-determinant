@@ -131,7 +131,7 @@ Page {
         PullDownMenu {
             MenuItem {
                 text: "Logout"
-                onClicked: console.log("Clicked option 1")
+                onClicked: connection.logout()
             }
             MenuItem {
                 text: "Public rooms"
