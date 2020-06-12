@@ -124,17 +124,17 @@ QVariant RoomEventsModel::data(const QModelIndex& idx, int role) const
     case DateTimeRole:
         return isPending
             ? pendingEvt->lastUpdated()
-            : evt->timestamp();
+            : evt->originTimestamp();
 
     case TimeRole:
         return isPending
             ? pendingEvt->lastUpdated().time()
-            : evt->timestamp().time();
+            : evt->originTimestamp().time();
 
     case DateRole:
         return isPending
             ? pendingEvt->lastUpdated().date()
-            : evt->timestamp().date();
+            : evt->originTimestamp().date();
 
     case HiddenRole:
         if (isPending)
