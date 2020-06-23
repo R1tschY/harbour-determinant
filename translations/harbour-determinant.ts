@@ -36,7 +36,7 @@
 <context>
     <name>EventDelegate</name>
     <message>
-        <source>Unread</source>
+        <source>New messages</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -56,14 +56,6 @@
 </context>
 <context>
     <name>MessageRenderer</name>
-    <message>
-        <source>%1 redacted message</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 redacted: %2</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <source>%1 set room aliases on server %1 to %2</source>
         <translation type="unfinished"></translation>
@@ -150,6 +142,14 @@
     </message>
     <message>
         <source>&lt;Unnamed user&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>redacted message</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>redacted: %2</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

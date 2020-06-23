@@ -48,7 +48,7 @@ ListItem {
             horizontalCenter: parent.horizontalCenter
         }
 
-        text: qsTr("Unread")
+        text: qsTr("New messages")
         color: Theme.highlightColor
         font.pixelSize: Theme.fontSizeExtraSmall
 

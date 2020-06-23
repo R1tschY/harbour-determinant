@@ -26,8 +26,15 @@ SilicaListView {
     quickScroll: false
     clip: true
 
-    model: RoomEventsModel {
-        room: eventsView.room
+    model: SortFilterModel {
+        id: filteredModel
+
+        sourceModel: RoomEventsModel {
+            room: eventsView.room
+        }
+
+        filterRole: "hidden"
+        filterValue: false
     }
 
     section {

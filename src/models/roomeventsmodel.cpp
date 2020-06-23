@@ -136,6 +136,11 @@ QVariant RoomEventsModel::data(const QModelIndex& idx, int role) const
             ? pendingEvt->lastUpdated().date()
             : evt->originTimestamp().date();
 
+    case EditedRole:
+        return isPending
+                ? (pendingEvt->deliveryStatus() & EventStatus::Replaced)
+                : evt->isReplaced();
+
     case HiddenRole:
         if (isPending)
             return renderer.isPendingHidden(pendingEvt);
@@ -195,6 +200,7 @@ QHash<int, QByteArray> RoomEventsModel::roleNames() const
     roles.insert(DateTimeRole, "dateTime");
     roles.insert(TimeRole, "time");
     roles.insert(DateRole, "date");
+    roles.insert(EditedRole, "edited");
     roles.insert(HiddenRole, "hidden");
     roles.insert(AuthorRole, "author");
     roles.insert(AuthorDisplayNameRole, "authorDisplayName");
@@ -256,9 +262,9 @@ void RoomEventsModel::onEndSyncMessage()
 }
 
 void RoomEventsModel::onReplacedMessage(
-    const RoomEvent* newEvent, const RoomEvent* oldEvent)
+    const RoomEvent* _newEvent, const RoomEvent* oldEvent)
 {
-    Q_ASSERT(newEvent->id() == oldEvent->id());
+    updateEvent(oldEvent->id());
 }
 
 void RoomEventsModel::updateRow(int row, const QVector<int>& roles)
@@ -282,7 +288,7 @@ int RoomEventsModel::findEvent(const QString& eventId)
 {
     auto iter = m_room->findInTimeline(eventId);
     if (iter == m_room->timelineEdge()) {
-        qCWarning(logger) << "Non-existing event" << eventId << "replaced";
+        qCWarning(logger) << "Non-existing event" << eventId;
         return -1;
     }
 

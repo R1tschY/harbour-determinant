@@ -32,6 +32,7 @@ class RoomEventsModel : public QAbstractListModel {
         DateTimeRole,
         DateRole,
         TimeRole,
+        EditedRole,
         HiddenRole,
         ContentTypeRole,
         ContentJsonRole,

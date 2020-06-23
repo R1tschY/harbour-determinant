@@ -15,6 +15,8 @@
 #include <events/roomcanonicalaliasevent.h>
 #include <events/simplestateevents.h>
 #include <events/encryptionevent.h>
+#include <events/reactionevent.h>
+#include <events/redactionevent.h>
 #include <room.h>
 #include <user.h>
 #include <util.h>
@@ -30,11 +32,10 @@ QString MessageRenderer::renderEventText(
 {
     if (event->isRedacted()) {
         QString reason = event->redactedBecause()->reason();
-        QString author = getAuthorHtmlDisplayName(isPending, event);
         if (reason.isEmpty())
-            return tr("%1 redacted message").arg(author);
+            return tr("redacted message");
         else
-            return tr("%1 redacted: %2").arg(author, reason);
+            return tr("redacted: %2").arg(reason);
     }
 
     QString result = visit(
@@ -94,6 +95,9 @@ QString MessageRenderer::renderEventText(
             QString author = getAuthorHtmlDisplayName(isPending, &evt);
             return tr("upgraded room to version %1")
                 .arg(evt.serverMessage().toHtmlEscaped());
+        },
+        [](const RedactionEvent&) {
+            return QStringLiteral("redacted event"); // should never be shown
         },
         QString());
     if (!result.isNull()) {
@@ -263,8 +267,24 @@ QString MessageRenderer::getAuthorHtmlDisplayName(
 
 bool MessageRenderer::isHidden(const RoomEvent* evt) const
 {
-    if (evt->isRedacted())
+// TODO: option to ignore removed messages
+    //    if (evt->isRedacted()) {
+//        return true;
+//    }
+
+    if (evt->isStateEvent() &&
+            static_cast<const StateEventBase*>(evt)->repeatsState())
         return true;
+
+    if (is<ReactionEvent>(*evt) || is<RedactionEvent>(*evt))
+        return true;
+
+    if (auto msgEvt = eventCast<const RoomMessageEvent>(evt)) {
+        if (!msgEvt->replacedEvent().isEmpty() &&
+                msgEvt->replacedEvent() != msgEvt->id()) {
+            return true;
+        }
+    }
 
     const User* user = m_room->user(evt->senderId());
     if (m_room->connection()->isIgnored(user))
@@ -275,7 +295,9 @@ bool MessageRenderer::isHidden(const RoomEvent* evt) const
 
 bool MessageRenderer::isPendingHidden(const PendingEventItem* evt) const
 {
-    return evt->deliveryStatus() & EventStatus::Hidden;
+    auto status = evt->deliveryStatus();
+    // TODO: edited pending event
+    return (status & EventStatus::Hidden) || (status & EventStatus::Redacted);
 }
 
 static QString extractPreview(const QString& messageHtml)

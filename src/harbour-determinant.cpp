@@ -15,6 +15,7 @@
 #include "models/publicroomlistmodel.h"
 #include "models/roomeventsmodel.h"
 #include "models/roomlistmodel.h"
+#include "models/sortfiltermodel.h"
 #include "quotientintegration.h"
 #include "secretsservice.h"
 #include "store.h"
@@ -33,6 +34,7 @@ int main(int argc, char* argv[])
     qmlRegisterType<PublicRoomListModel>(
         "Determinant", 0, 1, "PublicRoomListModel");
     qmlRegisterType<Humanize>("Determinant", 0, 1, "Humanize");
+    qmlRegisterType<SortFilterModel>("Determinant", 0, 1, "SortFilterModel");
 
     SecretsService secretsService;
     ConnectionsManager connectionManager(&secretsService);

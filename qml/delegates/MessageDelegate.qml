@@ -105,7 +105,7 @@ Item {
             text: ownMessage
                   ? (humanize.formatTime(time) + " • "
                      + formatEventStatus(eventStatus))
-                  : humanize.formatTime(time)
+                  : humanize.formatTime(time) + (edited ? " 🖊️" : "")
             color: Theme.secondaryColor
             font.pixelSize: Theme.fontSizeExtraSmall
             horizontalAlignment: textAlign

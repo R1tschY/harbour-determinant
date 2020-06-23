@@ -138,7 +138,7 @@ Page {
                 onClicked: pageStack.push(
                                Qt.resolvedUrl("PublicRoomListPage.qml"))
             }
-            MenuLabel { text: "Informational label" }
+            //MenuLabel { text: "Informational label" }
         }
 
         VerticalScrollDecorator { flickable: listView }
