@@ -82,6 +82,15 @@ SilicaListView {
         }
     }
 
+    function updateUnreadMarker() {
+        if (room.unreadCount > 0) {
+            showUnreadMarkerId = room.readMarkerEventId
+            eventsView.positionViewAtIndex(room.unreadCount - 1, ListView.End)
+        } else {
+            showUnreadMarkerId = "<???>"
+        }
+    }
+
     onContentYChanged: {
         updateDateOverlay()
         ensureHistoryContent()
@@ -89,14 +98,22 @@ SilicaListView {
     onContentHeightChanged: ensureHistoryContent()
 
     onAtYEndChanged: checkToMarkAsRead()
+
     Connections {
         target: room
         onUnreadMessagesChanged: checkToMarkAsRead()
     }
+
     Connections {
         target: Qt.application
-        onStateChanged: checkToMarkAsRead()
+        onStateChanged: {
+            if (Qt.application.state === Qt.ApplicationActive) {
+                updateUnreadMarker()
+                checkToMarkAsRead()
+            }
+        }
     }
+
 
     Component.onCompleted: {
         // set inital section overlay
@@ -110,11 +127,7 @@ SilicaListView {
             room.getPreviousContent(21 - eventsView.count);
 
         // read marker
-        if (room.unreadCount >= 0) {
-            showUnreadMarkerId = room.readMarkerEventId
-        } else {
-            showUnreadMarkerId = "<???>"
-        }
+        updateUnreadMarker()
 
         eventsView.positionViewAtIndex(room.unreadCount - 1, ListView.End)
         _completed = true
