@@ -30,10 +30,6 @@ class SortFilterModel : public QSortFilterProxyModel, public QQmlParserStatus
     Q_OBJECT
     Q_INTERFACES(QQmlParserStatus)
 
-    Q_PROPERTY(QString filterMode
-               READ filterMode
-               WRITE setFilterMode)
-
     Q_PROPERTY(QVariant filterValue
                READ filterValue
                WRITE setFilterValue)
@@ -59,9 +55,6 @@ public:
     QString filterRole() const;
     void setFilterRole(const QString& filterRole);
 
-    QString filterMode() const;
-    void setFilterMode(const QString &filterMode);
-
     QString sortRole() const;
     void setSortRole(const QString& sortRole);
 
@@ -73,10 +66,16 @@ protected:
             int source_row, const QModelIndex& source_parent) const override;
 
 private:
-    int m_filterModeIndex = 1;
+    enum FilterMode {
+        NoFilter,
+        FilterByValue,
+        FilterByRegex,
+    };
+
     QVariant m_filterValue;
     QString m_filterRole;
     QString m_sortRole;
+    FilterMode m_filterMode = NoFilter;
     bool m_sortAscending = true;
     bool m_complete = true;
 

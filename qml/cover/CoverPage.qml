@@ -5,18 +5,21 @@ CoverBackground {
     Label {
         id: label
         anchors.centerIn: parent
-        text: qsTr("My Cover")
+        font.pixelSize: Theme.fontSizeHuge * 3
+        font.bold: true
+        opacity: 0.3
+        text: qsTr("|M|")
     }
 
-    CoverActionList {
-        id: coverAction
+//    CoverActionList {
+//        id: coverAction
 
-        CoverAction {
-            iconSource: "image://theme/icon-cover-next"
-        }
+//        CoverAction {
+//            iconSource: "image://theme/icon-cover-next"
+//        }
 
-        CoverAction {
-            iconSource: "image://theme/icon-cover-pause"
-        }
-    }
+//        CoverAction {
+//            iconSource: "image://theme/icon-cover-pause"
+//        }
+//    }
 }

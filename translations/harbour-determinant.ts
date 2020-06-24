@@ -4,7 +4,7 @@
 <context>
     <name>CoverPage</name>
     <message>
-        <source>My Cover</source>
+        <source>|M|</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

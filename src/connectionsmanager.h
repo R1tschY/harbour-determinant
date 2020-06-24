@@ -37,8 +37,8 @@ signals:
 
 private:
     Quotient::Connection m_connection;
-    SecretsService* m_secretsService;
-    int m_syncTimeout = 30 * 1000;
+    SecretsService* m_secretsService = nullptr;
+    int m_syncTimeout = 120 * 1000;
     int m_syncCounter = 0;
 
     void onLoginError(const QString& message, const QString& details);

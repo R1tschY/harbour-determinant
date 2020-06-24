@@ -29,7 +29,7 @@ int main(int argc, char* argv[])
 
     QuotientIntegration::registerTypes();
 
-    qmlRegisterType<RoomListModel>("Determinant", 0, 1, "ChatsModel");
+    qmlRegisterType<RoomListModel>("Determinant", 0, 1, "RoomListModel");
     qmlRegisterType<RoomEventsModel>("Determinant", 0, 1, "RoomEventsModel");
     qmlRegisterType<PublicRoomListModel>(
         "Determinant", 0, 1, "PublicRoomListModel");

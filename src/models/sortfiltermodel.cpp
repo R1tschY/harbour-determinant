@@ -22,12 +22,6 @@
 
 namespace Det {
 
-static const QList<QString> filterModes {
-    QStringLiteral("none"),
-    QStringLiteral("value"),
-    QStringLiteral("regex"),
-};
-
 SortFilterModel::SortFilterModel()
 {
     connect(
@@ -41,11 +35,11 @@ SortFilterModel::SortFilterModel()
 bool SortFilterModel::filterAcceptsRow(
         int source_row, const QModelIndex& source_parent) const
 {
-    if (m_filterModeIndex == 0) {
+    if (m_filterMode == 0) {
         return true;
     }
 
-    if (m_filterModeIndex > 1) {
+    if (m_filterMode > 1) {
         return QSortFilterProxyModel::filterAcceptsRow(
                     source_row, source_parent);
     }
@@ -74,25 +68,6 @@ void SortFilterModel::setSortAscending(bool sortAscending)
 
     if (m_complete && !m_sortRole.isEmpty())
         sort(0, m_sortAscending ? Qt::AscendingOrder : Qt::DescendingOrder);
-}
-
-QString SortFilterModel::filterMode() const
-{
-    return filterModes[m_filterModeIndex];
-}
-
-void SortFilterModel::setFilterMode(const QString &filterMode)
-{   
-    int index = filterModes.indexOf(filterMode);
-    if (index < 0)
-        return;
-
-    if (index == m_filterModeIndex)
-        return;
-
-    m_filterModeIndex = index;
-
-    invalidateFilter();
 }
 
 QString SortFilterModel::sortRole() const
@@ -134,6 +109,7 @@ void SortFilterModel::setFilterValue(const QVariant &filterValue)
     if (filterValue == m_filterValue)
         return;
 
+    m_filterMode = FilterByValue;
     m_filterValue = filterValue;
 
     invalidateFilter();
@@ -154,9 +130,10 @@ void SortFilterModel::invalidateFilter()
     if (!m_complete)
         return;
 
-    if (m_filterModeIndex == 2) {
-        // regex
+    if (m_filterMode == FilterByRegex) {
         setFilterRegExp(m_filterValue.toString());
+    } else {
+        setFilterRegExp(QString());
     }
 
     QSortFilterProxyModel::invalidateFilter();
@@ -168,8 +145,10 @@ void SortFilterModel::onRoleNamesChanged()
         return;
 
     const auto roles = roleNames();
-    QSortFilterProxyModel::setSortRole(roles.key(m_sortRole.toLatin1(), 0));
-    QSortFilterProxyModel::setFilterRole(roles.key(m_filterRole.toLatin1(), 0));
+    QSortFilterProxyModel::setSortRole(
+                roles.key(m_sortRole.toLatin1(), Qt::DisplayRole));
+    QSortFilterProxyModel::setFilterRole(
+                roles.key(m_filterRole.toLatin1(), Qt::DisplayRole));
 }
 
 void SortFilterModel::componentComplete()

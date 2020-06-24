@@ -17,8 +17,13 @@ Page {
 
         anchors.fill: parent
 
-        model: ChatsModel {
-            connection: _connection
+        model: SortFilterModel{
+            sourceModel: RoomListModel {
+                connection: _connection
+            }
+
+            sortAscending: false
+            sortRole: "lastActivity"
         }
 
         header: PageHeader {
