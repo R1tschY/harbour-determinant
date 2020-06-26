@@ -145,11 +145,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>redacted message</source>
+        <source>🗑️ redacted message</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>redacted: %2</source>
+        <source>🗑️ redacted: %2</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

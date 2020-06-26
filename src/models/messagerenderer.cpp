@@ -33,9 +33,9 @@ QString MessageRenderer::renderEventText(
     if (event->isRedacted()) {
         QString reason = event->redactedBecause()->reason();
         if (reason.isEmpty())
-            return tr("redacted message");
+            return tr("🗑️ redacted message");
         else
-            return tr("redacted: %2").arg(reason);
+            return tr("🗑️ redacted: %2").arg(reason);
     }
 
     QString result = visit(

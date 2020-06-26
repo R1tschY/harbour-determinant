@@ -35,11 +35,11 @@ SortFilterModel::SortFilterModel()
 bool SortFilterModel::filterAcceptsRow(
         int source_row, const QModelIndex& source_parent) const
 {
-    if (m_filterMode == 0) {
+    if (m_filterMode == NoFilter) {
         return true;
     }
 
-    if (m_filterMode > 1) {
+    if (m_filterMode != FilterByValue) {
         return QSortFilterProxyModel::filterAcceptsRow(
                     source_row, source_parent);
     }
