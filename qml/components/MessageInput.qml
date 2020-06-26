@@ -9,7 +9,7 @@ Row {
 
     readonly property bool nonEmptyInput: inputEdit.text.trim().length !== 0
 
-    signal postPlainText
+    signal postPlainText(string text)
 
     TextArea {
         id: inputEdit
@@ -27,5 +27,13 @@ Row {
 //            icon.source: nonEmptyInput
 //                           ? "image://theme/icon-m-send"
 //                           : "image://theme/icon-m-attach"
+
+        onClicked: {
+            if (!input.nonEmptyInput) return
+
+            input.postPlainText(input.text.trim())
+
+            input.text = ""
+        }
     }
 }

@@ -44,7 +44,7 @@ int RoomEventsModel::rowCount(const QModelIndex& parent) const
     if (!m_room || parent.isValid())
         return 0;
 
-    return m_room->timelineSize() + m_pendingEvents;
+    return m_room->timelineSize() + pendingEventCount();
 }
 
 QVariant RoomEventsModel::data(const QModelIndex& idx, int role) const
@@ -53,14 +53,12 @@ QVariant RoomEventsModel::data(const QModelIndex& idx, int role) const
         return QVariant();
 
     int row = idx.row();
-    if (row > m_room->timelineSize() + m_pendingEvents)
+    int pendingEvents = pendingEventCount();
+    if (row > m_room->timelineSize() + pendingEvents)
         return QVariant();
 
-    if (m_pendingEvents != int(m_room->pendingEvents().size())) {
-        qCDebug(logger) << "wrong pendingEvents count";
-    }
 
-    bool isPending = row < m_pendingEvents;
+    bool isPending = row < pendingEvents;
 
     const RoomEvent* evt = nullptr;
     const PendingEventItem* pendingEvt = nullptr;
@@ -72,7 +70,7 @@ QVariant RoomEventsModel::data(const QModelIndex& idx, int role) const
         evt = evtRef.get();
     } else {
         auto& evtRef = *(
-            m_room->messageEvents().crbegin() + (row - m_pendingEvents));
+            m_room->messageEvents().crbegin() + (row - pendingEvents));
         timelineEvt = &evtRef;
         evt = evtRef.get();
     }
@@ -160,12 +158,8 @@ QVariant RoomEventsModel::data(const QModelIndex& idx, int role) const
         return m_room->readMarkerEventId() == evt->id();
 
     case ShowAuthorRole: {
-        if (isPending) {
-            return true;
-        }
-
         QModelIndex nextRow;
-        int rows = m_room->timelineSize() + m_pendingEvents;
+        int rows = m_room->timelineSize() + pendingEvents;
         for (auto r = row + 1; r < rows; ++r) {
             nextRow = index(r);
             if (!data(nextRow, HiddenRole).toBool()) {
@@ -173,7 +167,7 @@ QVariant RoomEventsModel::data(const QModelIndex& idx, int role) const
             }
         }
 
-        if (!nextRow.isValid()) {
+        if (!nextRow.isValid() || nextRow.row() >= rows) {
             return true;
         }
 
@@ -211,43 +205,36 @@ QHash<int, QByteArray> RoomEventsModel::roleNames() const
     return roles;
 }
 
-int RoomEventsModel::pendingEventsCount() const
-{
-    return m_pendingEvents;
-}
-
 void RoomEventsModel::onBeginInsertMessages(RoomEventsRange events)
 {
     Q_ASSERT(events.size() > 0);
 
+    int pendingEvents = pendingEventCount();
     beginInsertRows(
-        {}, m_pendingEvents, m_pendingEvents + int(events.size()) - 1);
+        {}, pendingEvents, pendingEvents + int(events.size()) - 1);
 }
 
 void RoomEventsModel::onBeginInsertOldMessages(RoomEventsRange events)
 {
     Q_ASSERT(events.size() > 0);
 
-    int size = m_room->timelineSize() + m_pendingEvents;
+    int size = m_room->timelineSize() + pendingEventCount();
     beginInsertRows({}, size, size + int(events.size()) - 1);
 }
 
 void RoomEventsModel::onBeginSyncMessage(int i)
 {
-    if (m_pendingEvents - 1 == i) {
+    int pendingEvents = pendingEventCount();
+    if (pendingEvents - 1 == i) {
         // trival case
-        --m_pendingEvents;
-        updateRow(m_pendingEvents);
         return;
     }
 
-    Q_ASSERT(i >= 0 && i < m_pendingEvents);
-    //Q_ASSERT(m_pendingEvents == m_room->pendingEvents().size());
+    Q_ASSERT(i >= 0 && i < pendingEvents);
 
     m_movingEvents = true;
-    int index = m_pendingEvents - (i + 1);
-    beginMoveRows({}, index, index, {}, m_pendingEvents - 1);
-    --m_pendingEvents;
+    int index = pendingEvents - (i + 1);
+    beginMoveRows({}, index, index, {}, pendingEvents - 1);
 }
 
 void RoomEventsModel::onEndSyncMessage()
@@ -257,8 +244,10 @@ void RoomEventsModel::onEndSyncMessage()
         endMoveRows();
     }
 
+    int pendingEvents = pendingEventCount();
+
     //Q_ASSERT(m_pendingEvents == m_room->pendingEvents().size());
-    updateRow(m_pendingEvents);
+    updateRow(pendingEvents);
 }
 
 void RoomEventsModel::onReplacedMessage(
@@ -293,7 +282,7 @@ int RoomEventsModel::findEvent(const QString& eventId)
     }
 
     return std::distance(m_room->messageEvents().rbegin(), iter)
-        + m_pendingEvents;
+            + pendingEventCount();
 }
 
 Room* RoomEventsModel::room() const
@@ -331,11 +320,11 @@ void RoomEventsModel::setRoom(Room* room)
             this, &RoomEventsModel::onReplacedMessage);
 
         connect(m_room, &Room::pendingEventAboutToAdd,
-            this, [this] { beginInsertRows({}, 0, 0); ++m_pendingEvents; });
+            this, [this] { beginInsertRows({}, 0, 0); });
         connect(m_room, &Room::pendingEventAdded,
             this, [this] { endInsertRows(); });
         connect(m_room, &Room::pendingEventAboutToDiscard, this,
-            [this](int i) { beginRemoveRows({}, i, i); --m_pendingEvents; });
+            [this](int i) { beginRemoveRows({}, i, i); });
         connect(m_room, &Room::pendingEventDiscarded,
             this, [this] { endRemoveRows(); });
         connect(m_room, &Room::pendingEventAboutToMerge,
@@ -344,10 +333,6 @@ void RoomEventsModel::setRoom(Room* room)
             this, [this]() { onEndSyncMessage(); });
         connect(m_room, &Room::pendingEventChanged,
             this, [this](int i) { updateRow(i); });
-
-        m_pendingEvents = int(m_room->pendingEvents().size());
-    } else {
-        m_pendingEvents = 0;
     }
 
     endResetModel();

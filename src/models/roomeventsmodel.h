@@ -50,14 +50,15 @@ public:
 
     void setRoom(Quotient::Room* room);
     Quotient::Room* room() const;
-    int pendingEventsCount() const;
+    inline int pendingEventCount() const {
+        return int(m_room->pendingEvents().size());
+    }
 
 signals:
     void roomChanged();
 
 private:
     Quotient::Room* m_room = nullptr;
-    int m_pendingEvents = 0;
 
     bool m_movingEvents = false;
 

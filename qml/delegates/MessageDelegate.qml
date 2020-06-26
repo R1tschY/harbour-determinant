@@ -49,13 +49,20 @@ Item {
         visible: showAuthor
     }
 
+//    Rectangle {
+//        anchors.fill: contentColumn
+//        color: "red"
+//        opacity: 0.3
+//    }
+
     Column {
-        property int maxWidth: page.width - Theme.iconSizeMedium - 3 * Theme.paddingMedium
+        //property int maxWidth: page.width - Theme.iconSizeMedium - 3 * Theme.paddingMedium
 
         id: contentColumn
-        width: Math.min(Math.max(
-            messageLabel.implicitWidth, timeLabel.implicitWidth,
-            authorLabel.implicitWidth) + 2 * Theme.paddingSmall, maxWidth)
+        width: page.width - Theme.iconSizeMedium - 3 * Theme.paddingMedium
+//        width: Math.min(Math.max(
+//            messageLabel.implicitWidth, timeLabel.implicitWidth,
+//            authorLabel.implicitWidth) + 2 * Theme.paddingSmall, maxWidth)
         anchors {
             left: ownMessage ? undefined : parent.left
             right: ownMessage ? parent.right: undefined

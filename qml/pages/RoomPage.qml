@@ -58,10 +58,8 @@ Page {
 
         onPostPlainText: {
             if (!currentRoom) return
-            if (!input.nonEmptyInput) return
 
-            currentRoom.postPlainText(input.text.trim())
-            input.text = ""
+            currentRoom.postPlainText(text)
             eventListView.positionViewAtBeginning()
         }
     }

@@ -4,7 +4,7 @@ import Sailfish.Silica 1.0
 
 Column {
     id: contentColumn
-    width: parent.width
+    width: page.width
 
     Label {
         width: page.width - 2 * Theme.horizontalPageMargin
