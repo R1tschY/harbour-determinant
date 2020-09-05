@@ -184,8 +184,7 @@ QString MessageRenderer::renderMemberEvent(const RoomMemberEvent& event) const
         case RoomMemberEvent::MembershipType::Join:
             return tr("%1 has joined").arg(member);
         case RoomMemberEvent::MembershipType::Invite:
-            messages.append(tr("%1 was invited").arg(member));
-            break;
+            return tr("%1 was invited").arg(member);
         case RoomMemberEvent::MembershipType::Ban:
             return tr("%1 is banned").arg(member);
         case RoomMemberEvent::MembershipType::Leave:
@@ -195,8 +194,7 @@ QString MessageRenderer::renderMemberEvent(const RoomMemberEvent& event) const
             }
             break;
         case RoomMemberEvent::MembershipType::Knock:
-            messages.append(tr("%1 knocked").arg(member));
-            break;
+            return tr("%1 knocked").arg(member);
         case RoomMemberEvent::MembershipType::Undefined:
         default:
             // TODO:
@@ -226,9 +224,12 @@ QString MessageRenderer::renderMemberEvent(const RoomMemberEvent& event) const
     }
 
     if (messages.isEmpty()) {
-        // TODO:
-        qCWarning(logger) << "No change detected";
-        return QStringLiteral("No change detected");
+        qCWarning(logger).noquote()
+            << member << "changed something:"
+            << event.fullJson().value(QStringLiteral("content")).toObject()
+            << event.fullJson().value(QStringLiteral("prev_content"))
+               .toObject();
+        return QStringLiteral("%1 changed something").arg(member);
     }
 
     return messages.join(QStringLiteral("\n"));
