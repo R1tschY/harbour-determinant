@@ -7,7 +7,7 @@ import "../components"
 Page {
     id: page
 
-    property var _connection: connection
+    property QtObject _connection: connection
 
     // The effective value will be restricted by ApplicationWindow.allowedOrientations
     allowedOrientations: Orientation.All
