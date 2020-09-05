@@ -142,21 +142,22 @@ void PublicRoomListModel::setError(const QString& error)
 
 void PublicRoomListModel::onFetched()
 {
-    const PublicRoomsResponse& data = m_job->data();
+    QVector<PublicRoomsChunk> chunk = m_job->chunk();
 
     int oldSize = int(m_entries.size());
-    int newEntries = int(data.chunk.size());
+    int newEntries = int(chunk.size());
 
     beginInsertRows({}, oldSize, oldSize + newEntries - 1);
-    for (auto&& entry : data.chunk) {
+    for (auto&& entry : chunk) {
         m_entries.emplace_back(std::move(entry));
     }
-    if (data.nextBatch.isEmpty()) {
+    QString nextBatch = m_job->nextBatch();
+    if (nextBatch.isEmpty()) {
         m_nextBatch = QString(); // null string is sentinel
     } else {
-        m_nextBatch = std::move(data.nextBatch);
+        m_nextBatch = std::move(nextBatch);
     }
-    setTotalRoomCountEstimate(data.totalRoomCountEstimate.value_or(-1));
+    setTotalRoomCountEstimate(m_job->totalRoomCountEstimate().value_or(-1));
     endInsertRows();
     emit fetchingChanged();
 }
