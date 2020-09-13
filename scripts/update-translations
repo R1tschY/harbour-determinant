@@ -1,0 +1,4 @@
+#!/bin/bash -e
+
+tx push --source
+tx pull --all --force

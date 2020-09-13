@@ -1,0 +1,10 @@
+[main]
+host = https://www.transifex.com
+
+[determinant.harbour-determinant-ts]
+file_filter = translations/harbour-determinant-<lang>.ts
+minimum_perc = 0
+source_file = translations/harbour-determinant.ts
+source_lang = en
+type = QT
+

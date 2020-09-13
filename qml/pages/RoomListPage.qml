@@ -138,11 +138,11 @@ Page {
                 text: "Logout"
                 onClicked: connection.logout()
             }
-            MenuItem {
-                text: "Public rooms"
-                onClicked: pageStack.push(
-                               Qt.resolvedUrl("PublicRoomListPage.qml"))
-            }
+//            MenuItem {
+//                text: "Public rooms"
+//                onClicked: pageStack.push(
+//                               Qt.resolvedUrl("PublicRoomListPage.qml"))
+//            }
             //MenuLabel { text: "Informational label" }
         }
 
