@@ -105,7 +105,7 @@ void RoomListModel::setConnection(Connection* connection)
         connect(m_connection, &Connection::aboutToDeleteRoom,
             this, &RoomListModel::onDeleteRoom);
 
-        qDebug() << connection->allRooms().size() << connection->directChats().size();
+        qCDebug() << connection->allRooms().size() << connection->directChats().size();
         for (Room* room : connection->allRooms())
             addRoom(room);
     }
@@ -118,7 +118,6 @@ void RoomListModel::setConnection(Connection* connection)
 void RoomListModel::onNewRoom(Room* room)
 {
     Q_ASSERT(room != nullptr);
-    qDebug() << room->displayName();
 
     beginInsertRows(QModelIndex(), int(m_rooms.size()), int(m_rooms.size()));
     addRoom(room);
@@ -127,8 +126,6 @@ void RoomListModel::onNewRoom(Room* room)
 
 void RoomListModel::onDeleteRoom(Room* room)
 {
-    qDebug() << room->displayName();
-
     int i = indexOfRoom(room);
     Q_ASSERT(i != rows());
     if (i != rows()) {
@@ -140,8 +137,6 @@ void RoomListModel::onDeleteRoom(Room* room)
 
 void RoomListModel::onRoomChanged(Room* room, const QVector<int>& roles)
 {
-    qDebug() << room->displayName();
-
     int i = indexOfRoom(room);
     Q_ASSERT(i != rows());
     if (i != rows()) {
@@ -164,7 +159,6 @@ int RoomListModel::indexOfRoom(Room* room) const
 
 void RoomListModel::addRoom(Room* room)
 {
-    qDebug() << room->displayName();
     Q_ASSERT(room != nullptr);
 
     if (room) {
@@ -175,7 +169,6 @@ void RoomListModel::addRoom(Room* room)
 
 void RoomListModel::connectToRoom(Room* room)
 {
-    qDebug() << room->displayName();
     Q_ASSERT(room != nullptr);
 
     connect(room, &Room::displaynameChanged,
