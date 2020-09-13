@@ -2,6 +2,12 @@
 
 *Matrix client prototype for Sailfish OS*
 
+![](https://img.shields.io/github/workflow/status/R1tschY/harbour-determinant/RPM%20build) ![](https://img.shields.io/github/stars/R1tschY/harbour-determinant?style=social)
+
+Install it from [OpenRepos](https://openrepos.net/content/r1tschy/determinant).
+
+Join [#determinant:matrix.org](https://matrix.to/#/!FuBXURHQWjgDebjFVi:matrix.org?via=matrix.org) for discussions and feedback.
+
 ## What's working?
 
 * Read plain text/Markdown/HTML messages
@@ -19,11 +25,11 @@
 * Manage room settings
 * Manage user profile
 
-## Contact 
-
-Join [#determinant:matrix.org](https://matrix.to/#/!FuBXURHQWjgDebjFVi:matrix.org?via=matrix.org) for discussions and feedback.
+## Contribute 
 
 Use [GitHub](https://github.com/R1tschY/harbour-determinant) for issues and pull requests.
+
+Use [Transifex](https://www.transifex.com/r1tschy/determinant) to add translations for your language.
 
 ## Acknowledgement
 

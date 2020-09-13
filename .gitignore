@@ -5,3 +5,6 @@
 *.pro.user
 *.pro.user.*
 *.autosave
+
+# VS Code
+.vscode

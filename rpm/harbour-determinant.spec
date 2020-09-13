@@ -1,7 +1,7 @@
 Name:       harbour-determinant
 Summary:    A Sailfish OS Matrix Client
-Version:    0.1
-Release:    0
+Version:    0.1.0
+Release:    1
 Group:      Qt/Qt
 License:    LICENSE
 URL:        https://github.com/R1tschY/harbour-determinant
