@@ -2,6 +2,7 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 import Quotient 0.5
 import Determinant 0.1
+import Determinant.Qml 0.2
 import "../components"
 
 Item {
@@ -96,7 +97,18 @@ Item {
 
             text: customMessageCss + display
             textFormat: Text.RichText
-            font.pixelSize: Theme.fontSizeSmall
+            font.pixelSize: {
+                var len = StringUtils.getEmoijChainLength(display)
+                if (len === 0 || len > 6) {
+                    return Theme.fontSizeSmall
+                } else if (len > 4) {
+                    return Theme.fontSizeMedium
+                } else if (len > 2) {
+                    return Theme.fontSizeLarge
+                } else {
+                    return Theme.fontSizeExtraLarge
+                }
+            }
             color: Theme.primaryColor
             wrapMode: Text.Wrap
             horizontalAlignment: textAlign

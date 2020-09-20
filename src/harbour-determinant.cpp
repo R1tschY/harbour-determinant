@@ -38,6 +38,7 @@
 #include "secretsservice.h"
 #include "store.h"
 #include "thumbnailprovider.h"
+#include "qmlutils/stringutils.h"
 
 int main(int argc, char* argv[])
 {
@@ -46,6 +47,7 @@ int main(int argc, char* argv[])
     std::unique_ptr<QGuiApplication> app(SailfishApp::application(argc, argv));
 
     QuotientIntegration::registerTypes();
+    StringUtils::registerType();
 
     qmlRegisterType<RoomListModel>("Determinant", 0, 1, "RoomListModel");
     qmlRegisterType<RoomEventsModel>("Determinant", 0, 1, "RoomEventsModel");

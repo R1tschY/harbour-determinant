@@ -105,7 +105,6 @@ void RoomListModel::setConnection(Connection* connection)
         connect(m_connection, &Connection::aboutToDeleteRoom,
             this, &RoomListModel::onDeleteRoom);
 
-        qCDebug() << connection->allRooms().size() << connection->directChats().size();
         for (Room* room : connection->allRooms())
             addRoom(room);
     }

@@ -27,6 +27,7 @@ SOURCES += src/harbour-determinant.cpp \
     src/models/roomlistmodel.cpp \
     src/models/roommembersmodel.cpp \
     src/models/sortfiltermodel.cpp \
+    src/qmlutils/stringutils.cpp \
     src/quotientintegration.cpp \
     src/secretsservice.cpp \
     src/store.cpp \
@@ -81,6 +82,7 @@ HEADERS += \
     src/models/roomlistmodel.h \
     src/models/roommembersmodel.h \
     src/models/sortfiltermodel.h \
+    src/qmlutils/stringutils.h \
     src/quotientintegration.h \
     src/secretsservice.h \
     src/store.h \
