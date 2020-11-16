@@ -41,6 +41,7 @@ Rectangle {
         sourceSize: Qt.size(size, size)
 
         fillMode: Image.PreserveAspectCrop
+        asynchronous: true
     }
 
     BusyIndicator {

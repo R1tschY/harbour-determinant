@@ -43,7 +43,9 @@ DISTFILES += qml/harbour-determinant.qml \
     qml/delegates/EventDelegate.qml \
     qml/delegates/MessageDelegate.qml \
     qml/delegates/StateMessageDelegate.qml \
+    qml/pages/ErrorPage.qml \
     qml/pages/LoginPage.qml \
+    qml/pages/LoginProgressPage.qml \
     qml/pages/PublicRoomListPage.qml \
     qml/pages/RoomDetailsPage.qml \
     qml/pages/RoomPage.qml \
@@ -88,3 +90,6 @@ HEADERS += \
     src/store.h \
     src/models/roomeventsmodel.h \
     src/thumbnailprovider.h
+
+RESOURCES += \
+    resources.qrc

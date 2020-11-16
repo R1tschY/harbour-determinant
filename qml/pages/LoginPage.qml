@@ -2,34 +2,17 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 
 Page {
-    property bool loading: false
-
     id: page
     allowedOrientations: Orientation.All
 
-    Connections {
-        target: connection
-
-        onLoginError: {
-            if (error.indexOf("Forbidden") !== -1) {
-                passwordField.text = ""
-                console.info("Wrong password given")
-                loading = false
-                // TODO: show error
-            } else {
-                console.error("Same other login error")
-            }
-        }
-
-        onConnected: {
-            pageStack.replace(Qt.resolvedUrl("RoomListPage.qml"))
-        }
-    }
-
     function login(user, pass, server) {
-        if (!server) server = "https://matrix.org"
-        connection.setHomeserver(server)
-        connection.connectToServer(user, pass, connection.deviceId)
+        if (!server) {
+            server = "https://matrix.org"
+        }
+
+        pageStack.push(Qt.resolvedUrl("LoginProgressPage.qml"), {
+            "user": user, "password": pass, "server": server
+        })
     }
 
     SilicaFlickable {
@@ -45,29 +28,67 @@ Page {
                 title: qsTr("Matrix Login")
             }
 
+            Rectangle {
+                color: "white"
+                height: Theme.itemSizeExtraLarge + 2 * Theme.paddingMedium
+                width: parent.width
+
+                Image {
+                    id: logo
+                    source: "qrc:det/icons/matrix-logo.svg"
+                    y: Theme.paddingMedium
+                    height: Theme.itemSizeExtraLarge
+                    width: parent.width
+
+                    fillMode: Image.PreserveAspectFit
+                    asynchronous: true
+
+                    // Dirty SVG scaling trick
+                    sourceSize: Qt.size(
+                        hiddenImg.sourceSize.width * Theme.itemSizeExtraLarge / hiddenImg.sourceSize.height, Theme.itemSizeExtraLarge)
+                    Image {
+                        id: hiddenImg
+                        source: parent.source
+                        width: 0
+                        height: 0
+                    }
+                }
+            }
+
             TextField {
                 id: serverField
-                label: "Server"
+                label: qsTr("Server")
                 placeholderText: label
                 width: parent.width
                 text: "https://matrix.org"
 
+                EnterKey.enabled: text.length > 0
                 EnterKey.iconSource: "image://theme/icon-m-enter-next"
                 EnterKey.onClicked: usernameField.focus = true
+                inputMethodHints: Qt.ImhUrlCharactersOnly
+                    | Qt.ImhNoAutoUppercase | Qt.ImhPreferLowercase | Qt.ImhNoPredictiveText
+                validator: RegExpValidator {
+                    regExp: /(https?:\/\/.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g
+                }
             }
 
             TextField {
                 id: usernameField
-                label: "Username"
+                label: qsTr("Username")
                 placeholderText: label
                 width: parent.width
 
+                EnterKey.enabled: text.length > 0
                 EnterKey.iconSource: "image://theme/icon-m-enter-next"
                 EnterKey.onClicked: passwordField.focus = true
+                inputMethodHints: Qt.ImhNoAutoUppercase | Qt.ImhLowercaseOnly
+                    | Qt.ImhNoPredictiveText
             }
 
             PasswordField {
                 id: passwordField
+
+                EnterKey.enabled: text.length > 0
                 EnterKey.iconSource: "image://theme/icon-m-enter-accept"
                 EnterKey.onClicked:
                     login(

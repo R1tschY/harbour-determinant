@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/det">
+        <file>icons/matrix-logo.svg</file>
+    </qresource>
+</RCC>

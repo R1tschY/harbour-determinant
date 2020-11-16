@@ -349,8 +349,8 @@ void RoomEventsModel::setRoom(Room* room)
             this, [this] { beginInsertRows({}, 0, 0); });
         connect(m_room, &Room::pendingEventAdded,
             this, [this] { endInsertRows(); });
-        connect(m_room, &Room::pendingEventAboutToDiscard, this,
-            [this](int i) { beginRemoveRows({}, i, i); });
+        connect(m_room, &Room::pendingEventAboutToDiscard,
+            this, [this](int i) { beginRemoveRows({}, i, i); });
         connect(m_room, &Room::pendingEventDiscarded,
             this, [this] { endRemoveRows(); });
         connect(m_room, &Room::pendingEventAboutToMerge,

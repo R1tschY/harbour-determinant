@@ -34,6 +34,13 @@
     </message>
 </context>
 <context>
+    <name>ErrorPage</name>
+    <message>
+        <source>Error</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>EventDelegate</name>
     <message>
         <source>New messages</source>
@@ -44,6 +51,29 @@
     <name>LoginPage</name>
     <message>
         <source>Matrix Login</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Server</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Username</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>LoginProgressPage</name>
+    <message>
+        <source>Login Error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Invalid URL</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Logging in …</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

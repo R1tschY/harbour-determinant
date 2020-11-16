@@ -16,6 +16,7 @@ Join [#determinant:matrix.org](https://matrix.to/#/!FuBXURHQWjgDebjFVi:matrix.or
 ## What's missing?
 
 * Read image/video/audio/file/... messages
+* Encryption
 * Delete or edit own messages
 * Notifications
 * Send Markdown/HTML/image/video/audio/file/... messages
