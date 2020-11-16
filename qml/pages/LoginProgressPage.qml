@@ -37,21 +37,17 @@ Page {
         }
     }
 
-    BusyIndicator {
+    PageBusyIndicator {
         id: busyIndicator
         size: BusyIndicatorSize.Large
         running: true
-        anchors {
-            verticalCenter: parent.verticalCenter
-            horizontalCenter: parent.horizontalCenter
-        }
     }
 
     Label {
         width: page.width
         text: qsTr("Logging in …")
         anchors.top: busyIndicator.bottom
-        anchors.topMargin: Theme.paddingMedium
+        anchors.topMargin: Theme.paddingLarge
         horizontalAlignment: Text.AlignHCenter
         wrapMode: Text.WordWrap
         color: Theme.secondaryHighlightColor
