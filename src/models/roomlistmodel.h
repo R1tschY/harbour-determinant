@@ -63,6 +63,7 @@ signals:
 
 private:
     Quotient::Connection* m_connection = nullptr;
+    std::vector<Quotient::Room*> m_rooms;
 
     void addRoom(Quotient::Room* room);
     void connectToRoom(Quotient::Room* room);
@@ -75,7 +76,6 @@ private:
 
     int indexOfRoom(Quotient::Room* room) const;
 
-    std::vector<Quotient::Room*> m_rooms;
     int rows() const { return int(m_rooms.size()); }
 };
 

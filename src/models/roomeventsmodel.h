@@ -34,8 +34,9 @@ namespace Det {
 class RoomEventsModel : public QAbstractListModel {
     Q_OBJECT
 
-    Q_PROPERTY(Quotient::Room* room
-            READ room WRITE setRoom NOTIFY roomChanged)
+    Q_PROPERTY(Quotient::Room* room READ room WRITE setRoom NOTIFY roomChanged)
+    Q_PROPERTY(bool fetching READ fetching NOTIFY fetchingChanged)
+    Q_PROPERTY(QString fetchingError READ fetchingError NOTIFY fetchingErrorChanged)
 
     enum {
         DisplayRole = Qt::UserRole,
@@ -71,12 +72,18 @@ public:
         return int(m_room->pendingEvents().size());
     }
 
+    bool fetching() const;
+    QString fetchingError() const { return m_fetchingError; }
+
 signals:
     void roomChanged();
+    void fetchingChanged();
+    void fetchingErrorChanged();
 
 private:
     Quotient::Room* m_room = nullptr;
 
+    QString m_fetchingError;
     bool m_movingEvents = false;
 
     void onBeginInsertMessages(Quotient::RoomEventsRange events);

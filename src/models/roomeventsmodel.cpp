@@ -307,6 +307,15 @@ Room* RoomEventsModel::room() const
     return m_room;
 }
 
+bool RoomEventsModel::fetching() const
+{
+    if (m_room) {
+        return isJobRunning(m_room->eventsHistoryJob());
+    } else {
+        return false;
+    }
+}
+
 void RoomEventsModel::setRoom(Room* room)
 {
     if (m_room == room)
@@ -350,6 +359,9 @@ void RoomEventsModel::setRoom(Room* room)
             this, [this]() { onEndSyncMessage(); });
         connect(m_room, &Room::pendingEventChanged,
             this, [this](int i) { updateRow(i); });
+
+        connect(m_room, &Room::eventsHistoryJobChanged,
+            this, [this]() { emit fetchingChanged(); });
     }
 
     endResetModel();
