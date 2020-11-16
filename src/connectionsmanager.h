@@ -60,6 +60,7 @@ private:
 
     void onLoginError(const QString& message, const QString& details);
     void onConnected();
+    void onLoggedOut();
     void onSyncDone();
     void onSyncError(QString message, QString details);
 

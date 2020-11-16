@@ -34,6 +34,9 @@ ConnectionsManager::ConnectionsManager(SecretsService* secretsService, QObject* 
     connect(
         &m_connection, &Connection::connected,
         this, &ConnectionsManager::onConnected);
+    connect(
+        &m_connection, &Connection::loggedOut,
+        this, &ConnectionsManager::onLoggedOut);
 
     connect(
         &m_connection, &Connection::syncDone,
@@ -43,10 +46,6 @@ ConnectionsManager::ConnectionsManager(SecretsService* secretsService, QObject* 
         &m_connection, &Connection::syncError,
         this, &ConnectionsManager::onSyncError);
 
-    connect(&m_connection, &Connection::loggedOut, this, [this] {
-        qCDebug(logger) << "Log out";
-        saveLogin();
-    });
     connect(&m_connection, &Connection::loginError, this, [](QString message, QString details) {
         qCCritical(logger) << "Login error:" << message << "/" << details;
     });
@@ -121,6 +120,14 @@ void ConnectionsManager::onConnected()
     m_connection.setLazyLoading(true);
     m_connection.loadState();
     m_connection.syncLoop(m_syncTimeout);
+}
+
+void ConnectionsManager::onLoggedOut()
+{
+    qCDebug(logger) << "Logged out";
+
+    saveLogin();
+    QFile::remove(m_connection.stateCachePath());
 }
 
 void ConnectionsManager::onSyncDone()
