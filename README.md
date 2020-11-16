@@ -34,7 +34,7 @@ Use [Transifex](https://www.transifex.com/r1tschy/determinant) to add translatio
 
 ## Acknowledgement
 
-It uses a Qt 5.6 port of [libQuotient](https://github.com/quotient-im/libQuotient) 0.6.1.
+It uses a Qt 5.6 port of [libQuotient](https://github.com/quotient-im/libQuotient) 0.6.2.
 
 ## Licence
 
