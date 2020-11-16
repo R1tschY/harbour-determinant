@@ -1,12 +1,11 @@
 Name:       harbour-determinant
 Summary:    A Sailfish OS Matrix Client
-Version:    0.1.0
-Release:    1
+Version:    0.2.0
+Release:    0
 Group:      Qt/Qt
 License:    LICENSE
 URL:        https://github.com/R1tschY/harbour-determinant
 Source0:    %{name}-%{version}.tar.bz2
-Source100:  harbour-determinant.yaml
 Requires:   sailfishsilica-qt5 >= 0.10.9
 BuildRequires:  pkgconfig(sailfishapp) >= 1.0.2
 BuildRequires:  pkgconfig(sailfishsecrets)
@@ -16,7 +15,7 @@ BuildRequires:  pkgconfig(Qt5Quick)
 BuildRequires:  desktop-file-utils
 
 %description
-Matrix client prototype for Sailfish OS.
+Matrix client for Sailfish OS.
 
 
 %prep
