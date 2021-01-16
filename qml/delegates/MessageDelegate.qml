@@ -99,14 +99,14 @@ Item {
             textFormat: Text.RichText
             font.pixelSize: {
                 var len = StringUtils.getEmoijChainLength(display)
-                if (len === 0 || len > 6) {
+                if (len === 0 || len > 10) {
                     return Theme.fontSizeSmall
-                } else if (len > 4) {
-                    return Theme.fontSizeMedium
-                } else if (len > 2) {
+                } else if (len > 5) {
                     return Theme.fontSizeLarge
-                } else {
+                } else if (len > 3) {
                     return Theme.fontSizeExtraLarge
+                } else {
+                    return Theme.fontSizeExtraLarge * 1.5
                 }
             }
             color: Theme.primaryColor
