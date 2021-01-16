@@ -39,6 +39,14 @@ Page {
         }
     }
 
+    Component.onCompleted: {
+        currentRoom.displayed = true
+    }
+
+    Component.onDestroyed: {
+        currentRoom.displayed = false
+    }
+
     EventsView {
         id: eventListView
 
