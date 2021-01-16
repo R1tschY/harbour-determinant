@@ -24,7 +24,7 @@ jobs:
       run: mkdir output
 
     - name: Build armv7hl
-      run: docker run --rm --privileged -v $PWD:/share coderus/sailfishos-platform-sdk:$RELEASE /bin/bash -c "
+      run: docker run --rm --privileged -v $PWD:/share r1tschy/sailfishos-platform-sdk:$RELEASE /bin/bash -c "
             mkdir -p build ;
             cd build ;
             cp -r /share/* . ;
@@ -32,7 +32,7 @@ jobs:
             sudo cp -r RPMS/*.rpm /share/output"
 
     - name: Build i486
-      run: docker run --rm --privileged -v $PWD:/share coderus/sailfishos-platform-sdk:$RELEASE /bin/bash -c "
+      run: docker run --rm --privileged -v $PWD:/share r1tschy/sailfishos-platform-sdk:$RELEASE /bin/bash -c "
             mkdir -p build ;
             cd build ;
             cp -r /share/* . ;
