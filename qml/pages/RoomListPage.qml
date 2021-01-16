@@ -64,7 +64,7 @@ Page {
 
                 radius: Theme.paddingSmall
                 color: Theme.highlightBackgroundColor
-                visible: unreadCount > 0
+                visible: notificationCount > 0
                 width: unreadLabelText.contentWidth + 2 * Theme.paddingSmall
                 height: unreadLabelText.contentHeight
 
@@ -74,7 +74,7 @@ Page {
 
                     truncationMode: TruncationMode.Fade
                     font.weight: Font.Bold
-                    text: unreadCount
+                    text: notificationCount
                     color: Theme.primaryColor
                 }
             }
