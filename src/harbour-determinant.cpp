@@ -39,6 +39,7 @@
 #include "store.h"
 #include "thumbnailprovider.h"
 #include "qmlutils/stringutils.h"
+#include "notificationsservice.h"
 
 int main(int argc, char* argv[])
 {
@@ -59,6 +60,8 @@ int main(int argc, char* argv[])
     SecretsService secretsService;
     ConnectionsManager connectionManager(&secretsService);
     connectionManager.load();
+
+    NotificationsService notificationsService(connectionManager.connection());
 
     QQuickView* view = SailfishApp::createView();
 

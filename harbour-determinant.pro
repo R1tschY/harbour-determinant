@@ -15,7 +15,7 @@ TARGET = harbour-determinant
 CONFIG += sailfishapp
 CONFIG += link_pkgconfig
 
-PKGCONFIG += sailfishsecrets sailfishapp
+PKGCONFIG += sailfishsecrets sailfishapp nemonotifications-qt5
 
 include(libquotient/libquotient.pri)
 
@@ -28,6 +28,7 @@ SOURCES += src/harbour-determinant.cpp \
     src/models/roomlistmodel.cpp \
     src/models/roommembersmodel.cpp \
     src/models/sortfiltermodel.cpp \
+    src/notificationsservice.cpp \
     src/qmlutils/stringutils.cpp \
     src/quotientintegration.cpp \
     src/secretsservice.cpp \
@@ -86,9 +87,11 @@ HEADERS += \
     src/models/roomlistmodel.h \
     src/models/roommembersmodel.h \
     src/models/sortfiltermodel.h \
+    src/notificationsservice.h \
     src/qmlutils/stringutils.h \
     src/quotientintegration.h \
     src/secretsservice.h \
+    src/stdhash.h \
     src/store.h \
     src/models/roomeventsmodel.h \
     src/thumbnailprovider.h
