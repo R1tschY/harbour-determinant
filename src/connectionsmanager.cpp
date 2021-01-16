@@ -20,6 +20,8 @@
 #include <QLoggingCategory>
 #include <QSettings>
 
+#include "detroom.h"
+
 namespace Det {
 using namespace Quotient;
 
@@ -31,6 +33,8 @@ ConnectionsManager::ConnectionsManager(SecretsService* secretsService, QObject* 
     : QObject(parent)
     , m_secretsService(secretsService)
 {
+    m_connection.setRoomType<DetRoom>();
+
     connect(
         &m_connection, &Connection::connected,
         this, &ConnectionsManager::onConnected);

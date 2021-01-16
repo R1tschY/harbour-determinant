@@ -21,6 +21,7 @@ include(libquotient/libquotient.pri)
 
 SOURCES += src/harbour-determinant.cpp \
     src/connectionsmanager.cpp \
+    src/detroom.cpp \
     src/humanize.cpp \
     src/models/messagerenderer.cpp \
     src/models/publicroomlistmodel.cpp \
@@ -78,6 +79,7 @@ TRANSLATIONS += translations/harbour-determinant-*.ts
 
 HEADERS += \
     src/connectionsmanager.h \
+    src/detroom.h \
     src/humanize.h \
     src/models/messagerenderer.h \
     src/models/publicroomlistmodel.h \
