@@ -27,6 +27,17 @@
     </message>
 </context>
 <context>
+    <name>Det::NotificationsService</name>
+    <message numerus="yes">
+        <source>%1 missed notifications</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+</context>
+<context>
     <name>Det::ThumbnailResponse</name>
     <message>
         <source>Media id `%1` does not have expected pattern: server/id</source>
