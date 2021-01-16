@@ -116,6 +116,7 @@ void NotificationsService::updateNotification(Room *room)
     QString summary = room->displayName();
 
     // TODO: setTimestamp with last notification event
+    // TODO: display text for last message in summary
     notification->setPreviewSummary(summary);
     notification->setPreviewBody(body);
     notification->setSummary(summary);
