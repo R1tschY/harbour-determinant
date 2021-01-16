@@ -6,6 +6,7 @@
 #include <QString>
 #include <unordered_map>
 #include <memory>
+#include <QVariant>
 
 #include "stdhash.h"
 
@@ -38,8 +39,10 @@ private:
     void onNotificationClicked();
 
     void updateNotification(Quotient::Room *room);
+    Notification* insert(const QString& roomId, std::unique_ptr<Notification> notification);
 
     std::unordered_map<QString, std::unique_ptr<Notification>> m_notifications;
+    QVariant m_appRemoteAction;
 };
 
 } // namespace Det

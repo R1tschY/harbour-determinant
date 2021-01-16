@@ -6,6 +6,7 @@ import "../components"
 
 Page {
     id: page
+    objectName: "RoomListPage"
 
     property QtObject _connection: connection
 

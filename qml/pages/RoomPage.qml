@@ -4,6 +4,7 @@ import "../components"
 
 Page {
     id: page
+    objectName: "RoomPage"
 
     property QtObject currentRoom: null
 
@@ -39,13 +40,6 @@ Page {
         }
     }
 
-    Component.onCompleted: {
-        currentRoom.displayed = true
-    }
-
-    Component.onDestroyed: {
-        currentRoom.displayed = false
-    }
 
     EventsView {
         id: eventListView

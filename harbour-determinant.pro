@@ -20,6 +20,7 @@ PKGCONFIG += sailfishsecrets sailfishapp nemonotifications-qt5
 include(libquotient/libquotient.pri)
 
 SOURCES += src/harbour-determinant.cpp \
+    src/applicationservice.cpp \
     src/connectionsmanager.cpp \
     src/detroom.cpp \
     src/humanize.cpp \
@@ -79,6 +80,7 @@ CONFIG += sailfishapp_i18n
 TRANSLATIONS += translations/harbour-determinant-*.ts
 
 HEADERS += \
+    src/applicationservice.h \
     src/connectionsmanager.h \
     src/detroom.h \
     src/humanize.h \

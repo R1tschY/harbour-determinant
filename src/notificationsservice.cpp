@@ -6,6 +6,8 @@
 #include <connection.h>
 #include <room.h>
 
+#include "applicationservice.h"
+
 namespace Det {
 
 using namespace Quotient;
@@ -19,6 +21,11 @@ NotificationsService::~NotificationsService() = default;
 NotificationsService::NotificationsService(Connection *connection)
     : QObject(connection)
 {
+    m_appRemoteAction = Notification::remoteAction(
+                QStringLiteral("app"), QStringLiteral("raise app"),
+                DBUS_SERVICE_NAME, DBUS_APPLICATION_PATH, DBUS_APPLICATION_INTERFACE,
+                QStringLiteral("raise"), { });
+
     connect(connection, &Connection::newRoom,
             this, &NotificationsService::onNewRoom);
     connect(connection, &Connection::leftRoom,
@@ -29,7 +36,8 @@ NotificationsService::NotificationsService(Connection *connection)
 
         QString roomId = notification->hintValue(ROOM_HINT).toString();
         if (!roomId.isEmpty()) {
-            m_notifications.emplace(roomId, std::move(notification));
+            Notification* n = insert(roomId, std::move(notification));
+            n->publish(); // publish possible upgrades
         }
     }
 
@@ -99,23 +107,39 @@ void NotificationsService::updateNotification(Room *room)
         }
 
         notification = new Notification(this);
-        notification->setAppName(QStringLiteral("Determinant"));
         notification->setHintValue(ROOM_HINT, room->id());
-        m_notifications.emplace(room->id(), std::unique_ptr<Notification>(notification));
+        insert(room->id(), std::unique_ptr<Notification>(notification));
     }
 
-    QString body = tr("%1 notifications", nullptr, room->notificationCount())
+    QString body = tr("%1 missed notifications", nullptr, room->notificationCount())
             .arg(room->notificationCount());
     QString summary = room->displayName();
 
     // TODO: setTimestamp with last notification event
-    // TODO: remoteAction with QDBus
     notification->setPreviewSummary(summary);
     notification->setPreviewBody(body);
     notification->setSummary(summary);
     notification->setBody(body);
     notification->setItemCount(room->notificationCount());
     notification->publish();
+}
+
+Notification* NotificationsService::insert(
+        const QString& roomId, std::unique_ptr<Notification> notification)
+{
+    // update old or new notifications
+    notification->setAppName(QStringLiteral("Determinant"));
+    notification->setRemoteActions({
+        Notification::remoteAction(
+            QStringLiteral("default"), QStringLiteral("activate"),
+            DBUS_SERVICE_NAME, DBUS_APPLICATION_PATH, DBUS_APPLICATION_INTERFACE,
+            QStringLiteral("activateRoom"), { roomId }),
+       m_appRemoteAction
+    });
+
+    Notification* result = notification.get();
+    m_notifications.emplace(roomId, std::move(notification));
+    return result;
 }
 
 } // namespace Det

@@ -40,6 +40,7 @@
 #include "thumbnailprovider.h"
 #include "qmlutils/stringutils.h"
 #include "notificationsservice.h"
+#include "applicationservice.h"
 
 int main(int argc, char* argv[])
 {
@@ -57,16 +58,24 @@ int main(int argc, char* argv[])
     qmlRegisterType<Humanize>("Determinant", 0, 1, "Humanize");
     qmlRegisterType<SortFilterModel>("Determinant", 0, 1, "SortFilterModel");
 
+    DBusApplicationService* applicationService = new DBusApplicationService(app.get());
+    if (applicationService->deduplicate()) {
+        return 0;
+    }
+    applicationService->registerOnDbus();
+
     SecretsService secretsService;
     ConnectionsManager connectionManager(&secretsService);
     connectionManager.load();
 
-    NotificationsService notificationsService(connectionManager.connection());
+    NotificationsService* notificationsService =
+            new NotificationsService(connectionManager.connection());
 
     QQuickView* view = SailfishApp::createView();
 
     QQmlContext* ctx = view->rootContext();
     ctx->setContextProperty("connection", connectionManager.connection());
+    ctx->setContextProperty("applicationService", applicationService);
 
     view->engine()->addImageProvider(
         QStringLiteral("mtx"),
