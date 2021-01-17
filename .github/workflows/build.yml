@@ -18,7 +18,7 @@ jobs:
         submodules: 'recursive'
 
     - name: Build armv7hl RPMS
-      uses: R1tschY/sailfish-sdk-action@v1
+      uses: R1tschY/sailfish-sdk-action@master
       with:
         arch: 'armv7hl'
         release: '3.3.0.16'
@@ -30,7 +30,7 @@ jobs:
       run: git clean -q -d -f -x -e RPMS
 
     - name: Build i486 RPMS
-      uses: R1tschY/sailfish-sdk-action@v1
+      uses: R1tschY/sailfish-sdk-action@master
       with:
         arch: 'i486'
         release: '3.3.0.16'
