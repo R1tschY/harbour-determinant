@@ -2,13 +2,6 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="es">
 <context>
-    <name>CoverPage</name>
-    <message>
-        <source>|M|</source>
-        <translation>|M|</translation>
-    </message>
-</context>
-<context>
     <name>Det::ConnectionsManager</name>
     <message>
         <source>Login error: %1</source>
@@ -24,6 +17,16 @@
     <message>
         <source>yesterday</source>
         <translation>ayer</translation>
+    </message>
+</context>
+<context>
+    <name>Det::NotificationsService</name>
+    <message numerus="yes">
+        <source>%1 messages</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
     </message>
 </context>
 <context>
@@ -69,10 +72,6 @@
         <translation>Error de inicio de sesión</translation>
     </message>
     <message>
-        <source>Invalid URL</source>
-        <translation>URL invalida</translation>
-    </message>
-    <message>
         <source>Logging in …</source>
         <translation>Iniciando sesión ...</translation>
     </message>
@@ -86,10 +85,6 @@
 </context>
 <context>
     <name>MessageRenderer</name>
-    <message>
-        <source>%1 set room aliases on server %1 to %2</source>
-        <translation>%1 establecer alias de sala en servidor %1 a %2</translation>
-    </message>
     <message>
         <source>%1 cleared room main alias</source>
         <translation>%1 alias principal de sala borrada</translation>
@@ -171,16 +166,20 @@
         <translation>%1 creó la sala</translation>
     </message>
     <message>
-        <source>&lt;Unnamed user&gt;</source>
-        <translation>&lt;Usuario sin nombre&gt;</translation>
-    </message>
-    <message>
         <source>🗑️ redacted message</source>
         <translation>🗑️ mensaje redactado</translation>
     </message>
     <message>
         <source>🗑️ redacted: %2</source>
         <translation>🗑️ redactado: %2</translation>
+    </message>
+    <message>
+        <source>%1 set room aliases on server %2 to %3</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unnamed user</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

@@ -2,13 +2,6 @@
 <!DOCTYPE TS>
 <TS version="2.1">
 <context>
-    <name>CoverPage</name>
-    <message>
-        <source>|M|</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>Det::ConnectionsManager</name>
     <message>
         <source>Login error: %1</source>
@@ -30,7 +23,8 @@
     <name>Det::NotificationsService</name>
     <message numerus="yes">
         <source>%1 messages</source>
-        <translation type="unfinished">
+        <translation>
+            <numerusform></numerusform>
             <numerusform></numerusform>
         </translation>
     </message>
@@ -78,10 +72,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Invalid URL</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Logging in …</source>
         <translation type="unfinished"></translation>
     </message>
@@ -95,10 +85,6 @@
 </context>
 <context>
     <name>MessageRenderer</name>
-    <message>
-        <source>%1 set room aliases on server %1 to %2</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <source>%1 cleared room main alias</source>
         <translation type="unfinished"></translation>
@@ -180,15 +166,19 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&lt;Unnamed user&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>🗑️ redacted message</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>🗑️ redacted: %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 set room aliases on server %2 to %3</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unnamed user</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

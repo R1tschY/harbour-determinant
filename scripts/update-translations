@@ -1,4 +1,5 @@
 #!/bin/bash -e
 
 tx push --source
-tx pull --all --force
+tx push -t -l es
+tx pull --all --minimum-perc 20 --force

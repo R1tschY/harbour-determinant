@@ -2,37 +2,30 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="de">
 <context>
-    <name>CoverPage</name>
-    <message>
-        <source>|M|</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>Det::ConnectionsManager</name>
     <message>
         <source>Login error: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Login-Fehler: %1</translation>
     </message>
 </context>
 <context>
     <name>Det::Humanize</name>
     <message>
         <source>today</source>
-        <translation type="unfinished"></translation>
+        <translation>heute</translation>
     </message>
     <message>
         <source>yesterday</source>
-        <translation type="unfinished"></translation>
+        <translation>gestern</translation>
     </message>
 </context>
 <context>
     <name>Det::NotificationsService</name>
     <message numerus="yes">
         <source>%1 messages</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%1 Nachricht</numerusform>
+            <numerusform>%1 Nachrichten</numerusform>
         </translation>
     </message>
 </context>
@@ -40,230 +33,226 @@
     <name>Det::ThumbnailResponse</name>
     <message>
         <source>Media id `%1` does not have expected pattern: server/id</source>
-        <translation type="unfinished"></translation>
+        <translation>Medien-ID &apos;%1&apos; entspricht nicht erwarteten Format: server/id</translation>
     </message>
 </context>
 <context>
     <name>ErrorPage</name>
     <message>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Fehler</translation>
     </message>
 </context>
 <context>
     <name>EventDelegate</name>
     <message>
         <source>New messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Neue Nachrichten</translation>
     </message>
 </context>
 <context>
     <name>LoginPage</name>
     <message>
         <source>Matrix Login</source>
-        <translation type="unfinished"></translation>
+        <translation>Matrix-Login</translation>
     </message>
     <message>
         <source>Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Server</translation>
     </message>
     <message>
         <source>Username</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzername</translation>
     </message>
 </context>
 <context>
     <name>LoginProgressPage</name>
     <message>
         <source>Login Error</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Invalid URL</source>
-        <translation type="unfinished"></translation>
+        <translation>Login-Fehler</translation>
     </message>
     <message>
         <source>Logging in …</source>
-        <translation type="unfinished"></translation>
+        <translation>Anmelden ...</translation>
     </message>
 </context>
 <context>
     <name>MessageInput</name>
     <message>
         <source>Message</source>
-        <translation type="unfinished"></translation>
+        <translation>Nachricht</translation>
     </message>
 </context>
 <context>
     <name>MessageRenderer</name>
     <message>
-        <source>%1 set room aliases on server %1 to %2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>%1 cleared room main alias</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 hat Raumhauptalias gelöscht</translation>
     </message>
     <message>
         <source>%1 set room main alias to %2</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 hat Raumhauptalias auf %2 geändert</translation>
     </message>
     <message>
         <source>%1 cleared room name</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 hat Raumnamen gelöscht</translation>
     </message>
     <message>
         <source>%1 set room name to %2</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 hat Raumnamen auf %2 geändert</translation>
     </message>
     <message>
         <source>%1 removed topic</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 hat Thematik gelöscht</translation>
     </message>
     <message>
         <source>%1 set topic to %2</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 hat Thematik auf %2 geändert</translation>
     </message>
     <message>
         <source>%1 activated end-to-end encryption</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 hat Ende-zu-Ende-Verschlüsselung aktiviert</translation>
     </message>
     <message>
         <source>upgraded room to version %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Raum wurde auf Version %1 aktualisiert</translation>
     </message>
     <message>
         <source>Unsupported event: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Nicht unterstütztes Ereignis: %1</translation>
     </message>
     <message>
         <source>Unsupported message</source>
-        <translation type="unfinished"></translation>
+        <translation>Nicht unterstützte Nachricht</translation>
     </message>
     <message>
         <source>%1 has joined</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 hat den Raum betreten</translation>
     </message>
     <message>
         <source>%1 was invited</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 wurde eingeladen</translation>
     </message>
     <message>
         <source>%1 is banned</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 wurde verbannt</translation>
     </message>
     <message>
         <source>%1 has left</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 hat den Raum verlassen</translation>
     </message>
     <message>
         <source>%1 knocked</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 hat angeklopft</translation>
     </message>
     <message>
         <source>%1 has undefined state</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 hat undefinierten Zustand</translation>
     </message>
     <message>
         <source>%1 has changed name to %2</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 änderte den Anzeigenamen auf %2</translation>
     </message>
     <message>
         <source>%1 has changed avatar</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 hat das Profilbild geändert</translation>
     </message>
     <message>
         <source>%1 upgraded room to version %2</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 aktualisierte Raum auf Version %2</translation>
     </message>
     <message>
         <source>%1 created room</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;Unnamed user&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 hat den Raum erstellt</translation>
     </message>
     <message>
         <source>🗑️ redacted message</source>
-        <translation type="unfinished"></translation>
+        <translation>🗑️ Nachricht gelöscht</translation>
     </message>
     <message>
         <source>🗑️ redacted: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>🗑️ gelöscht: %2</translation>
+    </message>
+    <message>
+        <source>%1 set room aliases on server %2 to %3</source>
+        <translation>%1 hat Raumaliase auf Server %2 auf %3 geändert</translation>
+    </message>
+    <message>
+        <source>Unnamed user</source>
+        <translation>Unbenannter Nutzer</translation>
     </message>
 </context>
 <context>
     <name>PublicRoomListPage</name>
     <message>
         <source>Public Rooms</source>
-        <translation type="unfinished"></translation>
+        <translation>Öffentliche Räume</translation>
     </message>
 </context>
 <context>
     <name>RoomDetailsPage</name>
     <message>
         <source>Matrix Id</source>
-        <translation type="unfinished"></translation>
+        <translation>Matrix-ID</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Name</translation>
     </message>
     <message>
         <source>Aliases</source>
-        <translation type="unfinished"></translation>
+        <translation>Aliase</translation>
     </message>
     <message>
         <source>Uses Encryption</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzt Verschlüsselung</translation>
     </message>
     <message>
         <source>Tags</source>
-        <translation type="unfinished"></translation>
+        <translation>Tags</translation>
     </message>
     <message>
         <source>Favourite</source>
-        <translation type="unfinished"></translation>
+        <translation>Favorit</translation>
     </message>
     <message>
         <source>LowPriority</source>
-        <translation type="unfinished"></translation>
+        <translation>Niedrige Priorität</translation>
     </message>
     <message>
         <source>Members</source>
-        <translation type="unfinished"></translation>
+        <translation>Mitglieder</translation>
     </message>
     <message>
         <source>Joined members</source>
-        <translation type="unfinished"></translation>
+        <translation>Akzeptierte Mitglieder</translation>
     </message>
     <message>
         <source>Invited members</source>
-        <translation type="unfinished"></translation>
+        <translation>Eingeladene Mitglieder</translation>
     </message>
     <message>
         <source>Total members</source>
-        <translation type="unfinished"></translation>
+        <translation>Mitglieder insgesamt</translation>
     </message>
     <message>
         <source>Matrix room version</source>
-        <translation type="unfinished"></translation>
+        <translation>Matrix-Raumversion</translation>
     </message>
     <message>
         <source>Is unstable</source>
-        <translation type="unfinished"></translation>
+        <translation>Ist instabil</translation>
     </message>
     <message>
         <source>Extended</source>
-        <translation type="unfinished"></translation>
+        <translation>Erweitert</translation>
     </message>
 </context>
 <context>
     <name>RoomListPage</name>
     <message>
         <source>Rooms</source>
-        <translation type="unfinished"></translation>
+        <translation>Räume</translation>
     </message>
 </context>
 </TS>

@@ -8,7 +8,7 @@ CoverBackground {
         font.pixelSize: Theme.fontSizeHuge * 3
         font.bold: true
         opacity: 0.3
-        text: qsTr("|M|")
+        text: "|M|"
     }
 
 //    CoverActionList {

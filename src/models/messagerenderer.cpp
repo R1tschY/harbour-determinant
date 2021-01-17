@@ -72,11 +72,10 @@ QString MessageRenderer::renderEventText(
         *event,
         [this, isPending](const RoomAliasesEvent& evt) {
             QString author = getAuthorHtmlDisplayName(isPending, &evt);
-            return tr("%1 set room aliases on server %1 to %2")
-                .arg(author, evt.stateKey().toHtmlEscaped(),
-                    QLocale().createSeparatedList(
-                                 evt.aliases())
-                        .toHtmlEscaped());
+            return tr("%1 set room aliases on server %2 to %3")
+                .arg(author,
+                     evt.stateKey().toHtmlEscaped(),
+                     QLocale().createSeparatedList(evt.aliases()).toHtmlEscaped());
         },
         [this, isPending](const RoomCanonicalAliasEvent& evt) {
             QString author = getAuthorHtmlDisplayName(isPending, &evt);
@@ -191,7 +190,7 @@ QString MessageRenderer::renderMemberEvent(const RoomMemberEvent& event) const
         if (prevContent && !prevContent->displayName.isEmpty()) {
             member = prevContent->displayName;
         } else {
-            member = tr("<Unnamed user>");
+            member = tr("Unnamed user");
         }
     }
 
