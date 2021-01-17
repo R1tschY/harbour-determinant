@@ -27,7 +27,7 @@ Page {
 
         onResolveError: {
             pageStack.replace(Qt.resolvedUrl("ErrorPage.qml"), {
-                "header": qsTr("Invalid URL"),
+                "header": qsTr("Login Error"),
                 "text": error
             }, PageStackAction.Immediate)
         }
