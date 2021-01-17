@@ -1,6 +1,6 @@
 # Determinant
 
-*Matrix client prototype for Sailfish OS*
+*Matrix client for Sailfish OS*
 
 ![](https://img.shields.io/github/workflow/status/R1tschY/harbour-determinant/RPM%20build) ![](https://img.shields.io/github/stars/R1tschY/harbour-determinant?style=social)
 
@@ -18,7 +18,6 @@ Join [#determinant:matrix.org](https://matrix.to/#/!FuBXURHQWjgDebjFVi:matrix.or
 * Read image/video/audio/file/... messages
 * Encryption
 * Delete or edit own messages
-* Notifications
 * Send Markdown/HTML/image/video/audio/file/... messages
 * Create new room
 * Join room
@@ -34,7 +33,7 @@ Use [Transifex](https://www.transifex.com/r1tschy/determinant) to add translatio
 
 ## Acknowledgement
 
-It uses a Qt 5.6 port of [libQuotient](https://github.com/quotient-im/libQuotient) 0.6.2.
+It uses a Qt 5.6 port of [libQuotient](https://github.com/quotient-im/libQuotient).
 
 ## Licence
 
