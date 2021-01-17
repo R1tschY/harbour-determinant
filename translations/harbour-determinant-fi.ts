@@ -29,7 +29,7 @@
 <context>
     <name>Det::NotificationsService</name>
     <message numerus="yes">
-        <source>%1 missed notifications</source>
+        <source>%1 messages</source>
         <translation type="unfinished">
             <numerusform></numerusform>
             <numerusform></numerusform>
