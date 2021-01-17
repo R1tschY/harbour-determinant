@@ -24,7 +24,7 @@ jobs:
         release: '3.3.0.16'
         fix-version: false
         enable-debug: true
-        check: true
+        #check: true
 
     - name: Upload build armv7hl RPMS
       uses: actions/upload-artifact@v2
@@ -39,7 +39,7 @@ jobs:
         release: '3.3.0.16'
         fix-version: false
         enable-debug: true
-        check: true
+        #check: true
 
     - name: Upload build i486 RPMS
       uses: actions/upload-artifact@v2
