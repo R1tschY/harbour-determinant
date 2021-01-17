@@ -8,39 +8,39 @@ on:
     branches:
       - master
 
-env:
-  RELEASE: 3.3.0.14
-
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    name: Build
     steps:
     - uses: actions/checkout@v2
       with:
         submodules: 'recursive'
 
-    - name: Prepare
-      run: mkdir output
+    - uses: R1tschY/sailfish-sdk-action@v1
+      with:
+        arch: 'armv7hl'
+        release: '3.3.0.16'
+        fix-version: false
+        enable-debug: true
+        check: true
 
-    - name: Build armv7hl
-      run: docker run --rm --privileged -v $PWD:/share r1tschy/sailfishos-platform-sdk:$RELEASE /bin/bash -c "
-            mkdir -p build ;
-            cd build ;
-            cp -r /share/* . ;
-            mb2 -t SailfishOS-$RELEASE-armv7hl build ;
-            sudo cp -r RPMS/*.rpm /share/output"
-
-    - name: Build i486
-      run: docker run --rm --privileged -v $PWD:/share r1tschy/sailfishos-platform-sdk:$RELEASE /bin/bash -c "
-            mkdir -p build ;
-            cd build ;
-            cp -r /share/* . ;
-            mb2 -t SailfishOS-$RELEASE-i486 build ;
-            sudo cp -r RPMS/*.rpm /share/output"
-      
-    - name: Upload build result
+    - name: Upload build armv7hl result
       uses: actions/upload-artifact@v2
       with:
-        name: rpms
-        path: output
+        name: armv7hl-rpms
+        path: RPMS
+
+    - uses: R1tschY/sailfish-sdk-action@v1
+      with:
+        arch: 'i486'
+        release: '3.3.0.16'
+        fix-version: false
+        enable-debug: true
+        check: true
+
+    - name: Upload build i486 result
+      uses: actions/upload-artifact@v2
+      with:
+        name: i486-rpms
+        path: RPMS
