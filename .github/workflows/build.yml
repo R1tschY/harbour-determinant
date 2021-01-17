@@ -17,7 +17,8 @@ jobs:
       with:
         submodules: 'recursive'
 
-    - uses: R1tschY/sailfish-sdk-action@v1
+    - name: Build armv7hl RPMS
+      uses: R1tschY/sailfish-sdk-action@v1
       with:
         arch: 'armv7hl'
         release: '3.3.0.16'
@@ -25,13 +26,14 @@ jobs:
         enable-debug: true
         check: true
 
-    - name: Upload build armv7hl result
+    - name: Upload build armv7hl RPMS
       uses: actions/upload-artifact@v2
       with:
         name: armv7hl-rpms
         path: RPMS
 
-    - uses: R1tschY/sailfish-sdk-action@v1
+    - name: Build i486 RPMS
+      uses: R1tschY/sailfish-sdk-action@v1
       with:
         arch: 'i486'
         release: '3.3.0.16'
@@ -39,7 +41,7 @@ jobs:
         enable-debug: true
         check: true
 
-    - name: Upload build i486 result
+    - name: Upload build i486 RPMS
       uses: actions/upload-artifact@v2
       with:
         name: i486-rpms
