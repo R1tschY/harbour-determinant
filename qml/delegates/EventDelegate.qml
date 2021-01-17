@@ -50,7 +50,7 @@ ListItem {
 
         text: qsTr("New messages")
         color: Theme.highlightColor
-        font.pixelSize: Theme.fontSizeExtraSmall
+        font.pixelSize: Theme.fontSizeSmall
 
         Rectangle {
             y: Theme.fontSizeSmall
