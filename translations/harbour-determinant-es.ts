@@ -24,8 +24,8 @@
     <message numerus="yes">
         <source>%1 messages</source>
         <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+            <numerusform>%1 mensaje</numerusform>
+            <numerusform>%1 mensajes</numerusform>
         </translation>
     </message>
 </context>
@@ -54,7 +54,7 @@
     <name>LoginPage</name>
     <message>
         <source>Matrix Login</source>
-        <translation>Inicio de sesión de Matrix</translation>
+        <translation>Iniciar sesión en Matrix</translation>
     </message>
     <message>
         <source>Server</source>
@@ -99,7 +99,7 @@
     </message>
     <message>
         <source>%1 set room name to %2</source>
-        <translation>%1 establecer el nombre de sala a</translation>
+        <translation>%1 establecer el nombre de sala a %2</translation>
     </message>
     <message>
         <source>%1 removed topic</source>
@@ -175,11 +175,11 @@
     </message>
     <message>
         <source>%1 set room aliases on server %2 to %3</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 establecer alias de sala en el servidor %2 a %3</translation>
     </message>
     <message>
         <source>Unnamed user</source>
-        <translation type="unfinished"></translation>
+        <translation>Usuario sin nombre</translation>
     </message>
 </context>
 <context>
