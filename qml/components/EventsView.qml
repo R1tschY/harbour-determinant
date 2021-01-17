@@ -9,7 +9,7 @@ SilicaListView {
         !room
         || !!room.eventsHistoryJob
         || !!room.allHistoryLoaded
-    property string showUnreadMarkerId: "<???>"
+    property string showUnreadMarkerId: ""
     property bool _completed: false
 
     id: eventsView
@@ -94,7 +94,7 @@ SilicaListView {
             showUnreadMarkerId = room.readMarkerEventId
             eventsView.positionViewAtIndex(room.unreadCount - 1, ListView.End)
         } else {
-            showUnreadMarkerId = "<???>"
+            showUnreadMarkerId = ""
         }
     }
 
@@ -108,7 +108,7 @@ SilicaListView {
 
     Connections {
         target: room
-        onUnreadMessagesChanged: checkToMarkAsRead()
+        onNotificationCountChanged: checkToMarkAsRead()
     }
 
     Connections {
@@ -121,6 +121,11 @@ SilicaListView {
         }
     }
 
+    Binding {
+        target: room
+        property: "displayed"
+        value: Qt.application.state === Qt.ApplicationActive && pageStack.currentPage === page
+    }
 
     Component.onCompleted: {
         // set inital section overlay

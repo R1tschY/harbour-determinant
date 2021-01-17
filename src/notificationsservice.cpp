@@ -96,13 +96,13 @@ void NotificationsService::updateNotification(Room *room)
     if (iter != m_notifications.end()) {
         notification = iter->second.get();
 
-        if (notificationCount == 0) {
+        if (notificationCount == 0 || room->displayed()) {
             notification->close();
             m_notifications.erase(iter);
             return;
         }
     } else {
-        if (notificationCount == 0) {
+        if (notificationCount == 0 || room->displayed()) {
             return;
         }
 
@@ -111,7 +111,7 @@ void NotificationsService::updateNotification(Room *room)
         insert(room->id(), std::unique_ptr<Notification>(notification));
     }
 
-    QString body = tr("%1 missed notifications", nullptr, room->notificationCount())
+    QString body = tr("%1 messages", nullptr, room->notificationCount())
             .arg(room->notificationCount());
     QString summary = room->displayName();
 
