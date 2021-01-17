@@ -17,6 +17,7 @@
 - Improved login page
 - Emojis messages get a bigger font size
 - Upgraded libQuotient to 0.6.4
+- Added translations: Spanish, German
 
 * Sun Sep 13 2020 Richard Liebscher <r1tschy@posteo.de> 0.1.0-1
 - First release
