@@ -26,11 +26,8 @@ jobs:
         enable-debug: true
         #check: true
 
-    - name: Upload build armv7hl RPMS
-      uses: actions/upload-artifact@v2
-      with:
-        name: armv7hl-rpms
-        path: RPMS
+    - name: Clean 
+      run: git clean -q -d -f -x -e RPMS
 
     - name: Build i486 RPMS
       uses: R1tschY/sailfish-sdk-action@v1
@@ -41,8 +38,8 @@ jobs:
         enable-debug: true
         #check: true
 
-    - name: Upload build i486 RPMS
+    - name: Upload RPMS
       uses: actions/upload-artifact@v2
       with:
-        name: i486-rpms
+        name: rpms
         path: RPMS
