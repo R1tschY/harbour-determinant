@@ -79,7 +79,6 @@ QVariant RoomEventsModel::data(const QModelIndex& idx, int role) const
 
     const RoomEvent* evt = nullptr;
     const PendingEventItem* pendingEvt = nullptr;
-    const TimelineItem* timelineEvt = nullptr;
     if (isPending) {
         auto& evtRef = *(
             m_room->pendingEvents().crbegin() + row);
@@ -88,7 +87,6 @@ QVariant RoomEventsModel::data(const QModelIndex& idx, int role) const
     } else {
         auto& evtRef = *(
             m_room->messageEvents().crbegin() + (row - pendingEvents));
-        timelineEvt = &evtRef;
         evt = evtRef.get();
     }
 
