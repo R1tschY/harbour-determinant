@@ -11,7 +11,7 @@ on:
 jobs:
   build-armv7hl:
     runs-on: ubuntu-latest
-    name: Build
+    name: Build armv7hl
     steps:
     - uses: actions/checkout@v2
       with:
@@ -34,7 +34,7 @@ jobs:
 
   build-i486:
     runs-on: ubuntu-latest
-    name: Build
+    name: Build i486
     steps:
     - uses: actions/checkout@v2
       with:
