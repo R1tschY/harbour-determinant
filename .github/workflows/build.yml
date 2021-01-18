@@ -3,13 +3,13 @@ name: RPM build
 on:
   push:
     branches:
-      - master
+      - '*'
   pull_request:
     branches:
-      - master
+      - '*'
 
 jobs:
-  build:
+  build-armv7hl:
     runs-on: ubuntu-latest
     name: Build
     steps:
@@ -26,8 +26,19 @@ jobs:
         enable-debug: true
         #check: true
 
-    - name: Clean 
-      run: git clean -q -d -f -x -e RPMS
+    - name: Upload RPMS
+      uses: actions/upload-artifact@v2
+      with:
+        name: harbour-determinant-armv7hl
+        path: RPMS
+
+  build-i486:
+    runs-on: ubuntu-latest
+    name: Build
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: 'recursive'
 
     - name: Build i486 RPMS
       uses: R1tschY/sailfish-sdk-action@v1
@@ -41,5 +52,5 @@ jobs:
     - name: Upload RPMS
       uses: actions/upload-artifact@v2
       with:
-        name: rpms
+        name: harbour-determinant-i486
         path: RPMS
