@@ -13,12 +13,6 @@ SilicaListView {
     property bool _completed: false
 
     id: eventsView
-    anchors {
-        left: parent.left
-        right: parent.right
-        top: page.top
-        bottom: input.top
-    }
 
     spacing: Theme.paddingMedium
     verticalLayoutDirection: ListView.BottomToTop

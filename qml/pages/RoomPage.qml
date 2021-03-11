@@ -44,6 +44,13 @@ Page {
     EventsView {
         id: eventListView
 
+        anchors {
+            left: parent.left
+            right: parent.right
+            top: page.top
+            bottom: input.top
+        }
+
         room: currentRoom
     }
 
