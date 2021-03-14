@@ -28,9 +28,7 @@ MessageDelegateBase {
         width: parent.width - 2 * Theme.paddingSmall
         x: Theme.paddingSmall
 
-        text: customMessageCss + display
-        textFormat: Text.RichText
-        font.pixelSize: {
+        readonly property int fontSize: {
             var len = StringUtils.getEmoijChainLength(display)
             if (len === 0 || len > 10) {
                 return Theme.fontSizeSmall
@@ -42,9 +40,14 @@ MessageDelegateBase {
                 return Theme.fontSizeExtraLarge * 1.5
             }
         }
+
+        text: emojiParser.parse(display, fontSize * 1.1)
+        textFormat: Text.StyledText
+        font.pixelSize: fontSize
         color: Theme.primaryColor
         wrapMode: Text.Wrap
         horizontalAlignment: textAlign
+        linkColor: Theme.highlightColor
 
         onLinkActivated: page.openLink(link)
     }

@@ -41,6 +41,7 @@
 #include "qmlutils/stringutils.h"
 #include "notificationsservice.h"
 #include "applicationservice.h"
+#include "emojiparser.h"
 
 int main(int argc, char* argv[])
 {
@@ -57,6 +58,7 @@ int main(int argc, char* argv[])
         "Determinant", 0, 1, "PublicRoomListModel");
     qmlRegisterType<Humanize>("Determinant", 0, 1, "Humanize");
     qmlRegisterType<SortFilterModel>("Determinant", 0, 1, "SortFilterModel");
+    qmlRegisterType<EmojiParser>("Determinant", 0, 1, "EmojiParser");
 
     DBusApplicationService* applicationService = new DBusApplicationService(app.get());
     if (applicationService->deduplicate()) {
@@ -75,6 +77,7 @@ int main(int argc, char* argv[])
     QQmlContext* ctx = view->rootContext();
     ctx->setContextProperty("connection", connectionManager.connection());
     ctx->setContextProperty("applicationService", applicationService);
+    ctx->setContextProperty("emojiParser", new EmojiParser());
 
     view->engine()->addImageProvider(
         QStringLiteral("mxc-thumbnail"),

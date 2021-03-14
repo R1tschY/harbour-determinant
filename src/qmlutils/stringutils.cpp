@@ -7,8 +7,8 @@
 
 namespace Det {
 
-uint VARIATION_SELECTOR_16 = 0xFE0F;
-uint ZERO_WIDTH_JOINER = 0x200D;
+static constexpr uint VARIATION_SELECTOR_16 = 0xFE0F;
+static constexpr uint ZERO_WIDTH_JOINER = 0x200D;
 
 StringUtils::StringUtils(QObject *parent) : QObject(parent)
 {

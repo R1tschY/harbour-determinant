@@ -23,6 +23,7 @@ SOURCES += src/harbour-determinant.cpp \
     src/applicationservice.cpp \
     src/connectionsmanager.cpp \
     src/detroom.cpp \
+    src/emojiparser.cpp \
     src/humanize.cpp \
     src/models/messagerenderer.cpp \
     src/models/publicroomlistmodel.cpp \
@@ -86,6 +87,7 @@ HEADERS += \
     src/applicationservice.h \
     src/connectionsmanager.h \
     src/detroom.h \
+    src/emojiparser.h \
     src/humanize.h \
     src/models/messagerenderer.h \
     src/models/publicroomlistmodel.h \
