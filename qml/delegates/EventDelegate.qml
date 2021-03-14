@@ -14,7 +14,7 @@ ListItem {
         || model.index === eventsView.count - 1
 
     contentHeight:
-        contentLoader.y + contentLoader.height +
+        contentLoader.y + contentLoader.height + Theme.paddingSmall * 2 +
         (readMarker ? Theme.fontSizeSmall : 0)
 
     property var modelSection: listItem.ListView.section
@@ -34,8 +34,8 @@ ListItem {
         id: contentLoader
         source: contentItemSource(eventType)
         y: sectionBoundary
-           ? sectionHeaderLoader.y + sectionHeaderLoader.height
-           : 0
+           ? sectionHeaderLoader.y + sectionHeaderLoader.height + Theme.paddingSmall
+           : Theme.paddingSmall
         width: parent.width
     }
 

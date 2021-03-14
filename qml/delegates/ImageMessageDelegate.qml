@@ -36,6 +36,10 @@ MessageDelegateBase {
         }
     }
 
+    Item {
+        height: Theme.paddingSmall
+        width: parent.width
+    }
 
     ContentThumbnail {
         readonly property bool hasThumbnail: contentJson.info.thumbnail_info
