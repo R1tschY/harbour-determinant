@@ -11,11 +11,11 @@ Page {
     allowedOrientations: Orientation.All
 
     function contentItemSource(eventType) {
-        if (eventType === "state") {
-            return "../delegates/StateMessageDelegate.qml"
+        switch (eventType) {
+            case "state": return "../delegates/StateMessageDelegate.qml"
+            case "image": return "../delegates/ImageMessageDelegate.qml"
+            default: return "../delegates/TextMessageDelegate.qml"
         }
-
-        return "../delegates/MessageDelegate.qml"
     }
 
     function openLink(url) {

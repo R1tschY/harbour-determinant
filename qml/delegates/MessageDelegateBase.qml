@@ -7,6 +7,7 @@ import "../components"
 
 Item {
     property int textAlign: ownMessage ? Text.AlignRight : Text.AlignLeft
+    default property alias content: contentColumn.children
 
     width: contentColumn.width
     height: contentColumn.height
@@ -66,7 +67,7 @@ Item {
 //            authorLabel.implicitWidth) + 2 * Theme.paddingSmall, maxWidth)
         anchors {
             left: ownMessage ? undefined : parent.left
-            right: ownMessage ? parent.right: undefined
+            right: ownMessage ? parent.right : undefined
             leftMargin: 2 * Theme.paddingMedium + Theme.iconSizeMedium
             rightMargin: Theme.paddingMedium
         }
@@ -90,44 +91,6 @@ Item {
             }
         }
 
-        Label {
-            id: messageLabel
-            width: parent.width - 2 * Theme.paddingSmall
-            x: Theme.paddingSmall
-
-            text: customMessageCss + display
-            textFormat: Text.RichText
-            font.pixelSize: {
-                var len = StringUtils.getEmoijChainLength(display)
-                if (len === 0 || len > 10) {
-                    return Theme.fontSizeSmall
-                } else if (len > 5) {
-                    return Theme.fontSizeLarge
-                } else if (len > 3) {
-                    return Theme.fontSizeExtraLarge
-                } else {
-                    return Theme.fontSizeExtraLarge * 1.5
-                }
-            }
-            color: Theme.primaryColor
-            wrapMode: Text.Wrap
-            horizontalAlignment: textAlign
-
-            onLinkActivated: page.openLink(link)
-        }
-
-        Label {
-            id: timeLabel
-            width: parent.width - 2 * Theme.paddingSmall
-            x: Theme.paddingSmall
-
-            text: ownMessage
-                  ? (humanize.formatTime(time) + " • "
-                     + formatEventStatus(eventStatus))
-                  : humanize.formatTime(time) + (edited ? " 🖊️" : "")
-            color: Theme.secondaryColor
-            font.pixelSize: Theme.fontSizeExtraSmall
-            horizontalAlignment: textAlign
-        }
+        // here base classes can add content
     }
 }

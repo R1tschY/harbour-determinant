@@ -68,8 +68,7 @@ int main(int argc, char* argv[])
     ConnectionsManager connectionManager(&secretsService);
     connectionManager.load();
 
-    NotificationsService* notificationsService =
-            new NotificationsService(connectionManager.connection());
+    new NotificationsService(connectionManager.connection());
 
     QQuickView* view = SailfishApp::createView();
 
@@ -78,7 +77,7 @@ int main(int argc, char* argv[])
     ctx->setContextProperty("applicationService", applicationService);
 
     view->engine()->addImageProvider(
-        QStringLiteral("mtx"),
+        QStringLiteral("mxc-thumbnail"),
         new ThumbnailProvider(connectionManager.connection(), view));
 
     view->setSource(SailfishApp::pathToMainQml());

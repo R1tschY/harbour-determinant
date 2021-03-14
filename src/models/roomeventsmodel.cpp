@@ -192,6 +192,15 @@ QVariant RoomEventsModel::data(const QModelIndex& idx, int role) const
 
         return data(idx, AuthorRole) != data(nextRow, AuthorRole);
     }
+
+    case FileTransferInfoRole:
+        if (auto e = eventCast<const RoomMessageEvent>(evt)) {
+            if (e->hasFileContent()) {
+                return QVariant::fromValue(
+                    m_room->fileTransferInfo(isPending ? e->transactionId() : e->id()));
+            }
+        }
+        return QVariant();
     };
 
     return QVariant();
@@ -217,6 +226,7 @@ QHash<int, QByteArray> RoomEventsModel::roleNames() const
     roles.insert(ContentJsonRole, "contentJson");
     roles.insert(ReadMarkerRole, "readMarker");
     roles.insert(ShowAuthorRole, "showAuthor");
+    roles.insert(FileTransferInfoRole, "fileTransferInfo");
     return roles;
 }
 

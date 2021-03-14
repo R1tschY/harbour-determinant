@@ -139,7 +139,7 @@ QString ThumbnailResponse::errorString() const
 
 void ThumbnailResponse::cancel()
 {
-    QMetaObject::invokeMethod(this, SLOT(doCancel()), Qt::QueuedConnection);
+    QMetaObject::invokeMethod(this, "doCancel", Qt::QueuedConnection);
 }
 
 ThumbnailProvider::ThumbnailProvider(Connection* m_connection, QObject* parent)
@@ -150,7 +150,7 @@ ThumbnailProvider::ThumbnailProvider(Connection* m_connection, QObject* parent)
 
 QQuickImageResponse* ThumbnailProvider::requestImageResponse(const QString& id, const QSize& requestedSize)
 {
-    return new ThumbnailResponse(m_connection.load(), id, requestedSize);
+    return new ThumbnailResponse(m_connection, id, requestedSize);
 }
 
 } // namespace Det

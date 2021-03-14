@@ -40,12 +40,15 @@ SOURCES += src/harbour-determinant.cpp \
 DISTFILES += qml/harbour-determinant.qml \
     TODO.txt \
     qml/components/Avatar.qml \
+    qml/components/ContentThumbnail.qml \
     qml/components/EventsView.qml \
     qml/components/MessageInput.qml \
     qml/cover/CoverPage.qml \
     qml/delegates/EventDelegate.qml \
-    qml/delegates/MessageDelegate.qml \
+    qml/delegates/ImageMessageDelegate.qml \
+    qml/delegates/MessageDelegateBase.qml \
     qml/delegates/StateMessageDelegate.qml \
+    qml/delegates/TextMessageDelegate.qml \
     qml/pages/ErrorPage.qml \
     qml/pages/LoginPage.qml \
     qml/pages/LoginProgressPage.qml \

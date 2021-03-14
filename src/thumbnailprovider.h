@@ -70,7 +70,7 @@ public:
         const QString& id, const QSize& requestedSize) override;
 
 private:
-    QAtomicPointer<Quotient::Connection> m_connection;
+    Quotient::Connection *const m_connection;
 };
 
 } // namespace Det

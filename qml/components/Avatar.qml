@@ -3,7 +3,7 @@ import Sailfish.Silica 1.0
 import QtGraphicalEffects 1.0
 
 Rectangle {
-    id: roomThumbnail
+    id: avatar
 
     property string mediaId
     property string itemName
@@ -28,7 +28,7 @@ Rectangle {
 
         visible: avatarImage.status !== Image.Ready
         text: itemName.charAt(0).toUpperCase()
-        font.pixelSize: roomThumbnail.height * 0.7
+        font.pixelSize: avatar.height * 0.7
     }
 
     Image {
@@ -37,7 +37,7 @@ Rectangle {
         width: size
         height: size
 
-        source: !!mediaId ? ("image://mtx/" + mediaId) : ""
+        source: !!mediaId ? ("image://mxc-thumbnail/" + mediaId) : ""
         sourceSize: Qt.size(size, size)
 
         fillMode: Image.PreserveAspectCrop

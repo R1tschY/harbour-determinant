@@ -43,6 +43,8 @@ public:
     TimeFormat timeFormat() const { return m_timeFormat; }
     void setTimeFormat(TimeFormat timeFormat);
 
+    Q_INVOKABLE QString humanizeBytes(qint64 bytes);
+
     Q_INVOKABLE qreal stringToHue(const QString& str);
 
 signals:

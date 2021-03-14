@@ -56,6 +56,7 @@ class RoomEventsModel : public QAbstractListModel {
         ContentJsonRole,
         ShowAuthorRole,
         ReadMarkerRole,
+        FileTransferInfoRole
     };
 
 public:
