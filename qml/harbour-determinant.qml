@@ -9,7 +9,6 @@ ApplicationWindow
     id: app
 
     property bool timeFormat24: timeFormatSetting.value === "24"
-    property string customMessageCss: getCustomMessageCss()
 
     initialPage: Component { StartupPage { } }
     cover: Qt.resolvedUrl("cover/CoverPage.qml")
@@ -39,13 +38,6 @@ ApplicationWindow
             console.log("ActivateRoom: " + roomId  );
             openRoom(roomId)
         }
-    }
-
-    function getCustomMessageCss() {
-        return "<style>
-            a { color: " + Theme.highlightColor + "; }
-            code { font-size: " + Theme.fontSizeExtraSmall + "px; }
-        </style>"
     }
 
     function openRoom(roomId) {
