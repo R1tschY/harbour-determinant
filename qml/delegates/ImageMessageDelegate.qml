@@ -47,6 +47,8 @@ MessageDelegateBase {
         width: parent.width - 2 * Theme.paddingSmall
         x: Theme.paddingSmall
 
+        highlighted: listItem.highlighted
+
         mediaId: urlToMediaId(hasThumbnail ? contentJson.info.thumbnail_url : contentJson.info.url)
         sourceSize: infoToSize(hasThumbnail ? contentJson.info.thumbnail_info : contentJson.info)
     }
