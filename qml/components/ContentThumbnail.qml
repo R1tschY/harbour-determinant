@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.6
 import Sailfish.Silica 1.0
 import QtGraphicalEffects 1.0
 
@@ -7,6 +7,7 @@ Item {
 
     property string mediaId
     property alias sourceSize: thumbnailImage.sourceSize
+    property bool highlighted
 
     height: parent.width
 
@@ -39,9 +40,15 @@ Item {
     }
 
     OpacityMask {
+        id: roundedThumbnail
         anchors.fill: thumbnailImage
 
         source: thumbnailImage
         maskSource: mask
+
+        layer {
+            enabled: thumbnail.highlighted
+            effect: PressEffect { source: roundedThumbnail }
+        }
     }
 }

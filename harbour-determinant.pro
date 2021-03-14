@@ -44,6 +44,7 @@ DISTFILES += qml/harbour-determinant.qml \
     qml/components/ContentThumbnail.qml \
     qml/components/EventsView.qml \
     qml/components/MessageInput.qml \
+    qml/components/PressEffect.qml \
     qml/cover/CoverPage.qml \
     qml/delegates/EventDelegate.qml \
     qml/delegates/ImageMessageDelegate.qml \
