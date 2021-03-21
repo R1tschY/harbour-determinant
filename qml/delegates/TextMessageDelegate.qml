@@ -1,7 +1,7 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 import Quotient 0.5
-import Determinant 0.1
+import Determinant 0.2
 import Determinant.Qml 0.2
 import "../components"
 
@@ -41,7 +41,7 @@ MessageDelegateBase {
             }
         }
 
-        text: emojiParser.parse(display, fontSize * 1.1)
+        text: EmojiParser.parse(display, fontSize * 1.1)
         textFormat: Text.StyledText
         font.pixelSize: fontSize
         color: Theme.primaryColor

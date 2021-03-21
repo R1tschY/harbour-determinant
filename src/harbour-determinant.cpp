@@ -51,6 +51,7 @@ int main(int argc, char* argv[])
 
     QuotientIntegration::registerTypes();
     StringUtils::registerType();
+    EmojiParser::registerType();
 
     qmlRegisterType<RoomListModel>("Determinant", 0, 1, "RoomListModel");
     qmlRegisterType<RoomEventsModel>("Determinant", 0, 1, "RoomEventsModel");
@@ -58,7 +59,6 @@ int main(int argc, char* argv[])
         "Determinant", 0, 1, "PublicRoomListModel");
     qmlRegisterType<Humanize>("Determinant", 0, 1, "Humanize");
     qmlRegisterType<SortFilterModel>("Determinant", 0, 1, "SortFilterModel");
-    qmlRegisterType<EmojiParser>("Determinant", 0, 1, "EmojiParser");
 
     DBusApplicationService* applicationService = new DBusApplicationService(app.get());
     if (applicationService->deduplicate()) {

@@ -1,6 +1,6 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
-import Determinant 0.1
+import Determinant 0.2
 import QtGraphicalEffects 1.0
 import "../components"
 
@@ -18,7 +18,7 @@ Page {
         anchors.fill: parent
 
         model: PublicRoomListModel {
-            connection: _connection
+            connection: page._connection
             server: ""
         }
 
@@ -58,9 +58,10 @@ Page {
                     topMargin: Theme.paddingSmall
                 }
 
-                textFormat: Text.PlainText
+                textFormat: Text.StyledText
                 truncationMode: TruncationMode.Fade
-                text: name || "<unnamed>"
+                font.pixelSize: Theme.fontSizeMedium
+                text: EmojiParser.parseText(name, Theme.fontSizeMedium)
                 color: delegate.highlighted
                        ? Theme.highlightColor : Theme.primaryColor
             }
@@ -90,7 +91,7 @@ Page {
                 }
 
                 truncationMode: TruncationMode.Fade
-                text: topic
+                text: EmojiParser.parse(topic)
                 textFormat: Text.StyledText
                 font.pixelSize: Theme.fontSizeSmall
                 color: delegate.highlighted

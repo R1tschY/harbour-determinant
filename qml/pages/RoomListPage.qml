@@ -1,6 +1,6 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
-import Determinant 0.1
+import Determinant 0.2
 import QtGraphicalEffects 1.0
 import "../components"
 
@@ -75,6 +75,7 @@ Page {
                     truncationMode: TruncationMode.Fade
                     font.weight: Font.Bold
                     text: notificationCount
+                    textFormat: Text.PlainText
                     color: Theme.primaryColor
                 }
             }
@@ -90,9 +91,9 @@ Page {
                     topMargin: Theme.paddingSmall
                 }
 
-                textFormat: Text.PlainText
+                textFormat: Text.StyledText
                 truncationMode: TruncationMode.Fade
-                text: displayName
+                text: EmojiParser.parse(displayName, Theme.fontSizeMedium)
                 color: delegate.highlighted
                        ? Theme.highlightColor : Theme.primaryColor
             }
@@ -107,6 +108,7 @@ Page {
                 truncationMode: TruncationMode.Fade
                 text: humanize.formatDateTime(lastActivity)
                 font.pixelSize: Theme.fontSizeSmall
+                textFormat: Text.PlainText
                 color: delegate.highlighted
                        ? Theme.highlightColor : Theme.primaryColor
             }
@@ -122,7 +124,7 @@ Page {
                 }
 
                 truncationMode: TruncationMode.Fade
-                text: lastEvent
+                text: EmojiParser.parse(lastEvent, Theme.fontSizeSmall)
                 textFormat: Text.StyledText
                 font.pixelSize: Theme.fontSizeSmall
                 color: delegate.highlighted

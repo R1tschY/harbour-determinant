@@ -70,6 +70,7 @@ bool StringUtils::isSymbol(const QString &input) const
     });
 }
 
+
 // // Heart: Variation_Selector_16
 // getEmoijChainLength("❤️"); // "\u2764\ufe0f";
 

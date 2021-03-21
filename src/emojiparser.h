@@ -13,7 +13,9 @@ public:
     explicit EmojiParser(QObject *parent = nullptr);
 
     Q_SCRIPTABLE QString parse(const QString& input, int emojiSize);
+    Q_SCRIPTABLE QString parseText(const QString& input, int emojiSize);
 
+    static void registerType();
 private:
     QRegularExpression m_re;
 

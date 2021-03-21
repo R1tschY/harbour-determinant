@@ -2,6 +2,7 @@
 
 #include <QStringBuilder>
 #include <QLoggingCategory>
+#include <QtQml>
 
 namespace Det {
 
@@ -9,6 +10,15 @@ static Q_LOGGING_CATEGORY(logger, "determinant.emojiparser");
 
 static constexpr uint VARIATION_SELECTOR_16 = 0xFE0F;
 static constexpr uint ZERO_WIDTH_JOINER = 0x200D;
+
+void EmojiParser::registerType()
+{
+    qmlRegisterSingletonType<EmojiParser>(
+                "Determinant", 0, 2, "EmojiParser",
+                [](QQmlEngine*, QJSEngine*) -> QObject* {
+        return new EmojiParser();
+    });
+}
 
 EmojiParser::EmojiParser(QObject* parent)
     : QObject(parent)
@@ -43,6 +53,11 @@ QString EmojiParser::parse(const QString& input, int emojiSize)
         result.append(QStringRef(&input, offset, input.size() - offset));
         return result;
     }
+}
+
+QString EmojiParser::parseText(const QString &input, int emojiSize)
+{
+    return parse(input.toHtmlEscaped(), emojiSize);
 }
 
 static QString toIconId(const QStringRef& s) {

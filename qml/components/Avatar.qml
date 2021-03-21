@@ -28,6 +28,7 @@ Rectangle {
 
         visible: avatarImage.status !== Image.Ready
         text: itemName.charAt(0).toUpperCase()
+        textFormat: Text.PlainText
         font.pixelSize: avatar.height * 0.7
     }
 

@@ -15,6 +15,10 @@ public:
 
     Q_SCRIPTABLE int getEmoijChainLength(const QString& input) const;
     Q_SCRIPTABLE bool isSymbol(const QString& input) const;
+
+    Q_SCRIPTABLE QString htmlEscape(const QString& input) const {
+        return input.toHtmlEscaped();
+    }
 };
 
 } // namespace Det
