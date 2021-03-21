@@ -51,20 +51,26 @@ Item {
         visible: showAuthor
     }
 
-//    Rectangle {
-//        anchors.fill: contentColumn
-//        color: "red"
-//        opacity: 0.3
-//    }
+    Rectangle {
+        anchors.fill: contentColumn
+        color: listItem.highlighted
+            ? Theme.rgba(Theme.highlightBackgroundColor, Theme.highlightBackgroundOpacity)
+            : (Theme.colorScheme === Theme.DarkOnLight
+                ? Theme.rgba(Theme.highlightColor, Theme.opacityFaint)
+                : Theme.rgba(Theme.primaryColor, Theme.opacityFaint))
+        opacity: listItem.highlighted
+                 ? Theme.opacityHigh
+                 : (ownMessage ? Theme.opacityFaint : Theme.opacityHigh)
+        radius: Theme.paddingMedium
+    }
 
     Column {
         //property int maxWidth: page.width - Theme.iconSizeMedium - 3 * Theme.paddingMedium
 
         id: contentColumn
         width: page.width - Theme.iconSizeMedium - 3 * Theme.paddingMedium
-//        width: Math.min(Math.max(
-//            messageLabel.implicitWidth, timeLabel.implicitWidth,
-//            authorLabel.implicitWidth) + 2 * Theme.paddingSmall, maxWidth)
+//        width: Math.max(
+//            messageLabel.implicitWidth, timeLabel.implicitWidth) + 2 * Theme.paddingSmall
         anchors {
             left: ownMessage ? undefined : parent.left
             right: ownMessage ? parent.right : undefined
