@@ -21,6 +21,9 @@ ListItem {
     property bool readMarker:
         eventsView.showUnreadMarkerId === eventId
 
+//    highlightedColor: "transparent"
+//    _backgroundColor: "transparent"
+
     Loader {
         id: sectionHeaderLoader
 
@@ -60,4 +63,11 @@ ListItem {
             color: Theme.highlightBackgroundColor
         }
     }
+
+    menu: ContextMenu {
+         MenuItem {
+            text: qsTr("Copy text to clipboard")
+            onClicked: Clipboard.text = display
+         }
+     }
 }
