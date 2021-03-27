@@ -45,6 +45,7 @@ class RoomListModel : public QAbstractListModel {
         LastActivityRole,
         RoomRole,
         RoomIdRole,
+        JoinStateRole,
     };
 
 public:

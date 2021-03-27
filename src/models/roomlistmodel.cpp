@@ -70,6 +70,8 @@ QVariant RoomListModel::data(const QModelIndex& index, int role) const
         return QVariant::fromValue(room);
     case RoomIdRole:
         return room->id();
+    case JoinStateRole:
+        return QString::fromLatin1(toCString(room->joinState()));
     }
 
     return QVariant();
@@ -172,8 +174,8 @@ void RoomListModel::connectToRoom(Room* room)
 
     connect(room, &Room::displaynameChanged,
         this, [=] { onRoomChanged(room, { DisplayNameRole }); });
-    //connect(room, &Room::joinStateChanged,
-    //        this, [=]{ onRoomChanged(room, {}); });
+    connect(room, &Room::joinStateChanged,
+        this, [=] { onRoomChanged(room, { JoinStateRole }); });
     connect(room, &Room::avatarChanged,
         this, [=] { onRoomChanged(room, { AvatarRole }); });
     connect(room, &Room::unreadMessagesChanged,
@@ -204,6 +206,7 @@ QHash<int, QByteArray> RoomListModel::roleNames() const
     roles.insert(LastActivityRole, "lastActivity");
     roles.insert(RoomRole, "room");
     roles.insert(RoomIdRole, "roomId");
+    roles.insert(JoinStateRole, "joinState");
     return roles;
 }
 
