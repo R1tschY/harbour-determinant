@@ -95,7 +95,10 @@ SilicaListView {
         updateDateOverlay()
         ensureHistoryContent()
     }
-    onContentHeightChanged: ensureHistoryContent()
+    onContentHeightChanged: {
+        updateDateOverlay()
+        ensureHistoryContent()
+    }
 
     onAtYEndChanged: checkToMarkAsRead()
 
@@ -121,12 +124,6 @@ SilicaListView {
     }
 
     Component.onCompleted: {
-        // set inital section overlay
-        var item = eventsView.itemAt(0, contentY)
-        if (item) {
-            sectionOverlay.text = humanize.formatDate(item.modelSection)
-        }
-
         // load history when needed
         if (eventsView.count < 21 && !noMoreContent)
             room.getPreviousContent(21 - eventsView.count);
