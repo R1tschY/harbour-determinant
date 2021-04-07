@@ -10,6 +10,11 @@ ApplicationWindow
 
     property bool timeFormat24: timeFormatSetting.value === "24"
 
+    property string customMessageCss: "<style>"
+            + "a { color: " + Theme.highlightColor + "; }"
+            + "code { font-size: " + Theme.fontSizeExtraSmall + "px; }"
+        + "</style>"
+
     initialPage: Component { StartupPage { } }
     cover: Qt.resolvedUrl("cover/CoverPage.qml")
     allowedOrientations: defaultAllowedOrientations

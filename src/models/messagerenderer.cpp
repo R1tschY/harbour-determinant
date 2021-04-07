@@ -317,11 +317,11 @@ bool MessageRenderer::isPendingHidden(const PendingEventItem* evt) const
     return (status & EventStatus::Hidden) || (status & EventStatus::Redacted);
 }
 
+static QRegularExpression brRe("<br\\s*/?>", QRegularExpression::OptimizeOnFirstUsageOption);
+static QRegularExpression tagRe("<[^>]*>", QRegularExpression::OptimizeOnFirstUsageOption);
+
 static QString extractPreview(const QString& messageHtml)
 {
-    static QRegularExpression brRe("<br\\s*/?>", QRegularExpression::OptimizeOnFirstUsageOption);
-    static QRegularExpression tagRe("<[^>]*>", QRegularExpression::OptimizeOnFirstUsageOption);
-
     QString result = messageHtml;
 
     // remove <mx-reply>*</mx-reply>

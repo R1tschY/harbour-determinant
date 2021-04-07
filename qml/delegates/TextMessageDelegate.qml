@@ -23,10 +23,16 @@ MessageDelegateBase {
         return "◌"
     }
 
+    function needsRichText(text) {
+        return text.indexOf("<mx-reply>") !== -1 || text.indexOf("<code>") !== -1
+    }
+
     Label {
         id: messageLabel
         width: parent.width - 2 * Theme.paddingSmall
         x: Theme.paddingSmall
+
+        readonly property bool richText: needsRichText(display)
 
         readonly property int fontSize: {
             var len = StringUtils.getEmoijChainLength(display)
@@ -41,8 +47,8 @@ MessageDelegateBase {
             }
         }
 
-        text: EmojiParser.parse(display, fontSize * 1.1)
-        textFormat: Text.StyledText
+        text: (richText ? app.customMessageCss : "") + EmojiParser.parse(display, fontSize * 1.1)
+        textFormat: richText ? Text.RichText : Text.StyledText
         font.pixelSize: fontSize
         color: Theme.primaryColor
         wrapMode: Text.Wrap
