@@ -1,7 +1,7 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 import Quotient 0.5
-import Determinant 0.1
+import Determinant 0.2
 import Determinant.Qml 0.2
 import "../components"
 
@@ -11,30 +11,6 @@ Item {
 
     width: contentColumn.width
     height: contentColumn.height
-
-//    Rectangle {
-//        anchors.fill: contentColumn
-
-//        color: Theme.primaryColor
-//        opacity: ownMessage ? 0.05 : 0.1
-//        radius: Theme.paddingSmall
-//    }
-
-    function formatEventStatus(eventStatus) {
-        if (eventStatus & EventStatus.Redacted) {
-            return "✝"
-        }
-        if (eventStatus & EventStatus.Hidden) {
-            return "❏"
-        }
-        if (eventStatus === EventStatus.ReachedServer) {
-            return "✓"
-        }
-        if (eventStatus === EventStatus.SendingFailed) {
-            return "✗"
-        }
-        return "◌"
-    }
 
     Avatar {
         id: avatarThumbnail
@@ -83,8 +59,8 @@ Item {
             width: parent.width - 2 * Theme.paddingSmall
             x: Theme.paddingSmall
 
-            text: authorDisplayName
-            textFormat: Text.PlainText
+            text: EmojiParser.parseText(authorDisplayName, Theme.fontSizeSmall)
+            textFormat: Text.StyledText
             font.pixelSize: Theme.fontSizeSmall
             font.bold: true
             color: stringToColour(author.id)

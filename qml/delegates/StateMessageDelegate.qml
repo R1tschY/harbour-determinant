@@ -1,6 +1,6 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
-
+import Determinant 0.2
 
 Column {
     id: contentColumn
@@ -9,8 +9,8 @@ Column {
     Label {
         width: page.width - 2 * Theme.horizontalPageMargin
         x: Theme.horizontalPageMargin
-        text: display
-        textFormat: Text.PlainText
+        text: EmojiParser.parseText(display, Theme.fontSizeExtraSmall)
+        textFormat: Text.StyledText
         font.pixelSize: Theme.fontSizeExtraSmall
         color: Theme.secondaryColor
         wrapMode: Text.Wrap
