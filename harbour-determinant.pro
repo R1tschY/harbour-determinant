@@ -52,16 +52,15 @@ DISTFILES += qml/harbour-determinant.qml \
     qml/delegates/StateMessageDelegate.qml \
     qml/delegates/TextMessageDelegate.qml \
     qml/pages/ErrorPage.qml \
+    qml/pages/ImageViewPage.qml \
     qml/pages/LoginPage.qml \
     qml/pages/LoginProgressPage.qml \
     qml/pages/PublicRoomListPage.qml \
     qml/pages/RoomDetailsPage.qml \
     qml/pages/RoomPage.qml \
     qml/pages/StartupPage.qml \
-    rpm/harbour-determinant.changes.in \
-    rpm/harbour-determinant.changes.run.in \
+    rpm/harbour-determinant.changes \
     rpm/harbour-determinant.spec \
-    rpm/harbour-determinant.yaml \
     translations/*.ts \
     harbour-determinant.desktop \
     qml/pages/RoomListPage.qml

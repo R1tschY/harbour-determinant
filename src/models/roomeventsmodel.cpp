@@ -298,6 +298,11 @@ void RoomEventsModel::updateEvent(const QString& eventId)
     updateRow(findEvent(eventId));
 }
 
+void RoomEventsModel::updateEvent(const QString& eventId, const QVector<int>& roles)
+{
+    updateRow(findEvent(eventId), roles);
+}
+
 int RoomEventsModel::findEvent(const QString& eventId)
 {
     auto iter = m_room->findInTimeline(eventId);
@@ -352,6 +357,8 @@ void RoomEventsModel::setRoom(Room* room)
             this, [this]() { endInsertRows(); });
         connect(m_room, &Room::replacedEvent,
             this, &RoomEventsModel::onReplacedMessage);
+        connect(m_room, &Room::updatedEvent,
+                this, [this](const QString& event) { updateEvent(event); });
 
         connect(m_room, &Room::pendingEventAboutToAdd,
             this, [this] { beginInsertRows({}, 0, 0); });
@@ -370,6 +377,17 @@ void RoomEventsModel::setRoom(Room* room)
 
         connect(m_room, &Room::eventsHistoryJobChanged,
             this, [this]() { emit fetchingChanged(); });
+
+        connect(m_room, &Room::newFileTransfer,
+                this, [this](const QString& eventId) { updateEvent(eventId, {FileTransferInfoRole}); });
+        connect(m_room, &Room::fileTransferProgress,
+                this, [this](const QString& eventId) { updateEvent(eventId, {FileTransferInfoRole}); });
+        connect(m_room, &Room::fileTransferCompleted,
+                this, [this](const QString& eventId) { updateEvent(eventId, {FileTransferInfoRole}); });
+        connect(m_room, &Room::fileTransferFailed,
+                this, [this](const QString& eventId) { updateEvent(eventId, {FileTransferInfoRole}); });
+        connect(m_room, &Room::fileTransferCancelled,
+                this, [this](const QString& eventId) { updateEvent(eventId, {FileTransferInfoRole}); });
     }
 
     endResetModel();

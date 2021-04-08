@@ -5,7 +5,7 @@ import QtGraphicalEffects 1.0
 Item {
     id: thumbnail
 
-    property string mediaId
+    property alias source: thumbnailImage.source
     property alias sourceSize: thumbnailImage.sourceSize
     property bool highlighted
 
@@ -17,17 +17,29 @@ Item {
         width: parent.width
         height: parent.width
 
-        source: !!mediaId ? ("image://mxc-thumbnail/" + mediaId) : ""
-
         fillMode: Image.PreserveAspectCrop
         asynchronous: true
+        autoTransform: true
     }
 
-    BusyIndicator {
-        id: indicator
-        size: BusyIndicatorSize.Medium
-        anchors.centerIn: thumbnailImage
-        running: thumbnailImage.status === Image.Loading
+    Rectangle {
+        id: placeholder
+
+        anchors.fill: thumbnailImage
+        visible: thumbnailImage.status !== Image.Ready
+
+        color: highlighted
+            ? Theme.rgba(Theme.highlightBackgroundColor, Theme.highlightBackgroundOpacity)
+            : (Theme.colorScheme === Theme.DarkOnLight
+                ? Theme.rgba(Theme.highlightColor, Theme.opacityFaint)
+                : Theme.rgba(Theme.primaryColor, Theme.opacityFaint))
+        radius: Theme.paddingLarge
+
+        Image {
+            visible: thumbnailImage.status === Image.Error
+            anchors.centerIn: placeholder
+            source: "image://theme/icon-m-warning"
+        }
     }
 
     Rectangle {
@@ -35,6 +47,7 @@ Item {
 
         color: "black"
         visible: false
+        opacity: 0.3
         anchors.fill: thumbnailImage
         radius: Theme.paddingLarge
     }
@@ -42,6 +55,7 @@ Item {
     OpacityMask {
         id: roundedThumbnail
         anchors.fill: thumbnailImage
+        opacity: status === Image.Ready ? 1.0 : 0.0
 
         source: thumbnailImage
         maskSource: mask
@@ -50,5 +64,14 @@ Item {
             enabled: thumbnail.highlighted
             effect: PressEffect { source: roundedThumbnail }
         }
+
+        Behavior on opacity { FadeAnimation { } }
+    }
+
+    BusyIndicator {
+        id: indicator
+        size: BusyIndicatorSize.Medium
+        anchors.centerIn: thumbnailImage
+        running: thumbnailImage.status === Image.Loading
     }
 }

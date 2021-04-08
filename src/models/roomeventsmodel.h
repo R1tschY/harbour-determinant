@@ -96,6 +96,7 @@ private:
 
     void updateRow(int row, const QVector<int>& roles);
     void updateRow(int row);
+    void updateEvent(const QString& eventId, const QVector<int>& roles);
     void updateEvent(const QString& eventId);
     int findEvent(const QString& eventId);
 };

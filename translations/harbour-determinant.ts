@@ -25,14 +25,13 @@
         <source>%1 messages</source>
         <translation>
             <numerusform></numerusform>
-            <numerusform></numerusform>
         </translation>
     </message>
 </context>
 <context>
     <name>Det::ThumbnailResponse</name>
     <message>
-        <source>Media id `%1` does not have expected pattern: server/id</source>
+        <source>Media ID `%1` does not have expected pattern: server/id</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -47,6 +46,17 @@
     <name>EventDelegate</name>
     <message>
         <source>New messages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copy text to clipboard</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ImageViewPage</name>
+    <message>
+        <source>Failed to load image</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
