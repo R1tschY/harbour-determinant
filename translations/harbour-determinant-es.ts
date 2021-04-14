@@ -23,7 +23,7 @@
     <name>Det::NotificationsService</name>
     <message numerus="yes">
         <source>%1 messages</source>
-        <translation type="unfinished">
+        <translation>
             <numerusform>%1 mensaje</numerusform>
             <numerusform>%1 mensajes</numerusform>
         </translation>
@@ -33,7 +33,7 @@
     <name>Det::ThumbnailResponse</name>
     <message>
         <source>Media ID `%1` does not have expected pattern: server/id</source>
-        <translation type="unfinished"></translation>
+        <translation>Media ID `%1` no tiene el patrón esperado: servidor/id </translation>
     </message>
 </context>
 <context>
@@ -51,14 +51,14 @@
     </message>
     <message>
         <source>Copy text to clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>Copiar texto al portapapeles </translation>
     </message>
 </context>
 <context>
     <name>ImageViewPage</name>
     <message>
         <source>Failed to load image</source>
-        <translation type="unfinished"></translation>
+        <translation>No se pudo cargar la imagen</translation>
     </message>
 </context>
 <context>
@@ -84,7 +84,7 @@
     </message>
     <message>
         <source>Logging in …</source>
-        <translation>Iniciando sesión ...</translation>
+        <translation>Iniciando sesión …</translation>
     </message>
 </context>
 <context>
@@ -102,7 +102,7 @@
     </message>
     <message>
         <source>%1 set room main alias to %2</source>
-        <translation>%1 establecer el alias principal en sala a</translation>
+        <translation>%1 establecer el alias principal en sala a %2</translation>
     </message>
     <message>
         <source>%1 cleared room name</source>
