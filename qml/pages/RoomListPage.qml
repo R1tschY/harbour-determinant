@@ -23,6 +23,10 @@ Page {
                 connection: _connection
             }
 
+            invertFilter: true
+            filterRole: "joinState"
+            filterValue: "leave"
+
             sortAscending: false
             sortRole: "lastActivity"
         }

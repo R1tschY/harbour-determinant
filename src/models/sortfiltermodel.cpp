@@ -35,23 +35,19 @@ SortFilterModel::SortFilterModel()
 bool SortFilterModel::filterAcceptsRow(
         int source_row, const QModelIndex& source_parent) const
 {
-    if (m_filterMode == NoFilter) {
+    if (!m_filterValue.isValid()) {
         return true;
     }
 
-    if (m_filterMode != FilterByValue) {
-        return QSortFilterProxyModel::filterAcceptsRow(
-                    source_row, source_parent);
-    }
-
-    if (!m_complete || !m_filterValue.isValid())
+    if (!m_complete)
         return false;
 
     Q_ASSERT(filterKeyColumn() >= 0); // TODO: -1 not supported
     QModelIndex sourceIndex = sourceModel()->index(
                 source_row, filterKeyColumn(), source_parent);
-    return m_filterValue == sourceModel()->data(
+    bool matching = m_filterValue == sourceModel()->data(
                 sourceIndex, QSortFilterProxyModel::filterRole());
+    return matching != m_invertFilter;
 }
 
 bool SortFilterModel::sortAscending() const
@@ -109,7 +105,6 @@ void SortFilterModel::setFilterValue(const QVariant &filterValue)
     if (filterValue == m_filterValue)
         return;
 
-    m_filterMode = FilterByValue;
     m_filterValue = filterValue;
 
     invalidateFilter();
@@ -118,6 +113,21 @@ void SortFilterModel::setFilterValue(const QVariant &filterValue)
 QString SortFilterModel::filterRole() const
 {
     return m_filterRole;
+}
+
+bool SortFilterModel::invertFilter() const
+{
+    return m_invertFilter;
+}
+
+void SortFilterModel::setInvertFilter(bool invertFilter)
+{
+    if (invertFilter == m_invertFilter)
+        return;
+
+    m_invertFilter = invertFilter;
+
+    invalidateFilter();
 }
 
 void SortFilterModel::classBegin()
@@ -129,12 +139,6 @@ void SortFilterModel::invalidateFilter()
 {
     if (!m_complete)
         return;
-
-    if (m_filterMode == FilterByRegex) {
-        setFilterRegExp(m_filterValue.toString());
-    } else {
-        setFilterRegExp(QString());
-    }
 
     QSortFilterProxyModel::invalidateFilter();
 }

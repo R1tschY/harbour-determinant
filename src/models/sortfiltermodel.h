@@ -38,6 +38,10 @@ class SortFilterModel : public QSortFilterProxyModel, public QQmlParserStatus
                READ filterRole
                WRITE setFilterRole)
 
+    Q_PROPERTY(bool invertFilter
+               READ invertFilter
+               WRITE setInvertFilter)
+
     Q_PROPERTY(QString sortRole
                READ sortRole
                WRITE setSortRole)
@@ -55,28 +59,26 @@ public:
     QString filterRole() const;
     void setFilterRole(const QString& filterRole);
 
+
     QString sortRole() const;
     void setSortRole(const QString& sortRole);
 
     bool sortAscending() const;
     void setSortAscending(bool sortAscending);
 
+    bool invertFilter() const;
+    void setInvertFilter(bool invertFilter);
+
 protected:
     bool filterAcceptsRow(
             int source_row, const QModelIndex& source_parent) const override;
 
 private:
-    enum FilterMode {
-        NoFilter,
-        FilterByValue,
-        FilterByRegex,
-    };
-
     QVariant m_filterValue;
     QString m_filterRole;
     QString m_sortRole;
-    FilterMode m_filterMode = NoFilter;
     bool m_sortAscending = true;
+    bool m_invertFilter = false;
     bool m_complete = true;
 
     void componentComplete() override;
