@@ -14,8 +14,14 @@
 
 
 * Fri Apr 02 2021 Richard Liebscher <r1tschy@posteo.de> 0.3.0-0
-- Show local date time instead of UTC
+- Use colored emojis through twemoji
+- Added image preview and image viewer
+- Added possiblity to copy message text to clipboard
+- Do not show left rooms
 - Upgraded libQuotient to 0.6.6
+- Fix: Show local date time instead of UTC
+- Fix: Update date overlay when new content exists
+- Added translations: Swedish
 
 * Sun Jan 17 2021 Richard Liebscher <r1tschy@posteo.de> 0.2.0-1
 - Notifications are shown for missed messages
