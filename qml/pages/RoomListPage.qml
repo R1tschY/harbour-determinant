@@ -13,6 +13,20 @@ Page {
     // The effective value will be restricted by ApplicationWindow.allowedOrientations
     allowedOrientations: Orientation.All
 
+    function createAttentionLabel(joinState, notificationCount) {
+        var result = ""
+
+        if (joinState === "invite") {
+            result += "!"
+        }
+
+        if (notificationCount > 0) {
+            result += notificationCount
+        }
+
+        return result
+    }
+
     SilicaListView {
         id: listView
 
@@ -68,7 +82,7 @@ Page {
 
                 radius: Theme.paddingSmall
                 color: Theme.highlightBackgroundColor
-                visible: notificationCount > 0
+                visible: notificationCount > 0 || joinState === "invite"
                 width: unreadLabelText.contentWidth + 2 * Theme.paddingSmall
                 height: unreadLabelText.contentHeight
 
@@ -78,7 +92,7 @@ Page {
 
                     truncationMode: TruncationMode.Fade
                     font.weight: Font.Bold
-                    text: notificationCount
+                    text: createAttentionLabel(joinState, notificationCount)
                     textFormat: Text.PlainText
                     color: Theme.primaryColor
                 }
@@ -128,7 +142,9 @@ Page {
                 }
 
                 truncationMode: TruncationMode.Fade
-                text: EmojiParser.parse(lastEvent, Theme.fontSizeSmall)
+                text: joinState === "invite"
+                    ? "<i>" + qsTr("Invitation") + "</i>"
+                    : EmojiParser.parse(lastEvent, Theme.fontSizeSmall)
                 textFormat: Text.StyledText
                 font.pixelSize: Theme.fontSizeSmall
                 color: delegate.highlighted
