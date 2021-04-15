@@ -91,7 +91,7 @@
     <name>MessageInput</name>
     <message>
         <source>Message</source>
-        <translation>Mensaje</translation>
+        <translation>A b c</translation>
     </message>
 </context>
 <context>
@@ -212,43 +212,43 @@
     </message>
     <message>
         <source>Aliases</source>
-        <translation>Alias</translation>
+        <translation>Alias:</translation>
     </message>
     <message>
         <source>Uses Encryption</source>
-        <translation>Usa encriptación</translation>
+        <translation>Encriptación:</translation>
     </message>
     <message>
         <source>Tags</source>
-        <translation>Etiquetas</translation>
+        <translation>Etiquetas:</translation>
     </message>
     <message>
         <source>Favourite</source>
-        <translation>Favorito</translation>
+        <translation>Favorito:</translation>
     </message>
     <message>
         <source>LowPriority</source>
-        <translation>Baja prioridad</translation>
+        <translation>Baja prioridad:</translation>
     </message>
     <message>
         <source>Members</source>
-        <translation>Miembros</translation>
+        <translation>Miembros:</translation>
     </message>
     <message>
         <source>Joined members</source>
-        <translation>Miembros unidos</translation>
+        <translation>Miembros unidos:</translation>
     </message>
     <message>
         <source>Invited members</source>
-        <translation>Miembros invitados</translation>
+        <translation>Miembros invitados:</translation>
     </message>
     <message>
         <source>Total members</source>
-        <translation>Total de miembros</translation>
+        <translation>Total de miembros:</translation>
     </message>
     <message>
         <source>Matrix room version</source>
-        <translation>Versión de sala Matrix</translation>
+        <translation>Versión de Matrix</translation>
     </message>
     <message>
         <source>Is unstable</source>
@@ -267,11 +267,11 @@
     </message>
     <message>
         <source>Invitation</source>
-        <translation type="unfinished"></translation>
+        <translation>Invitación </translation>
     </message>
     <message>
         <source>Logout</source>
-        <translation type="unfinished"></translation>
+        <translation>Cerrar sesión </translation>
     </message>
 </context>
 </TS>
