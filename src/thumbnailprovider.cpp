@@ -61,7 +61,7 @@ void ThumbnailResponse::doStart()
     }
 
     if (m_mediaId.count(QChar('/')) != 1) {
-        m_error = tr("Media id `%1` does not have expected pattern: server/id")
+        m_error = tr("Media ID `%1` does not have expected pattern: server/id")
                       .arg(m_mediaId);
         qCDebug(logger) << "ERROR" << m_error;
         emit finished();

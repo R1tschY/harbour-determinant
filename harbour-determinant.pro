@@ -81,7 +81,10 @@ CONFIG += sailfishapp_i18n
 # planning to localize your app, remember to comment out the
 # following TRANSLATIONS line. And also do not forget to
 # modify the localized app name in the the .desktop file.
-TRANSLATIONS += translations/harbour-determinant-*.ts
+TRANSLATIONS += translations/harbour-determinant-de.ts \
+    translations/harbour-determinant-es.ts \
+    translations/harbour-determinant-et.ts \
+    translations/harbour-determinant-sv.ts
 
 HEADERS += \
     src/applicationservice.h \

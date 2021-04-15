@@ -264,5 +264,9 @@
         <source>Rooms</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Invitation</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 </TS>
