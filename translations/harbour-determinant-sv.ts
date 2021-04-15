@@ -269,5 +269,9 @@
         <source>Invitation</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Logout</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 </TS>
