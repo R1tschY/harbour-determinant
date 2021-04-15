@@ -158,7 +158,7 @@ Page {
 
         PullDownMenu {
             MenuItem {
-                text: "Logout"
+                text: qsTr("Logout")
                 onClicked: connection.logout()
             }
 //            MenuItem {
