@@ -10,7 +10,7 @@ class EmojiParser : public QObject
 {
     Q_OBJECT
 public:
-    explicit EmojiParser(QObject *parent = nullptr);
+    explicit EmojiParser(const QString& twemojiPrefix, QObject *parent = nullptr);
 
     Q_SCRIPTABLE QString parse(const QString& input, int emojiSize);
     Q_SCRIPTABLE QString parseText(const QString& input, int emojiSize);
@@ -18,6 +18,7 @@ public:
     static void registerType();
 private:
     QRegularExpression m_re;
+    QString m_twemojiPrefix;
 
     QString replace(const QStringRef& match, const QString &emojiSize);
 };

@@ -77,7 +77,6 @@ int main(int argc, char* argv[])
     QQmlContext* ctx = view->rootContext();
     ctx->setContextProperty("connection", connectionManager.connection());
     ctx->setContextProperty("applicationService", applicationService);
-    ctx->setContextProperty("emojiParser", new EmojiParser());
 
     view->engine()->addImageProvider(
         QStringLiteral("mxc-thumbnail"),

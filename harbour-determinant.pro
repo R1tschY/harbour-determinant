@@ -108,3 +108,8 @@ HEADERS += \
 
 RESOURCES += \
     resources.qrc
+
+
+twemoji.path = /usr/share/$${TARGET}/twemoji/svg
+twemoji.files = twemoji/assets/svg/*
+INSTALLS += twemoji
