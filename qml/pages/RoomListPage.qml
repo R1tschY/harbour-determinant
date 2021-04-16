@@ -20,7 +20,9 @@ Page {
             result += "!"
         }
 
-        if (notificationCount > 0) {
+        if (notificationCount > 99) {
+            result += "99+"
+        } else if (notificationCount > 0) {
             result += notificationCount
         }
 
