@@ -51,7 +51,7 @@
     </message>
     <message>
         <source>Copy text to clipboard</source>
-        <translation>Copiar texto al portapapeles </translation>
+        <translation>Copiar texto</translation>
     </message>
 </context>
 <context>
@@ -91,7 +91,7 @@
     <name>MessageInput</name>
     <message>
         <source>Message</source>
-        <translation>Mensaje</translation>
+        <translation>A b c</translation>
     </message>
 </context>
 <context>
@@ -216,7 +216,7 @@
     </message>
     <message>
         <source>Uses Encryption</source>
-        <translation>Usa encriptación</translation>
+        <translation>Encriptación</translation>
     </message>
     <message>
         <source>Tags</source>
@@ -236,7 +236,7 @@
     </message>
     <message>
         <source>Joined members</source>
-        <translation>Miembros unidos</translation>
+        <translation>Miembros unidos:</translation>
     </message>
     <message>
         <source>Invited members</source>
@@ -248,7 +248,7 @@
     </message>
     <message>
         <source>Matrix room version</source>
-        <translation>Versión de sala Matrix</translation>
+        <translation>Versión de Matrix</translation>
     </message>
     <message>
         <source>Is unstable</source>
@@ -267,11 +267,11 @@
     </message>
     <message>
         <source>Invitation</source>
-        <translation type="unfinished"></translation>
+        <translation>Invitación </translation>
     </message>
     <message>
         <source>Logout</source>
-        <translation type="unfinished"></translation>
+        <translation>Cerrar sesión</translation>
     </message>
 </context>
 </TS>
