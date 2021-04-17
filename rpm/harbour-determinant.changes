@@ -16,7 +16,7 @@
 * Sat Apr 17 2021 Richard Liebscher <r1tschy@posteo.de> 0.3.0-1
 - Use colored emojis through twemoji
 - Added image preview and image viewer
-- Added possiblity to copy message text to clipboard
+- Added possibility to copy message text to clipboard
 - Do not show left rooms
 - Upgraded libQuotient to 0.6.6
 - Fix: Show local date time instead of UTC
