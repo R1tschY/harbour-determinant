@@ -21,7 +21,7 @@ jobs:
       uses: R1tschY/sailfish-sdk-action@v1
       with:
         arch: 'armv7hl'
-        release: '3.3.0.16'
+        release: '3.4.0.24'
         fix-version: false
         enable-debug: true
         #check: true
@@ -44,7 +44,7 @@ jobs:
       uses: R1tschY/sailfish-sdk-action@v1
       with:
         arch: 'i486'
-        release: '3.3.0.16'
+        release: '3.4.0.24'
         fix-version: false
         enable-debug: true
         #check: true
@@ -53,4 +53,27 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: harbour-determinant-i486
+        path: RPMS
+
+  build-aarch64:
+    runs-on: ubuntu-latest
+    name: Build aarch64
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: 'recursive'
+
+    - name: Build aarch64 RPMS
+      uses: R1tschY/sailfish-sdk-action@v1
+      with:
+        arch: 'aarch64'
+        release: '3.4.0.24'
+        fix-version: false
+        enable-debug: true
+        #check: true
+
+    - name: Upload RPMS
+      uses: actions/upload-artifact@v2
+      with:
+        name: harbour-determinant-aarch64
         path: RPMS
