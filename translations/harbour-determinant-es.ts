@@ -236,7 +236,7 @@
     </message>
     <message>
         <source>Joined members</source>
-        <translation>Miembros unidos:</translation>
+        <translation>Miembros unidos</translation>
     </message>
     <message>
         <source>Invited members</source>
@@ -267,7 +267,7 @@
     </message>
     <message>
         <source>Invitation</source>
-        <translation>Invitación </translation>
+        <translation>Invitación</translation>
     </message>
     <message>
         <source>Logout</source>

@@ -33,7 +33,7 @@
     <name>Det::ThumbnailResponse</name>
     <message>
         <source>Media ID `%1` does not have expected pattern: server/id</source>
-        <translation type="unfinished"></translation>
+        <translation>Medien-ID &apos;%1&apos; entspricht nicht erwarteten Format: server/id</translation>
     </message>
 </context>
 <context>
@@ -51,14 +51,14 @@
     </message>
     <message>
         <source>Copy text to clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopiere Text in Zwischenablage</translation>
     </message>
 </context>
 <context>
     <name>ImageViewPage</name>
     <message>
         <source>Failed to load image</source>
-        <translation type="unfinished"></translation>
+        <translation>Bild konnte nicht geladen werden</translation>
     </message>
 </context>
 <context>
@@ -267,11 +267,11 @@
     </message>
     <message>
         <source>Invitation</source>
-        <translation type="unfinished"></translation>
+        <translation>Einladung</translation>
     </message>
     <message>
         <source>Logout</source>
-        <translation type="unfinished"></translation>
+        <translation>Ausloggen</translation>
     </message>
 </context>
 </TS>
