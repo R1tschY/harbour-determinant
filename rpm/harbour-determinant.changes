@@ -12,7 +12,7 @@
 # * date Author's Name <author's email> version-release
 # - Summary of changes
 
-* Sat Apr 17 2021 Richard Liebscher <r1tschy@posteo.de> 0.3.0-2
+* Sun Apr 18 2021 Richard Liebscher <r1tschy@posteo.de> 0.3.0-2
 - Fix: Colored emojis are missing (#29)
 
 * Sat Apr 17 2021 Richard Liebscher <r1tschy@posteo.de> 0.3.0-1
