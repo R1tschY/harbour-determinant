@@ -33,7 +33,10 @@ Use [Transifex](https://www.transifex.com/r1tschy/determinant) to add translatio
 
 ## Acknowledgement
 
-It uses a Qt 5.6 port of [libQuotient](https://github.com/quotient-im/libQuotient).
+Following 3th-party libraries are used:
+
+* [libQuotient](https://github.com/quotient-im/libQuotient) as matrix library
+* [Twemoji](https://twemoji.twitter.com/) for colored emojis
 
 ## Licence
 
