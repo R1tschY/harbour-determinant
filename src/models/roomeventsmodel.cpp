@@ -201,6 +201,12 @@ QVariant RoomEventsModel::data(const QModelIndex& idx, int role) const
             }
         }
         return QVariant();
+
+    case PlainTextRole:
+        if (auto e = eventCast<const RoomMessageEvent>(evt)) {
+            return e->plainBody();
+        }
+        return QVariant();
     };
 
     return QVariant();
@@ -227,6 +233,7 @@ QHash<int, QByteArray> RoomEventsModel::roleNames() const
     roles.insert(ReadMarkerRole, "readMarker");
     roles.insert(ShowAuthorRole, "showAuthor");
     roles.insert(FileTransferInfoRole, "fileTransferInfo");
+    roles.insert(PlainTextRole, "plainText");
     return roles;
 }
 

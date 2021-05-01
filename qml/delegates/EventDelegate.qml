@@ -67,7 +67,7 @@ ListItem {
     menu: ContextMenu {
          MenuItem {
             text: qsTr("Copy text to clipboard")
-            onClicked: Clipboard.text = display
+            onClicked: Clipboard.text = plainText
          }
      }
 }
