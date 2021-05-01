@@ -44,8 +44,7 @@ using namespace Quotient;
 
 static Q_LOGGING_CATEGORY(logger, "determinant.messagerenderer");
 
-QString MessageRenderer::renderEventText(
-    bool isPending, const RoomEvent* event) const
+QString MessageRenderer::renderEventText(bool isPending, const RoomEvent* event) const
 {
     if (event->isRedacted()) {
         QString reason = event->redactedBecause()->reason();
@@ -57,8 +56,8 @@ QString MessageRenderer::renderEventText(
 
     QString result = visit(
         *event,
-        [this, isPending](const RoomMessageEvent& evt) {
-            return renderMessageText(isPending, evt);
+        [this](const RoomMessageEvent& evt) {
+            return renderMessageText(evt);
         },
         [this](const RoomMemberEvent& evt) {
             return renderMemberEvent(evt);
@@ -135,8 +134,7 @@ static QString renderMarkdown(const QString& content)
     return result;
 }
 
-QString MessageRenderer::renderMessageText(
-    bool isPending, const RoomMessageEvent& event) const
+QString MessageRenderer::renderMessageText(const RoomMessageEvent& event) const
 {
     using namespace QMatrixClient::EventContent;
 
@@ -182,13 +180,13 @@ QString MessageRenderer::renderMemberEvent(const RoomMemberEvent& event) const
 {
     QStringList messages;
 
-    QString member = event.displayName();
+    QString member = event.displayName().toHtmlEscaped();
     auto membership = event.membership();
     auto* prevContent = event.prevContent();
 
     if (member.isEmpty()) {
         if (prevContent && !prevContent->displayName.isEmpty()) {
-            member = prevContent->displayName;
+            member = prevContent->displayName.toHtmlEscaped();
         } else {
             member = tr("Unnamed user");
         }
@@ -219,7 +217,7 @@ QString MessageRenderer::renderMemberEvent(const RoomMemberEvent& event) const
         }
     }
 
-    QString prevName = prevContent ? prevContent->displayName : QString();
+    QString prevName = prevContent ? prevContent->displayName.toHtmlEscaped() : QString();
     if (prevName != member) {
         if (prevName.isEmpty()) {
             // TODO?
@@ -361,7 +359,9 @@ QString MessageRenderer::getLastEvent() const
         if (m_room->isDirectChat()) {
             return extractPreview(renderEventText(false, evt));
         } else if (evt->isStateEvent()) {
-            return QStringLiteral("<i>") % extractPreview(renderEventText(false, evt)) % QStringLiteral("</i>");
+            return QStringLiteral("<i>")
+                    % extractPreview(renderEventText(false, evt))
+                    % QStringLiteral("</i>");
         } else {
             const User* user = m_room->user(evt->senderId());
             return QStringLiteral("<b>")

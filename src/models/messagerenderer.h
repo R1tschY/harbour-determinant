@@ -40,12 +40,9 @@ public:
     {
     }
 
-    QString renderEventText(
-        bool isPending, const Quotient::RoomEvent* event) const;
-    QString renderMessageText(
-        bool isPending, const Quotient::RoomMessageEvent& event) const;
-    QString renderMemberEvent(
-        const Quotient::RoomMemberEvent& event) const;
+    QString renderEventText(bool isPending, const Quotient::RoomEvent* event) const;
+    QString renderMessageText(const Quotient::RoomMessageEvent& event) const;
+    QString renderMemberEvent(const Quotient::RoomMemberEvent& event) const;
     QString renderRoomCreated(const Quotient::RoomCreateEvent& evt) const;
 
     Quotient::User* getAuthor(
