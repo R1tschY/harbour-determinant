@@ -110,6 +110,6 @@ RESOURCES += \
     resources.qrc
 
 
-twemoji.path = /usr/share/$${TARGET}/twemoji/svg
-twemoji.files = twemoji/assets/svg/*
+twemoji.files = twemoji/assets/svg
+twemoji.path = /usr/share/$${TARGET}/twemoji
 INSTALLS += twemoji
