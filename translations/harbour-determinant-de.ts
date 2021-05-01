@@ -133,10 +133,6 @@
         <translation>Nicht unterstütztes Ereignis: %1</translation>
     </message>
     <message>
-        <source>Unsupported message</source>
-        <translation>Nicht unterstützte Nachricht</translation>
-    </message>
-    <message>
         <source>%1 has joined</source>
         <translation>%1 hat den Raum betreten</translation>
     </message>
@@ -191,6 +187,26 @@
     <message>
         <source>Unnamed user</source>
         <translation>Unbenannter Nutzer</translation>
+    </message>
+    <message>
+        <source>Image: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>File: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Location: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Video: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Audio: %1</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

@@ -133,10 +133,6 @@
         <translation>Evento no soportado: %1</translation>
     </message>
     <message>
-        <source>Unsupported message</source>
-        <translation>Mensaje no soportado</translation>
-    </message>
-    <message>
         <source>%1 has joined</source>
         <translation>%1 se unió</translation>
     </message>
@@ -191,6 +187,26 @@
     <message>
         <source>Unnamed user</source>
         <translation>Usuario sin nombre</translation>
+    </message>
+    <message>
+        <source>Image: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>File: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Location: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Video: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Audio: %1</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

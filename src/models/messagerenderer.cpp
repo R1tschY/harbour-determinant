@@ -164,16 +164,24 @@ QString MessageRenderer::renderMessageText(const RoomMessageEvent& event) const
     }
 
     case RoomMessageEvent::MsgType::Image:
+        return tr("Image: %1").arg(event.plainBody().toHtmlEscaped());
+
     case RoomMessageEvent::MsgType::File:
+        return tr("File: %1").arg(event.plainBody().toHtmlEscaped());
+
     case RoomMessageEvent::MsgType::Location:
+        return tr("Location: %1").arg(event.plainBody().toHtmlEscaped());
+
     case RoomMessageEvent::MsgType::Video:
+        return tr("Video: %1").arg(event.plainBody().toHtmlEscaped());
+
     case RoomMessageEvent::MsgType::Audio:
+        return tr("Audio: %1").arg(event.plainBody().toHtmlEscaped());
+
     case RoomMessageEvent::MsgType::Unknown:
     default:
-        break;
+        return event.plainBody().toHtmlEscaped();
     }
-
-    return tr("Unsupported message");
 }
 
 QString MessageRenderer::renderMemberEvent(const RoomMemberEvent& event) const
@@ -316,7 +324,7 @@ bool MessageRenderer::isPendingHidden(const PendingEventItem* evt) const
 }
 
 static QRegularExpression brRe("<br\\s*/?>", QRegularExpression::OptimizeOnFirstUsageOption);
-static QRegularExpression tagRe("<[^>]*>", QRegularExpression::OptimizeOnFirstUsageOption);
+static QRegularExpression tagRe("<[^>]+?>", QRegularExpression::OptimizeOnFirstUsageOption);
 
 static QString extractPreview(const QString& messageHtml)
 {
