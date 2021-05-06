@@ -11,12 +11,13 @@ Join [#determinant:matrix.org](https://matrix.to/#/!FuBXURHQWjgDebjFVi:matrix.or
 ## What's working?
 
 * Read plain text/Markdown/HTML messages
+* View images
 * Send plain text messages
 
 ## What's missing?
 
-* Read image/video/audio/file/... messages
-* Encryption
+* Read video/audio/file/... messages
+* Encryption (E2EE)
 * Delete or edit own messages
 * Send Markdown/HTML/image/video/audio/file/... messages
 * Create new room
