@@ -80,7 +80,7 @@
     <name>LoginProgressPage</name>
     <message>
         <source>Login Error</source>
-        <translation>Error de inicio de sesión</translation>
+        <translation>Error al iniciar sesión</translation>
     </message>
     <message>
         <source>Logging in …</source>
@@ -190,23 +190,23 @@
     </message>
     <message>
         <source>Image: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Imagen: %1</translation>
     </message>
     <message>
         <source>File: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Archivo: %1</translation>
     </message>
     <message>
         <source>Location: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Ubicación: %1</translation>
     </message>
     <message>
         <source>Video: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Video: %1</translation>
     </message>
     <message>
         <source>Audio: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Audio: %1</translation>
     </message>
 </context>
 <context>
